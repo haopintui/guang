@@ -52,9 +52,7 @@
 					<text>奖励订单(笔)</text>
 				</view>
 			</view>
-			<view>
-				
-			</view>
+			<agent></agent>
 			<!-- 订单 -->
 			<view class="order-section">
 				<view class="order-item" @click="navTo('/pages/order/order?state=0')" hover-class="common-hover"  :hover-stay-time="50">
@@ -101,13 +99,15 @@
 </template>  
 <script>  
 	import listCell from '@/components/mix-list-cell';
+	import agent from '@/components/common/agent.vue'
     import {  
         mapState 
     } from 'vuex';  
 	let startY = 0, moveY = 0, pageAtTop = true;
     export default {
 		components: {
-			listCell
+			listCell,
+			agent,
 		},
 		data(){
 			return {
