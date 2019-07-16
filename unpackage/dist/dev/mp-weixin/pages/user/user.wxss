@@ -92,6 +92,12 @@
     margin-left: 20rpx;
     color: #fff;
 }
+.user-info-box .invite-code {
+    font-size: 24rpx;
+    color: #303133;
+    margin-left: 20rpx;
+    color: #fff;
+}
 .vip-card-box {
   display: -webkit-box;
   display: -webkit-flex;
@@ -104,23 +110,25 @@
           flex-direction: column;
   color: #f7d680;
   height: 240rpx;
-  background: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0.7)), to(rgba(0, 0, 0, 0.8)));
-  background: -o-linear-gradient(left, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8));
-  background: linear-gradient(left, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8));
+  /* background: linear-gradient(left, rgba(0,0,0,.7), rgba(0,0,0,.8)); */
+  background-color: #292929;
   border-radius: 16rpx 16rpx 0 0;
   overflow: hidden;
   position: relative;
   padding: 20rpx 24rpx;
 }
-.vip-card-box .card-bg {
-    position: absolute;
-    top: 20rpx;
-    right: 0;
-    width: 380rpx;
-    height: 260rpx;
+.vip-card-box .vip-card-btn {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
 }
 .vip-card-box .b-btn {
-    position: absolute;
     right: 20rpx;
     top: 16rpx;
     width: 132rpx;
@@ -135,14 +143,23 @@
     background: linear-gradient(left, #f9e6af, #ffd465);
     z-index: 1;
 }
-.vip-card-box .tit {
+.vip-card-box .vip-card-content {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
     font-size: 30rpx;
     color: #f7d680;
     margin-bottom: 28rpx;
 }
-.vip-card-box .tit .yticon {
+.vip-card-box .vip-card-content .yticon {
       color: #f6e5a3;
       margin-right: 16rpx;
+}
+.vip-card-box .e-m {
+    font-size: 24rpx;
+    color: #d8cba9;
+    margin-top: 10rpx;
 }
 .vip-card-box .e-b {
     font-size: 24rpx;
@@ -178,6 +195,7 @@
   font-size: 32rpx;
   color: #303133;
   margin-bottom: 8rpx;
+  color: #df1f1a;
 }
 .order-section {
   padding: 28rpx 0;

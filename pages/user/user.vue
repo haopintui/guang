@@ -1,28 +1,28 @@
 <template>  
     <view class="container">  
-		
 		<view class="user-section">
-			<View class="bg"></View>
+			<view class="bg"></view>
 			<view class="user-info-box">
 				<view class="portrait-box">
 					<image class="portrait" :src="userInfo.portrait || '/static/missing-face.png'"></image>
 				</view>
 				<view class="info-box">
 					<text class="username">{{userInfo.nickname || '吴哥'}}</text>
-					<text class="username">{{userInfo.nickname || '吴哥'}}</text>
+					<text class="invite-code">邀请码: {{userInfo.nickname || '1111111'}}</text>
 				</view>
 			</view>
 			<view class="vip-card-box">
-				<image class="card-bg" src="/static/vip-card-bg.png" mode=""></image>
-				<view class="b-btn">
-					立即开通
+				<view class="vip-card-btn">
+					<view class="vip-card-content">
+						<text class="yticon icon-iLinkapp-"></text>
+						可提现: 1000元
+					</view>
+					<view class="b-btn">
+						提现
+					</view>
 				</view>
-				<view class="tit">
-					<text class="yticon icon-iLinkapp-"></text>
-					DCloud会员
-				</view>
-				<text class="e-m">DCloud Union</text>
-				<text class="e-b">开通会员开发无bug 一测就上线</text>
+				<text class="e-m">每月23号可提现上个月结算收益</text>
+				<text class="e-b">升级销售总监可享有加速提现功能</text>
 			</view>
 		</view>
 		
@@ -41,16 +41,19 @@
 			<view class="tj-sction">
 				<view class="tj-item">
 					<text class="num">128.8</text>
-					<text>余额</text>
+					<text>累计奖励（元）</text>
 				</view>
 				<view class="tj-item">
 					<text class="num">0</text>
-					<text>优惠券</text>
+					<text>积分奖励（g个）</text>
 				</view>
 				<view class="tj-item">
 					<text class="num">20</text>
-					<text>积分</text>
+					<text>奖励订单(笔)</text>
 				</view>
+			</view>
+			<view>
+				
 			</view>
 			<!-- 订单 -->
 			<view class="order-section">
@@ -93,7 +96,6 @@
 				<list-cell icon="icon-shezhi1" iconColor="#e07472" title="设置" border="" @eventClick="navTo('/pages/set/set')"></list-cell>
 			</view>
 		</view>
-			
 		
     </view>  
 </template>  
@@ -249,6 +251,12 @@
 			margin-left: 20upx;
 			color: #fff;
 		}
+		.invite-code{
+			font-size: $font-sm + 0upx;
+			color: $font-color-dark;
+			margin-left: 20upx;
+			color: #fff;
+		}
 	}
 
 	.vip-card-box{
@@ -256,20 +264,18 @@
 		flex-direction: column;
 		color: #f7d680;
 		height: 240upx;
-		background: linear-gradient(left, rgba(0,0,0,.7), rgba(0,0,0,.8));
+		/* background: linear-gradient(left, rgba(0,0,0,.7), rgba(0,0,0,.8)); */
+		background-color: #292929;
 		border-radius: 16upx 16upx 0 0;
 		overflow: hidden;
 		position: relative;
 		padding: 20upx 24upx;
-		.card-bg{
-			position:absolute;
-			top: 20upx;
-			right: 0;
-			width: 380upx;
-			height: 260upx;
+		
+		.vip-card-btn{
+			display:flex;
+			flex-direction: row;
 		}
 		.b-btn{
-			position: absolute;
 			right: 20upx;
 			top: 16upx;
 			width: 132upx;
@@ -282,7 +288,8 @@
 			background: linear-gradient(left, #f9e6af, #ffd465);
 			z-index: 1;
 		}
-		.tit{
+		.vip-card-content{
+			flex: 1;
 			font-size: $font-base+2upx;
 			color: #f7d680;
 			margin-bottom: 28upx;
@@ -290,6 +297,11 @@
 				color: #f6e5a3;
 				margin-right: 16upx;
 			}
+		}
+		.e-m{
+			font-size: $font-sm;
+			color: #d8cba9;
+			margin-top: 10upx;
 		}
 		.e-b{
 			font-size: $font-sm;
@@ -325,6 +337,7 @@
 			font-size: $font-lg;
 			color: $font-color-dark;
 			margin-bottom: 8upx;
+			color: #df1f1a;
 		}
 	}
 	.order-section{
