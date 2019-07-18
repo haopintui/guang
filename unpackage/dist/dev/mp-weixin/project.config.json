@@ -10,6 +10,8 @@
 	"libVersion": "2.7.0",
 	"appid": "wx65c4661dfba7dfd4",
 	"projectname": "guang",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
