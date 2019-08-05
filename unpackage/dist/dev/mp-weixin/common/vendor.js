@@ -1,676 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
 
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/Json.js":
-/*!***********************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/Json.js ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /* 用户 */
-var userInfo = {
-  status: 1,
-  data: {
-    id: 1,
-    mobile: 18888888888,
-    nickname: 'Leo yo',
-    portrait: 'http://img.61ef.cn/news/201409/28/2014092805595807.jpg' },
-
-  msg: '提示'
-
-  /* 首页轮播图 */ };
-var carouselList = [{
-  src: "/static/temp/banner3.jpg",
-  background: "rgb(203, 87, 60)" },
-
-{
-  src: "/static/temp/banner2.jpg",
-  background: "rgb(205, 215, 218)" },
-
-{
-  src: "/static/temp/banner4.jpg",
-  background: "rgb(183, 73, 69)" }];
-
-
-/* 商品列表 */
-var goodsList = [{
-  image: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553187020783&di=bac9dd78b36fd984502d404d231011c0&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F26%2F20160926173213_s5adi.jpeg",
-  image2: "http://pic.rmb.bdstatic.com/819a044daa66718c2c40a48c1ba971e6.jpeg",
-  image3: "http://img001.hc360.cn/y5/M00/1B/45/wKhQUVYFE0uEZ7zVAAAAAMj3H1w418.jpg",
-  title: "古黛妃 短袖t恤女夏装2019新款韩版宽松",
-  price: 179,
-  sales: 61 },
-
-{
-  image: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg",
-  image2: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1554013048&di=a3dc9fd1406dd7bad7fbb97b5489ec04&imgtype=jpg&er=1&src=http%3A%2F%2Fimg009.hc360.cn%2Fhb%2FnKo44ac2656F831c684507E3Da0E3a26841.jpg",
-  image3: "http://img.zcool.cn/community/017a4e58b4eab6a801219c77084373.jpg",
-  title: "潘歌针织连衣裙",
-  price: 78,
-  sales: 16 },
-
-{
-  image: "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg",
-  image2: "http://m.360buyimg.com/n12/jfs/t247/42/1078640382/162559/3628a0b/53f5ad09N0dd79894.jpg%21q70.jpg",
-  image3: "http://ikids.61kids.com.cn/upload/2018-12-29/1546070626796114.jpg",
-  title: "巧谷2019春夏季新品新款女装",
-  price: 108.8,
-  sales: 5 },
-{
-  image: "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=756705744,3505936868&fm=11&gp=0.jpg",
-  image2: "http://images.jaadee.com/images/201702/goods_img/30150_d85aed83521.jpg",
-  image3: "http://img13.360buyimg.com/popWaterMark/jfs/t865/120/206320620/138889/dcc94caa/550acedcN613e2a9d.jpg",
-  title: "私萱连衣裙",
-  price: 265,
-  sales: 88 },
-{
-  image: "https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg",
-  image2: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553418265666&di=d4a7f7eb0ae3c859edeb921641ee1c3a&imgtype=0&src=http%3A%2F%2Fimg003.hc360.cn%2Fy3%2FM02%2FF8%2F9F%2FwKhQh1TuSkGELIlQAAAAAPuLl4M987.jpg",
-  image3: "http://img.ef43.com.cn/product/2016/8/05100204b0c.jpg",
-  title: "娇诗茹 ulzzang原宿风学生潮韩版春夏短",
-  price: 422,
-  sales: 137 },
-{
-  image: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553187020783&di=bac9dd78b36fd984502d404d231011c0&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F26%2F20160926173213_s5adi.jpeg",
-  image2: "http://image5.suning.cn/uimg/b2c/newcatentries/0070158827-000000000622091973_2_800x800.jpg",
-  image3: "http://img.61ef.cn/news/201903/20/2019032009251784.jpg",
-  title: "古黛妃 短袖t恤女夏装2019新款韩版宽松",
-  price: 179,
-  sales: 95 }];
-
-
-
-/* 购物车 */
-var cartList = [{
-  id: 1,
-  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553005139&di=3368549edf9eee769a9bcb3fbbed2504&imgtype=jpg&er=1&src=http%3A%2F%2Fimg002.hc360.cn%2Fy3%2FM01%2F5F%2FDB%2FwKhQh1T7iceEGRdWAAAAADQvqk8733.jpg',
-  attr_val: '春装款 L',
-  stock: 15,
-  title: 'OVBE 长袖风衣',
-  price: 278.00,
-  number: 1 },
-
-{
-  id: 3,
-  image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2319343996,1107396922&fm=26&gp=0.jpg',
-  attr_val: '激光导航 扫拖一体',
-  stock: 3,
-  title: '科沃斯 Ecovacs 扫地机器人',
-  price: 1348.00,
-  number: 5 },
-
-{
-  id: 4,
-  image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg',
-  attr_val: 'XL',
-  stock: 55,
-  title: '朵绒菲小西装',
-  price: 175.88,
-  number: 1 },
-
-{
-  id: 5,
-  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552410549432&di=06dd3758053fb6d6362516f30a42d055&imgtype=0&src=http%3A%2F%2Fimgcache.mysodao.com%2Fimg3%2FM0A%2F67%2F42%2FCgAPD1vNSsHNm-TnAAEy61txQb4543_400x400x2.JPG',
-  attr_val: '520 #粉红色',
-  stock: 15,
-  title: '迪奥（Dior）烈艳唇膏',
-  price: 1089.00,
-  number: 1 },
-
-{
-  id: 6,
-  image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1031875829,2994442603&fm=26&gp=0.jpg',
-  attr_val: '樱花味润手霜 30ml',
-  stock: 15,
-  title: "欧舒丹（L'OCCITANE）乳木果",
-  price: 128,
-  number: 1 },
-
-{
-  id: 7,
-  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553007107&di=390915aa8a022cf0b03c03340881b0e7&imgtype=jpg&er=1&src=http%3A%2F%2Fimg13.360buyimg.com%2Fn0%2Fjfs%2Ft646%2F285%2F736444951%2F480473%2Faa701c97%2F548176feN10c9ed7b.jpg',
-  attr_val: '特级 12个',
-  stock: 7,
-  title: '新疆阿克苏苹果 特级',
-  price: 58.8,
-  number: 10 },
-
-{
-  id: 8,
-  image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2319343996,1107396922&fm=26&gp=0.jpg',
-  attr_val: '激光导航 扫拖一体',
-  stock: 15,
-  title: '科沃斯 Ecovacs 扫地机器人',
-  price: 1348.00,
-  number: 1 },
-
-{
-  id: 9,
-  image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg',
-  attr_val: 'XL',
-  stock: 55,
-  title: '朵绒菲小西装',
-  price: 175.88,
-  number: 1 },
-
-{
-  id: 10,
-  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552410549432&di=06dd3758053fb6d6362516f30a42d055&imgtype=0&src=http%3A%2F%2Fimgcache.mysodao.com%2Fimg3%2FM0A%2F67%2F42%2FCgAPD1vNSsHNm-TnAAEy61txQb4543_400x400x2.JPG',
-  attr_val: '520 #粉红色',
-  stock: 15,
-  title: '迪奥（Dior）烈艳唇膏',
-  price: 1089.00,
-  number: 1 },
-
-{
-  id: 11,
-  image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1031875829,2994442603&fm=26&gp=0.jpg',
-  attr_val: '樱花味润手霜 30ml',
-  stock: 15,
-  title: "欧舒丹（L'OCCITANE）乳木果",
-  price: 128,
-  number: 1 },
-
-{
-  id: 12,
-  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553007107&di=390915aa8a022cf0b03c03340881b0e7&imgtype=jpg&er=1&src=http%3A%2F%2Fimg13.360buyimg.com%2Fn0%2Fjfs%2Ft646%2F285%2F736444951%2F480473%2Faa701c97%2F548176feN10c9ed7b.jpg',
-  attr_val: '特级 12个',
-  stock: 7,
-  title: '新疆阿克苏苹果 特级',
-  price: 58.8,
-  number: 10 },
-
-{
-  id: 13,
-  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552405266625&di=a703f2b2cdb0fe7f3f05f62dd91307ab&imgtype=0&src=http%3A%2F%2Fwww.78.cn%2Fzixun%2Fnews%2Fupload%2F20190214%2F1550114706486250.jpg',
-  attr_val: '春装款/m',
-  stock: 15,
-  title: '女装2019春秋新款',
-  price: 420.00,
-  number: 1 }];
-
-
-//详情展示页面
-var detailData = {
-  title: '纯种金毛幼犬活体有血统证书',
-  title2: '拆家小能手 你值得拥有',
-  favorite: true,
-  imgList: [{
-    src: 'http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg' },
-
-  {
-    src: 'http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1309/06/c4/25310541_1378426131583.jpg' },
-
-  {
-    src: 'http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1610/26/c4/28926240_1477451226577_mthumb.jpg' },
-
-  {
-    src: 'http://picture.ik123.com/uploads/allimg/190219/12-1Z219105139.jpg' }],
-
-
-  episodeList: [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-
-  guessList: [{
-    src: 'http://img.52z.com/upload/news/image/20180530/20180530081619_31029.jpg',
-    title: '猫眼指甲油',
-    title2: '独树一帜的免照灯猫眼指甲' },
-
-  {
-    src: 'http://m.china-7.net/uploads/14778449362891.jpg',
-    title: '创意屋',
-    title2: '创意屋形上下双层高低床' },
-
-  {
-    src: 'http://www.k73.com/up/allimg/130415/22-130415093527.jpg',
-    title: 'MissCandy 指甲油',
-    title2: '十分适合喜欢素净的妹纸，尽显淡雅的气质' },
-
-  {
-    src: 'http://img0.imgtn.bdimg.com/it/u=2108933440,2194129200&fm=214&gp=0.jpg	',
-    title: 'RMK 2017星空海蓝唇釉',
-    title2: '唇釉质地，上唇后很滋润。少女也会心动的蓝色，透明液体形状。' }],
-
-
-  evaList: [{
-    src: 'http://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/77c6a7efce1b9d1663174705fbdeb48f8d546486.jpg',
-    nickname: 'Ranth Allngal',
-    time: '09-20 12:54',
-    zan: '54',
-    content: '评论不要太苛刻，不管什么产品都会有瑕疵，客服也说了可以退货并且商家承担运费，我觉得至少态度就可以给五星。' },
-
-  {
-    src: 'http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg',
-    nickname: 'Ranth Allngal',
-    time: '09-20 12:54',
-    zan: '54',
-    content: '楼上说的好有道理。' }] };
-
-
-
-var shareList = [{
-  type: 1,
-  icon: '/static/temp/share_wechat.png',
-  text: '微信好友' },
-
-{
-  type: 2,
-  icon: '/static/temp/share_moment.png',
-  text: '朋友圈' },
-
-{
-  type: 3,
-  icon: '/static/temp/share_qq.png',
-  text: 'QQ好友' },
-
-{
-  type: 4,
-  icon: '/static/temp/share_qqzone.png',
-  text: 'QQ空间' }];
-
-
-var lazyLoadList = [{
-  src: 'http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg' },
-
-{
-  src: 'http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1309/06/c4/25310541_1378426131583.jpg' },
-
-{
-  src: 'http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1610/26/c4/28926240_1477451226577_mthumb.jpg' },
-
-{
-  src: 'http://picture.ik123.com/uploads/allimg/190219/12-1Z219105139.jpg' },
-
-{
-  src: 'http://img5.imgtn.bdimg.com/it/u=2904900134,438461613&fm=26&gp=0.jpg' },
-
-{
-  src: 'http://img1.imgtn.bdimg.com/it/u=1690475408,2565370337&fm=26&gp=0.jpg' },
-
-{
-  src: 'http://img.99114.com/group1/M00/7F/99/wKgGS1kVrPGAe5LmAAU2KrJmb3Q923_600_600.jpg' },
-
-{
-  src: 'http://img4.imgtn.bdimg.com/it/u=261047209,372231813&fm=26&gp=0.jpg' },
-
-{
-  src: 'http://i2.17173cdn.com/i7mz64/YWxqaGBf/tu17173com/20150107/eMyVMObjlbcvDEv.jpg' },
-
-{
-  src: 'http://img008.hc360.cn/m4/M02/E7/87/wKhQ6FSrfU6EfUoyAAAAAITAfyc280.jpg' },
-
-{
-  src: 'http://pic1.win4000.com/wallpaper/d/5991569950166.jpg' },
-
-{
-  src: 'http://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/6f061d950a7b0208f9fe945e60d9f2d3572cc85e.jpg' },
-
-{
-  src: 'http://pic41.nipic.com/20140429/18169759_125841756000_2.jpg' },
-
-{
-  src: 'http://www.k73.com/up/allimg/130415/22-130415093527.jpg' },
-
-{
-  src: 'http://img.52z.com/upload/news/image/20180530/20180530081619_31029.jpg' },
-
-{
-  src: 'http://b-ssl.duitang.com/uploads/item/201410/02/20141002111638_tXAzU.jpeg' },
-
-{
-  src: 'http://img2.ph.126.net/C4JW6f57QWSB21-8jh2UGQ==/1762596304262286698.jpg' },
-
-{
-  src: 'http://att.bbs.duowan.com/forum/201405/17/190257nzcvkkdg6w2e8226.jpg' },
-
-{
-  src: 'http://attach.bbs.miui.com/forum/201504/10/223644v3intigyvva0vgym.jpg' },
-
-{
-  src: 'http://pic1.win4000.com/mobile/3/57888a298d61d.jpg' }];
-
-
-
-var orderList = [{
-  time: '2019-04-06 11:37',
-  state: 1,
-  goodsList: [{
-    image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553187020783&di=bac9dd78b36fd984502d404d231011c0&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F26%2F20160926173213_s5adi.jpeg' },
-
-  {
-    image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg' },
-
-  {
-    image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg' },
-
-  {
-    image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg' },
-
-  {
-    image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg' },
-
-  {
-    image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg' },
-
-  {
-    image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg' }] },
-
-
-
-{
-  time: '2019-04-06 11:37',
-  state: 9,
-  goodsList: [{
-    title: '古黛妃 短袖t恤女 春夏装2019新款韩版宽松',
-    price: 179.5,
-    image: 'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg',
-    number: 1,
-    attr: '珊瑚粉 M' }] },
-
-
-{
-  time: '2019-04-06 11:37',
-  state: 1,
-  goodsList: [{
-    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i2/2120460599/O1CN01LBPS4C1GINkwsOTXS_!!2120460599.jpg_430x430q90.jpg' },
-
-  {
-    image: 'https://img.alicdn.com/imgextra/i2/1069876356/TB2ocTQG4WYBuNjy1zkXXXGGpXa_!!1069876356.jpg_430x430q90.jpg' },
-
-  {
-    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i4/2120460599/O1CN01YsmgwZ1GINkv38rkn_!!2120460599.jpg_430x430q90.jpg' }] },
-
-
-
-{
-  time: '2019-04-06 11:37',
-  state: 1,
-  goodsList: [{
-    title: '回力女鞋高帮帆布鞋女学生韩版鞋子女2019潮鞋女鞋新款春季板鞋女',
-    price: 69,
-    image: 'https://img.alicdn.com/imgextra/i3/2128794607/TB2gzzoc41YBuNjy1zcXXbNcXXa_!!2128794607.jpg_430x430q90.jpg',
-    number: 1,
-    attr: '白色-高帮 39' }] },
-
-
-{
-  time: '2019-04-06 11:37',
-  state: 1,
-  goodsList: [{
-    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i4/3358098495/O1CN01dhYyid2Ccl5MWLDok_!!3358098495.jpg_430x430q90.jpg' },
-
-  {
-    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i3/3358098495/O1CN01AWsnFA2Ccl5OzvqsL_!!3358098495.jpg_430x430q90.jpg' }] },
-
-
-
-{
-  time: '2019-04-06 11:37',
-  state: 1,
-  goodsList: [{
-    image: 'https://img.alicdn.com/imgextra/i4/3470687433/O1CN0124mMQOSERr18L1h_!!3470687433.jpg_430x430q90.jpg' },
-
-  {
-    image: 'https://img.alicdn.com/imgextra/i3/2888462616/O1CN01ERra5J1VCAbZaKI5n_!!0-item_pic.jpg_430x430q90.jpg' },
-
-  {
-    image: 'https://gd3.alicdn.com/imgextra/i3/819381730/O1CN01YV4mXj1OeNhQIhQlh_!!819381730.jpg_400x400.jpg' }] }];
-
-
-
-
-
-var cateList = [{
-  id: 1,
-  name: '手机数码' },
-
-{
-  id: 2,
-  name: '礼品鲜花' },
-
-{
-  id: 3,
-  name: '男装女装' },
-
-{
-  id: 4,
-  name: '母婴用品' },
-
-{
-  id: 5,
-  pid: 1,
-  name: '手机通讯' },
-
-{
-  id: 6,
-  pid: 1,
-  name: '运营商' },
-
-{
-  id: 8,
-  pid: 5,
-  name: '全面屏手机',
-  picture: '/static/temp/cate2.jpg' },
-
-{
-  id: 9,
-  pid: 5,
-  name: '游戏手机',
-  picture: '/static/temp/cate3.jpg' },
-
-{
-  id: 10,
-  pid: 5,
-  name: '老人机',
-  picture: '/static/temp/cate1.jpg' },
-
-{
-  id: 11,
-  pid: 5,
-  name: '拍照手机',
-  picture: '/static/temp/cate4.jpg' },
-
-{
-  id: 12,
-  pid: 5,
-  name: '女性手机',
-  picture: '/static/temp/cate5.jpg' },
-
-{
-  id: 14,
-  pid: 6,
-  name: '合约机',
-  picture: '/static/temp/cate1.jpg' },
-
-{
-  id: 15,
-  pid: 6,
-  name: '选好卡',
-  picture: '/static/temp/cate4.jpg' },
-
-{
-  id: 16,
-  pid: 6,
-  name: '办套餐',
-  picture: '/static/temp/cate5.jpg' },
-
-{
-  id: 17,
-  pid: 2,
-  name: '礼品' },
-
-{
-  id: 18,
-  pid: 2,
-  name: '鲜花' },
-
-{
-  id: 19,
-  pid: 17,
-  name: '公益摆件',
-  picture: '/static/temp/cate7.jpg' },
-
-{
-  id: 20,
-  pid: 17,
-  name: '创意礼品',
-  picture: '/static/temp/cate8.jpg' },
-
-{
-  id: 21,
-  pid: 18,
-  name: '鲜花',
-  picture: '/static/temp/cate9.jpg' },
-
-{
-  id: 22,
-  pid: 18,
-  name: '每周一花',
-  picture: '/static/temp/cate10.jpg' },
-
-{
-  id: 23,
-  pid: 18,
-  name: '卡通花束',
-  picture: '/static/temp/cate11.jpg' },
-
-{
-  id: 24,
-  pid: 18,
-  name: '永生花',
-  picture: '/static/temp/cate12.jpg' },
-
-{
-  id: 25,
-  pid: 3,
-  name: '男装' },
-
-{
-  id: 26,
-  pid: 3,
-  name: '女装' },
-
-{
-  id: 27,
-  pid: 25,
-  name: '男士T恤',
-  picture: '/static/temp/cate13.jpg' },
-
-{
-  id: 28,
-  pid: 25,
-  name: '男士外套',
-  picture: '/static/temp/cate14.jpg' },
-
-{
-  id: 29,
-  pid: 26,
-  name: '裙装',
-  picture: '/static/temp/cate15.jpg' },
-
-{
-  id: 30,
-  pid: 26,
-  name: 'T恤',
-  picture: '/static/temp/cate16.jpg' },
-
-{
-  id: 31,
-  pid: 26,
-  name: '上装',
-  picture: '/static/temp/cate15.jpg' },
-
-{
-  id: 32,
-  pid: 26,
-  name: '下装',
-  picture: '/static/temp/cate16.jpg' },
-
-{
-  id: 33,
-  pid: 4,
-  name: '奶粉' },
-
-{
-  id: 34,
-  pid: 4,
-  name: '营养辅食' },
-
-{
-  id: 35,
-  pid: 4,
-  name: '童装' },
-
-{
-  id: 39,
-  pid: 4,
-  name: '喂养用品' },
-
-{
-  id: 36,
-  pid: 33,
-  name: '有机奶粉',
-  picture: '/static/temp/cate17.jpg' },
-
-{
-  id: 37,
-  pid: 34,
-  name: '果泥/果汁',
-  picture: '/static/temp/cate18.jpg' },
-
-{
-  id: 39,
-  pid: 34,
-  name: '面条/粥',
-  picture: '/static/temp/cate20.jpg' },
-
-{
-  id: 42,
-  pid: 35,
-  name: '婴童衣橱',
-  picture: '/static/temp/cate19.jpg' },
-
-{
-  id: 43,
-  pid: 39,
-  name: '吸奶器',
-  picture: '/static/temp/cate21.jpg' },
-
-{
-  id: 44,
-  pid: 39,
-  name: '儿童餐具',
-  picture: '/static/temp/cate22.jpg' },
-
-{
-  id: 45,
-  pid: 39,
-  name: '牙胶安抚',
-  picture: '/static/temp/cate23.jpg' },
-
-{
-  id: 46,
-  pid: 39,
-  name: '围兜',
-  picture: '/static/temp/cate24.jpg' }];var _default =
-
-
-
-{
-  carouselList: carouselList,
-  cartList: cartList,
-  detailData: detailData,
-  lazyLoadList: lazyLoadList,
-  userInfo: userInfo,
-  shareList: shareList,
-  goodsList: goodsList,
-  orderList: orderList,
-  cateList: cateList };exports.default = _default;
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js":
+/***/ 0:
 /*!***********************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js ***!
   \***********************************************************/
@@ -678,12 +8,12 @@ var cateList = [{
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni, createApp) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _store = _interopRequireDefault(__webpack_require__(/*! ./store */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/store/index.js"));
-var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/App.vue"));
+/* WEBPACK VAR INJECTION */(function(uni, createApp) {__webpack_require__(/*! uni-pages */ 4);
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _store = _interopRequireDefault(__webpack_require__(/*! ./store */ 5));
+var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 7));
 
-var _Json = _interopRequireDefault(__webpack_require__(/*! ./Json */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/Json.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;} //测试用数据
+var _Json = _interopRequireDefault(__webpack_require__(/*! ./Json */ 13));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;} //测试用数据
 /**
  *  因工具函数属于公司资产, 所以直接在Vue实例挂载几个常用的函数
  *  所有测试用数据均存放于根目录json.js
@@ -733,388 +63,11 @@ var app = new _vue.default(_objectSpread({},
 _App.default));
 
 createApp(app).$mount();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createApp"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createApp"]))
 
 /***/ }),
 
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Faddress%2Faddress\"}":
-/*!************************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Faddress%2Faddress"} ***!
-  \************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _address = _interopRequireDefault(__webpack_require__(/*! ./pages/address/address.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/address/address.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_address.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Faddress%2FaddressManage\"}":
-/*!******************************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Faddress%2FaddressManage"} ***!
-  \******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _addressManage = _interopRequireDefault(__webpack_require__(/*! ./pages/address/addressManage.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/address/addressManage.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_addressManage.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Fcart%2Fcart\"}":
-/*!******************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fcart%2Fcart"} ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _cart = _interopRequireDefault(__webpack_require__(/*! ./pages/cart/cart.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/cart/cart.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_cart.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Fcategory%2Fcategory\"}":
-/*!**************************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fcategory%2Fcategory"} ***!
-  \**************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _category = _interopRequireDefault(__webpack_require__(/*! ./pages/category/category.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/category/category.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_category.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Fdetail%2Fdetail\"}":
-/*!**********************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fdetail%2Fdetail"} ***!
-  \**********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/detail/detail.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/detail/detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_detail.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Findex%2Findex\"}":
-/*!********************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Findex%2Findex"} ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/index/index.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_index.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Fmoney%2Fmoney\"}":
-/*!********************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmoney%2Fmoney"} ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _money = _interopRequireDefault(__webpack_require__(/*! ./pages/money/money.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/money/money.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_money.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Fmoney%2Fpay\"}":
-/*!******************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmoney%2Fpay"} ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _pay = _interopRequireDefault(__webpack_require__(/*! ./pages/money/pay.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/money/pay.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_pay.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Fmoney%2FpaySuccess\"}":
-/*!*************************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmoney%2FpaySuccess"} ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _paySuccess = _interopRequireDefault(__webpack_require__(/*! ./pages/money/paySuccess.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/money/paySuccess.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_paySuccess.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Fnotice%2Fnotice\"}":
-/*!**********************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fnotice%2Fnotice"} ***!
-  \**********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _notice = _interopRequireDefault(__webpack_require__(/*! ./pages/notice/notice.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/notice/notice.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_notice.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Forder%2FcreateOrder\"}":
-/*!**************************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Forder%2FcreateOrder"} ***!
-  \**************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _createOrder = _interopRequireDefault(__webpack_require__(/*! ./pages/order/createOrder.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/order/createOrder.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_createOrder.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Forder%2Forder\"}":
-/*!********************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Forder%2Forder"} ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _order = _interopRequireDefault(__webpack_require__(/*! ./pages/order/order.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/order/order.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_order.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Fproduct%2Flist\"}":
-/*!*********************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fproduct%2Flist"} ***!
-  \*********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _list = _interopRequireDefault(__webpack_require__(/*! ./pages/product/list.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/product/list.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_list.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Fproduct%2Fproduct\"}":
-/*!************************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fproduct%2Fproduct"} ***!
-  \************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _product = _interopRequireDefault(__webpack_require__(/*! ./pages/product/product.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/product/product.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_product.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Fpublic%2Flogin\"}":
-/*!*********************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fpublic%2Flogin"} ***!
-  \*********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _login = _interopRequireDefault(__webpack_require__(/*! ./pages/public/login.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/public/login.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_login.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Fset%2Fset\"}":
-/*!****************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fset%2Fset"} ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _set = _interopRequireDefault(__webpack_require__(/*! ./pages/set/set.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/set/set.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_set.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Fuser%2Fuser\"}":
-/*!******************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuser%2Fuser"} ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _user = _interopRequireDefault(__webpack_require__(/*! ./pages/user/user.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/user/user.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_user.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/main.js?{\"page\":\"pages%2Fuserinfo%2Fuserinfo\"}":
-/*!**************************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuserinfo%2Fuserinfo"} ***!
-  \**************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _userinfo = _interopRequireDefault(__webpack_require__(/*! ./pages/userinfo/userinfo.vue */ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages/userinfo/userinfo.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_userinfo.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/pages.json":
-/*!**************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/pages.json ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/***/ }),
-
-/***/ "../../../../../../Users/wuyongjin/Documents/os/web/web/guang/store/index.js":
-/*!******************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/store/index.js ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-_vue.default.use(_vuex.default);
-
-var store = new _vuex.default.Store({
-  state: {
-    hasLogin: false,
-    userInfo: {} },
-
-  mutations: {
-    login: function login(state, provider) {
-
-      state.hasLogin = true;
-      state.userInfo = provider;
-      uni.setStorage({ //缓存用户登陆状态
-        key: 'userInfo',
-        data: provider });
-
-      console.log(state.userInfo);
-    },
-    logout: function logout(state) {
-      state.hasLogin = false;
-      state.userInfo = {};
-      uni.removeStorage({
-        key: 'userInfo' });
-
-    } },
-
-  actions: {} });var _default =
-
-
-
-
-store;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/regenerator/index.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime-module.js");
-
-
-/***/ }),
-
-/***/ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js":
+/***/ 1:
 /*!************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js ***!
   \************************************************************/
@@ -1122,7 +75,7 @@ module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.createApp = createApp;exports.createPage = createPage;exports.createComponent = createComponent;exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance");}function _iterableToArrayLimit(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+Object.defineProperty(exports, "__esModule", { value: true });exports.createApp = createApp;exports.createPage = createPage;exports.createComponent = createComponent;exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance");}function _iterableToArrayLimit(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}
 
 var _toString = Object.prototype.toString;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -1164,7 +117,198 @@ var camelize = cached(function (str) {
   return str.replace(camelizeRE, function (_, c) {return c ? c.toUpperCase() : '';});
 });
 
-var SYNC_API_RE = /^\$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64/;
+var HOOKS = [
+'invoke',
+'success',
+'fail',
+'complete',
+'returnValue'];
+
+
+var globalInterceptors = {};
+var scopedInterceptors = {};
+
+function mergeHook(parentVal, childVal) {
+  var res = childVal ?
+  parentVal ?
+  parentVal.concat(childVal) :
+  Array.isArray(childVal) ?
+  childVal : [childVal] :
+  parentVal;
+  return res ?
+  dedupeHooks(res) :
+  res;
+}
+
+function dedupeHooks(hooks) {
+  var res = [];
+  for (var i = 0; i < hooks.length; i++) {
+    if (res.indexOf(hooks[i]) === -1) {
+      res.push(hooks[i]);
+    }
+  }
+  return res;
+}
+
+function removeHook(hooks, hook) {
+  var index = hooks.indexOf(hook);
+  if (index !== -1) {
+    hooks.splice(index, 1);
+  }
+}
+
+function mergeInterceptorHook(interceptor, option) {
+  Object.keys(option).forEach(function (hook) {
+    if (HOOKS.indexOf(hook) !== -1 && isFn(option[hook])) {
+      interceptor[hook] = mergeHook(interceptor[hook], option[hook]);
+    }
+  });
+}
+
+function removeInterceptorHook(interceptor, option) {
+  if (!interceptor || !option) {
+    return;
+  }
+  Object.keys(option).forEach(function (hook) {
+    if (HOOKS.indexOf(hook) !== -1 && isFn(option[hook])) {
+      removeHook(interceptor[hook], option[hook]);
+    }
+  });
+}
+
+function addInterceptor(method, option) {
+  if (typeof method === 'string' && isPlainObject(option)) {
+    mergeInterceptorHook(scopedInterceptors[method] || (scopedInterceptors[method] = {}), option);
+  } else if (isPlainObject(method)) {
+    mergeInterceptorHook(globalInterceptors, method);
+  }
+}
+
+function removeInterceptor(method, option) {
+  if (typeof method === 'string') {
+    if (isPlainObject(option)) {
+      removeInterceptorHook(scopedInterceptors[method], option);
+    } else {
+      delete scopedInterceptors[method];
+    }
+  } else if (isPlainObject(method)) {
+    removeInterceptorHook(globalInterceptors, method);
+  }
+}
+
+function wrapperHook(hook) {
+  return function (data) {
+    return hook(data) || data;
+  };
+}
+
+function isPromise(obj) {
+  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+}
+
+function queue(hooks, data) {
+  var promise = false;
+  for (var i = 0; i < hooks.length; i++) {
+    var hook = hooks[i];
+    if (promise) {
+      promise = Promise.then(wrapperHook(hook));
+    } else {
+      var res = hook(data);
+      if (isPromise(res)) {
+        promise = Promise.resolve(res);
+      }
+      if (res === false) {
+        return {
+          then: function then() {} };
+
+      }
+    }
+  }
+  return promise || {
+    then: function then(callback) {
+      return callback(data);
+    } };
+
+}
+
+function wrapperOptions(interceptor) {var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  ['success', 'fail', 'complete'].forEach(function (name) {
+    if (Array.isArray(interceptor[name])) {
+      var oldCallback = options[name];
+      options[name] = function callbackInterceptor(res) {
+        queue(interceptor[name], res).then(function (res) {
+          /* eslint-disable no-mixed-operators */
+          return isFn(oldCallback) && oldCallback(res) || res;
+        });
+      };
+    }
+  });
+  return options;
+}
+
+function wrapperReturnValue(method, returnValue) {
+  var returnValueHooks = [];
+  if (Array.isArray(globalInterceptors.returnValue)) {
+    returnValueHooks.push.apply(returnValueHooks, _toConsumableArray(globalInterceptors.returnValue));
+  }
+  var interceptor = scopedInterceptors[method];
+  if (interceptor && Array.isArray(interceptor.returnValue)) {
+    returnValueHooks.push.apply(returnValueHooks, _toConsumableArray(interceptor.returnValue));
+  }
+  returnValueHooks.forEach(function (hook) {
+    returnValue = hook(returnValue) || returnValue;
+  });
+  return returnValue;
+}
+
+function getApiInterceptorHooks(method) {
+  var interceptor = Object.create(null);
+  Object.keys(globalInterceptors).forEach(function (hook) {
+    if (hook !== 'returnValue') {
+      interceptor[hook] = globalInterceptors[hook].slice();
+    }
+  });
+  var scopedInterceptor = scopedInterceptors[method];
+  if (scopedInterceptor) {
+    Object.keys(scopedInterceptor).forEach(function (hook) {
+      if (hook !== 'returnValue') {
+        interceptor[hook] = (interceptor[hook] || []).concat(scopedInterceptor[hook]);
+      }
+    });
+  }
+  return interceptor;
+}
+
+function invokeApi(method, api, options) {for (var _len = arguments.length, params = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {params[_key - 3] = arguments[_key];}
+  var interceptor = getApiInterceptorHooks(method);
+  if (interceptor && Object.keys(interceptor).length) {
+    if (Array.isArray(interceptor.invoke)) {
+      var res = queue(interceptor.invoke, options);
+      return res.then(function (options) {
+        return api.apply(void 0, [wrapperOptions(interceptor, options)].concat(params));
+      });
+    } else {
+      return api.apply(void 0, [wrapperOptions(interceptor, options)].concat(params));
+    }
+  }
+  return api.apply(void 0, [options].concat(params));
+}
+
+var promiseInterceptor = {
+  returnValue: function returnValue(res) {
+    if (!isPromise(res)) {
+      return res;
+    }
+    return res.then(function (res) {
+      return res[1];
+    }).catch(function (res) {
+      return res[0];
+    });
+  } };
+
+
+var SYNC_API_RE =
+/^\$|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64/;
 
 var CONTEXT_API_RE = /^create|Manager$/;
 
@@ -1203,12 +347,12 @@ function promisify(name, api) {
   if (!shouldPromise(name)) {
     return api;
   }
-  return function promiseApi() {var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};for (var _len = arguments.length, params = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {params[_key - 1] = arguments[_key];}
+  return function promiseApi() {var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};for (var _len2 = arguments.length, params = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {params[_key2 - 1] = arguments[_key2];}
     if (isFn(options.success) || isFn(options.fail) || isFn(options.complete)) {
-      return api.apply(void 0, [options].concat(params));
+      return wrapperReturnValue(name, invokeApi.apply(void 0, [name, api, options].concat(params)));
     }
-    return handlePromise(new Promise(function (resolve, reject) {
-      api.apply(void 0, [Object.assign({}, options, {
+    return wrapperReturnValue(name, handlePromise(new Promise(function (resolve, reject) {
+      invokeApi.apply(void 0, [name, api, Object.assign({}, options, {
         success: resolve,
         fail: reject })].concat(
       params));
@@ -1224,7 +368,7 @@ function promisify(name, api) {
 
         };
       }
-    }));
+    })));
   };
 }
 
@@ -1269,6 +413,19 @@ function upx2px(number, newDeviceWidth) {
   }
   return number < 0 ? -result : result;
 }
+
+var interceptors = {
+  promiseInterceptor: promiseInterceptor };
+
+
+
+
+var baseApi = /*#__PURE__*/Object.freeze({
+  upx2px: upx2px,
+  interceptors: interceptors,
+  addInterceptor: addInterceptor,
+  removeInterceptor: removeInterceptor });
+
 
 var previewImage = {
   args: function args(fromArgs) {
@@ -1512,7 +669,7 @@ function initTriggerEvent(mpInstance) {
     }
   }
   var oldTriggerEvent = mpInstance.triggerEvent;
-  mpInstance.triggerEvent = function (event) {for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {args[_key2 - 1] = arguments[_key2];}
+  mpInstance.triggerEvent = function (event) {for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {args[_key3 - 1] = arguments[_key3];}
     return oldTriggerEvent.apply(mpInstance, [customize(event)].concat(args));
   };
 }
@@ -1525,7 +682,7 @@ function initHook(name, options) {
     };
   } else {
     options[name] = function () {
-      initTriggerEvent(this);for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {args[_key3] = arguments[_key3];}
+      initTriggerEvent(this);for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {args[_key4] = arguments[_key4];}
       return oldHook.apply(this, args);
     };
   }
@@ -2318,8 +1475,8 @@ var uni = {};
 if (typeof Proxy !== 'undefined' && "mp-weixin" !== 'app-plus') {
   uni = new Proxy({}, {
     get: function get(target, name) {
-      if (name === 'upx2px') {
-        return upx2px;
+      if (baseApi[name]) {
+        return baseApi[name];
       }
       if (api[name]) {
         return promisify(name, api[name]);
@@ -2342,7 +1499,9 @@ if (typeof Proxy !== 'undefined' && "mp-weixin" !== 'app-plus') {
     } });
 
 } else {
-  uni.upx2px = upx2px;
+  Object.keys(baseApi).forEach(function (name) {
+    uni[name] = baseApi[name];
+  });
 
   {
     Object.keys(todoApis).forEach(function (name) {
@@ -2378,7 +1537,920 @@ uni$1;exports.default = _default;
 
 /***/ }),
 
-/***/ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js":
+/***/ 103:
+/*!************************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Faddress%2Faddress"} ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _address = _interopRequireDefault(__webpack_require__(/*! ./pages/address/address.vue */ 104));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_address.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 111:
+/*!******************************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Faddress%2FaddressManage"} ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _addressManage = _interopRequireDefault(__webpack_require__(/*! ./pages/address/addressManage.vue */ 112));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_addressManage.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 119:
+/*!******************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmoney%2Fpay"} ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _pay = _interopRequireDefault(__webpack_require__(/*! ./pages/money/pay.vue */ 120));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_pay.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 12:
+/*!********************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode /* vue-cli only */
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 127:
+/*!*************************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmoney%2FpaySuccess"} ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _paySuccess = _interopRequireDefault(__webpack_require__(/*! ./pages/money/paySuccess.vue */ 128));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_paySuccess.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 13:
+/*!***********************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/Json.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /* 用户 */
+var userInfo = {
+  status: 1,
+  data: {
+    id: 1,
+    mobile: 18888888888,
+    nickname: 'Leo yo',
+    portrait: 'http://img.61ef.cn/news/201409/28/2014092805595807.jpg' },
+
+  msg: '提示'
+
+  /* 首页轮播图 */ };
+var carouselList = [{
+  src: "/static/temp/banner3.jpg",
+  background: "rgb(203, 87, 60)" },
+
+{
+  src: "/static/temp/banner2.jpg",
+  background: "rgb(205, 215, 218)" },
+
+{
+  src: "/static/temp/banner4.jpg",
+  background: "rgb(183, 73, 69)" }];
+
+
+/* 商品列表 */
+var goodsList = [{
+  image: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553187020783&di=bac9dd78b36fd984502d404d231011c0&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F26%2F20160926173213_s5adi.jpeg",
+  image2: "http://pic.rmb.bdstatic.com/819a044daa66718c2c40a48c1ba971e6.jpeg",
+  image3: "http://img001.hc360.cn/y5/M00/1B/45/wKhQUVYFE0uEZ7zVAAAAAMj3H1w418.jpg",
+  title: "古黛妃 短袖t恤女夏装2019新款韩版宽松",
+  price: 179,
+  sales: 61 },
+
+{
+  image: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg",
+  image2: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1554013048&di=a3dc9fd1406dd7bad7fbb97b5489ec04&imgtype=jpg&er=1&src=http%3A%2F%2Fimg009.hc360.cn%2Fhb%2FnKo44ac2656F831c684507E3Da0E3a26841.jpg",
+  image3: "http://img.zcool.cn/community/017a4e58b4eab6a801219c77084373.jpg",
+  title: "潘歌针织连衣裙",
+  price: 78,
+  sales: 16 },
+
+{
+  image: "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg",
+  image2: "http://m.360buyimg.com/n12/jfs/t247/42/1078640382/162559/3628a0b/53f5ad09N0dd79894.jpg%21q70.jpg",
+  image3: "http://ikids.61kids.com.cn/upload/2018-12-29/1546070626796114.jpg",
+  title: "巧谷2019春夏季新品新款女装",
+  price: 108.8,
+  sales: 5 },
+{
+  image: "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=756705744,3505936868&fm=11&gp=0.jpg",
+  image2: "http://images.jaadee.com/images/201702/goods_img/30150_d85aed83521.jpg",
+  image3: "http://img13.360buyimg.com/popWaterMark/jfs/t865/120/206320620/138889/dcc94caa/550acedcN613e2a9d.jpg",
+  title: "私萱连衣裙",
+  price: 265,
+  sales: 88 },
+{
+  image: "https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg",
+  image2: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553418265666&di=d4a7f7eb0ae3c859edeb921641ee1c3a&imgtype=0&src=http%3A%2F%2Fimg003.hc360.cn%2Fy3%2FM02%2FF8%2F9F%2FwKhQh1TuSkGELIlQAAAAAPuLl4M987.jpg",
+  image3: "http://img.ef43.com.cn/product/2016/8/05100204b0c.jpg",
+  title: "娇诗茹 ulzzang原宿风学生潮韩版春夏短",
+  price: 422,
+  sales: 137 },
+{
+  image: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553187020783&di=bac9dd78b36fd984502d404d231011c0&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F26%2F20160926173213_s5adi.jpeg",
+  image2: "http://image5.suning.cn/uimg/b2c/newcatentries/0070158827-000000000622091973_2_800x800.jpg",
+  image3: "http://img.61ef.cn/news/201903/20/2019032009251784.jpg",
+  title: "古黛妃 短袖t恤女夏装2019新款韩版宽松",
+  price: 179,
+  sales: 95 }];
+
+
+
+/* 购物车 */
+var cartList = [{
+  id: 1,
+  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553005139&di=3368549edf9eee769a9bcb3fbbed2504&imgtype=jpg&er=1&src=http%3A%2F%2Fimg002.hc360.cn%2Fy3%2FM01%2F5F%2FDB%2FwKhQh1T7iceEGRdWAAAAADQvqk8733.jpg',
+  attr_val: '春装款 L',
+  stock: 15,
+  title: 'OVBE 长袖风衣',
+  price: 278.00,
+  number: 1 },
+
+{
+  id: 3,
+  image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2319343996,1107396922&fm=26&gp=0.jpg',
+  attr_val: '激光导航 扫拖一体',
+  stock: 3,
+  title: '科沃斯 Ecovacs 扫地机器人',
+  price: 1348.00,
+  number: 5 },
+
+{
+  id: 4,
+  image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg',
+  attr_val: 'XL',
+  stock: 55,
+  title: '朵绒菲小西装',
+  price: 175.88,
+  number: 1 },
+
+{
+  id: 5,
+  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552410549432&di=06dd3758053fb6d6362516f30a42d055&imgtype=0&src=http%3A%2F%2Fimgcache.mysodao.com%2Fimg3%2FM0A%2F67%2F42%2FCgAPD1vNSsHNm-TnAAEy61txQb4543_400x400x2.JPG',
+  attr_val: '520 #粉红色',
+  stock: 15,
+  title: '迪奥（Dior）烈艳唇膏',
+  price: 1089.00,
+  number: 1 },
+
+{
+  id: 6,
+  image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1031875829,2994442603&fm=26&gp=0.jpg',
+  attr_val: '樱花味润手霜 30ml',
+  stock: 15,
+  title: "欧舒丹（L'OCCITANE）乳木果",
+  price: 128,
+  number: 1 },
+
+{
+  id: 7,
+  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553007107&di=390915aa8a022cf0b03c03340881b0e7&imgtype=jpg&er=1&src=http%3A%2F%2Fimg13.360buyimg.com%2Fn0%2Fjfs%2Ft646%2F285%2F736444951%2F480473%2Faa701c97%2F548176feN10c9ed7b.jpg',
+  attr_val: '特级 12个',
+  stock: 7,
+  title: '新疆阿克苏苹果 特级',
+  price: 58.8,
+  number: 10 },
+
+{
+  id: 8,
+  image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2319343996,1107396922&fm=26&gp=0.jpg',
+  attr_val: '激光导航 扫拖一体',
+  stock: 15,
+  title: '科沃斯 Ecovacs 扫地机器人',
+  price: 1348.00,
+  number: 1 },
+
+{
+  id: 9,
+  image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg',
+  attr_val: 'XL',
+  stock: 55,
+  title: '朵绒菲小西装',
+  price: 175.88,
+  number: 1 },
+
+{
+  id: 10,
+  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552410549432&di=06dd3758053fb6d6362516f30a42d055&imgtype=0&src=http%3A%2F%2Fimgcache.mysodao.com%2Fimg3%2FM0A%2F67%2F42%2FCgAPD1vNSsHNm-TnAAEy61txQb4543_400x400x2.JPG',
+  attr_val: '520 #粉红色',
+  stock: 15,
+  title: '迪奥（Dior）烈艳唇膏',
+  price: 1089.00,
+  number: 1 },
+
+{
+  id: 11,
+  image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1031875829,2994442603&fm=26&gp=0.jpg',
+  attr_val: '樱花味润手霜 30ml',
+  stock: 15,
+  title: "欧舒丹（L'OCCITANE）乳木果",
+  price: 128,
+  number: 1 },
+
+{
+  id: 12,
+  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553007107&di=390915aa8a022cf0b03c03340881b0e7&imgtype=jpg&er=1&src=http%3A%2F%2Fimg13.360buyimg.com%2Fn0%2Fjfs%2Ft646%2F285%2F736444951%2F480473%2Faa701c97%2F548176feN10c9ed7b.jpg',
+  attr_val: '特级 12个',
+  stock: 7,
+  title: '新疆阿克苏苹果 特级',
+  price: 58.8,
+  number: 10 },
+
+{
+  id: 13,
+  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552405266625&di=a703f2b2cdb0fe7f3f05f62dd91307ab&imgtype=0&src=http%3A%2F%2Fwww.78.cn%2Fzixun%2Fnews%2Fupload%2F20190214%2F1550114706486250.jpg',
+  attr_val: '春装款/m',
+  stock: 15,
+  title: '女装2019春秋新款',
+  price: 420.00,
+  number: 1 }];
+
+
+//详情展示页面
+var detailData = {
+  title: '纯种金毛幼犬活体有血统证书',
+  title2: '拆家小能手 你值得拥有',
+  favorite: true,
+  imgList: [{
+    src: 'http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg' },
+
+  {
+    src: 'http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1309/06/c4/25310541_1378426131583.jpg' },
+
+  {
+    src: 'http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1610/26/c4/28926240_1477451226577_mthumb.jpg' },
+
+  {
+    src: 'http://picture.ik123.com/uploads/allimg/190219/12-1Z219105139.jpg' }],
+
+
+  episodeList: [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+
+  guessList: [{
+    src: 'http://img.52z.com/upload/news/image/20180530/20180530081619_31029.jpg',
+    title: '猫眼指甲油',
+    title2: '独树一帜的免照灯猫眼指甲' },
+
+  {
+    src: 'http://m.china-7.net/uploads/14778449362891.jpg',
+    title: '创意屋',
+    title2: '创意屋形上下双层高低床' },
+
+  {
+    src: 'http://www.k73.com/up/allimg/130415/22-130415093527.jpg',
+    title: 'MissCandy 指甲油',
+    title2: '十分适合喜欢素净的妹纸，尽显淡雅的气质' },
+
+  {
+    src: 'http://img0.imgtn.bdimg.com/it/u=2108933440,2194129200&fm=214&gp=0.jpg	',
+    title: 'RMK 2017星空海蓝唇釉',
+    title2: '唇釉质地，上唇后很滋润。少女也会心动的蓝色，透明液体形状。' }],
+
+
+  evaList: [{
+    src: 'http://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/77c6a7efce1b9d1663174705fbdeb48f8d546486.jpg',
+    nickname: 'Ranth Allngal',
+    time: '09-20 12:54',
+    zan: '54',
+    content: '评论不要太苛刻，不管什么产品都会有瑕疵，客服也说了可以退货并且商家承担运费，我觉得至少态度就可以给五星。' },
+
+  {
+    src: 'http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg',
+    nickname: 'Ranth Allngal',
+    time: '09-20 12:54',
+    zan: '54',
+    content: '楼上说的好有道理。' }] };
+
+
+
+var shareList = [{
+  type: 1,
+  icon: '/static/temp/share_wechat.png',
+  text: '微信好友' },
+
+{
+  type: 2,
+  icon: '/static/temp/share_moment.png',
+  text: '朋友圈' },
+
+{
+  type: 3,
+  icon: '/static/temp/share_qq.png',
+  text: 'QQ好友' },
+
+{
+  type: 4,
+  icon: '/static/temp/share_qqzone.png',
+  text: 'QQ空间' }];
+
+
+var lazyLoadList = [{
+  src: 'http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg' },
+
+{
+  src: 'http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1309/06/c4/25310541_1378426131583.jpg' },
+
+{
+  src: 'http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1610/26/c4/28926240_1477451226577_mthumb.jpg' },
+
+{
+  src: 'http://picture.ik123.com/uploads/allimg/190219/12-1Z219105139.jpg' },
+
+{
+  src: 'http://img5.imgtn.bdimg.com/it/u=2904900134,438461613&fm=26&gp=0.jpg' },
+
+{
+  src: 'http://img1.imgtn.bdimg.com/it/u=1690475408,2565370337&fm=26&gp=0.jpg' },
+
+{
+  src: 'http://img.99114.com/group1/M00/7F/99/wKgGS1kVrPGAe5LmAAU2KrJmb3Q923_600_600.jpg' },
+
+{
+  src: 'http://img4.imgtn.bdimg.com/it/u=261047209,372231813&fm=26&gp=0.jpg' },
+
+{
+  src: 'http://i2.17173cdn.com/i7mz64/YWxqaGBf/tu17173com/20150107/eMyVMObjlbcvDEv.jpg' },
+
+{
+  src: 'http://img008.hc360.cn/m4/M02/E7/87/wKhQ6FSrfU6EfUoyAAAAAITAfyc280.jpg' },
+
+{
+  src: 'http://pic1.win4000.com/wallpaper/d/5991569950166.jpg' },
+
+{
+  src: 'http://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/6f061d950a7b0208f9fe945e60d9f2d3572cc85e.jpg' },
+
+{
+  src: 'http://pic41.nipic.com/20140429/18169759_125841756000_2.jpg' },
+
+{
+  src: 'http://www.k73.com/up/allimg/130415/22-130415093527.jpg' },
+
+{
+  src: 'http://img.52z.com/upload/news/image/20180530/20180530081619_31029.jpg' },
+
+{
+  src: 'http://b-ssl.duitang.com/uploads/item/201410/02/20141002111638_tXAzU.jpeg' },
+
+{
+  src: 'http://img2.ph.126.net/C4JW6f57QWSB21-8jh2UGQ==/1762596304262286698.jpg' },
+
+{
+  src: 'http://att.bbs.duowan.com/forum/201405/17/190257nzcvkkdg6w2e8226.jpg' },
+
+{
+  src: 'http://attach.bbs.miui.com/forum/201504/10/223644v3intigyvva0vgym.jpg' },
+
+{
+  src: 'http://pic1.win4000.com/mobile/3/57888a298d61d.jpg' }];
+
+
+
+var orderList = [{
+  time: '2019-04-06 11:37',
+  state: 1,
+  goodsList: [{
+    image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553187020783&di=bac9dd78b36fd984502d404d231011c0&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F26%2F20160926173213_s5adi.jpeg' },
+
+  {
+    image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg' },
+
+  {
+    image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg' },
+
+  {
+    image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg' },
+
+  {
+    image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg' },
+
+  {
+    image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg' },
+
+  {
+    image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg' }] },
+
+
+
+{
+  time: '2019-04-06 11:37',
+  state: 9,
+  goodsList: [{
+    title: '古黛妃 短袖t恤女 春夏装2019新款韩版宽松',
+    price: 179.5,
+    image: 'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg',
+    number: 1,
+    attr: '珊瑚粉 M' }] },
+
+
+{
+  time: '2019-04-06 11:37',
+  state: 1,
+  goodsList: [{
+    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i2/2120460599/O1CN01LBPS4C1GINkwsOTXS_!!2120460599.jpg_430x430q90.jpg' },
+
+  {
+    image: 'https://img.alicdn.com/imgextra/i2/1069876356/TB2ocTQG4WYBuNjy1zkXXXGGpXa_!!1069876356.jpg_430x430q90.jpg' },
+
+  {
+    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i4/2120460599/O1CN01YsmgwZ1GINkv38rkn_!!2120460599.jpg_430x430q90.jpg' }] },
+
+
+
+{
+  time: '2019-04-06 11:37',
+  state: 1,
+  goodsList: [{
+    title: '回力女鞋高帮帆布鞋女学生韩版鞋子女2019潮鞋女鞋新款春季板鞋女',
+    price: 69,
+    image: 'https://img.alicdn.com/imgextra/i3/2128794607/TB2gzzoc41YBuNjy1zcXXbNcXXa_!!2128794607.jpg_430x430q90.jpg',
+    number: 1,
+    attr: '白色-高帮 39' }] },
+
+
+{
+  time: '2019-04-06 11:37',
+  state: 1,
+  goodsList: [{
+    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i4/3358098495/O1CN01dhYyid2Ccl5MWLDok_!!3358098495.jpg_430x430q90.jpg' },
+
+  {
+    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i3/3358098495/O1CN01AWsnFA2Ccl5OzvqsL_!!3358098495.jpg_430x430q90.jpg' }] },
+
+
+
+{
+  time: '2019-04-06 11:37',
+  state: 1,
+  goodsList: [{
+    image: 'https://img.alicdn.com/imgextra/i4/3470687433/O1CN0124mMQOSERr18L1h_!!3470687433.jpg_430x430q90.jpg' },
+
+  {
+    image: 'https://img.alicdn.com/imgextra/i3/2888462616/O1CN01ERra5J1VCAbZaKI5n_!!0-item_pic.jpg_430x430q90.jpg' },
+
+  {
+    image: 'https://gd3.alicdn.com/imgextra/i3/819381730/O1CN01YV4mXj1OeNhQIhQlh_!!819381730.jpg_400x400.jpg' }] }];
+
+
+
+
+
+var cateList = [{
+  id: 1,
+  name: '手机数码' },
+
+{
+  id: 2,
+  name: '礼品鲜花' },
+
+{
+  id: 3,
+  name: '男装女装' },
+
+{
+  id: 4,
+  name: '母婴用品' },
+
+{
+  id: 5,
+  pid: 1,
+  name: '手机通讯' },
+
+{
+  id: 6,
+  pid: 1,
+  name: '运营商' },
+
+{
+  id: 8,
+  pid: 5,
+  name: '全面屏手机',
+  picture: '/static/temp/cate2.jpg' },
+
+{
+  id: 9,
+  pid: 5,
+  name: '游戏手机',
+  picture: '/static/temp/cate3.jpg' },
+
+{
+  id: 10,
+  pid: 5,
+  name: '老人机',
+  picture: '/static/temp/cate1.jpg' },
+
+{
+  id: 11,
+  pid: 5,
+  name: '拍照手机',
+  picture: '/static/temp/cate4.jpg' },
+
+{
+  id: 12,
+  pid: 5,
+  name: '女性手机',
+  picture: '/static/temp/cate5.jpg' },
+
+{
+  id: 14,
+  pid: 6,
+  name: '合约机',
+  picture: '/static/temp/cate1.jpg' },
+
+{
+  id: 15,
+  pid: 6,
+  name: '选好卡',
+  picture: '/static/temp/cate4.jpg' },
+
+{
+  id: 16,
+  pid: 6,
+  name: '办套餐',
+  picture: '/static/temp/cate5.jpg' },
+
+{
+  id: 17,
+  pid: 2,
+  name: '礼品' },
+
+{
+  id: 18,
+  pid: 2,
+  name: '鲜花' },
+
+{
+  id: 19,
+  pid: 17,
+  name: '公益摆件',
+  picture: '/static/temp/cate7.jpg' },
+
+{
+  id: 20,
+  pid: 17,
+  name: '创意礼品',
+  picture: '/static/temp/cate8.jpg' },
+
+{
+  id: 21,
+  pid: 18,
+  name: '鲜花',
+  picture: '/static/temp/cate9.jpg' },
+
+{
+  id: 22,
+  pid: 18,
+  name: '每周一花',
+  picture: '/static/temp/cate10.jpg' },
+
+{
+  id: 23,
+  pid: 18,
+  name: '卡通花束',
+  picture: '/static/temp/cate11.jpg' },
+
+{
+  id: 24,
+  pid: 18,
+  name: '永生花',
+  picture: '/static/temp/cate12.jpg' },
+
+{
+  id: 25,
+  pid: 3,
+  name: '男装' },
+
+{
+  id: 26,
+  pid: 3,
+  name: '女装' },
+
+{
+  id: 27,
+  pid: 25,
+  name: '男士T恤',
+  picture: '/static/temp/cate13.jpg' },
+
+{
+  id: 28,
+  pid: 25,
+  name: '男士外套',
+  picture: '/static/temp/cate14.jpg' },
+
+{
+  id: 29,
+  pid: 26,
+  name: '裙装',
+  picture: '/static/temp/cate15.jpg' },
+
+{
+  id: 30,
+  pid: 26,
+  name: 'T恤',
+  picture: '/static/temp/cate16.jpg' },
+
+{
+  id: 31,
+  pid: 26,
+  name: '上装',
+  picture: '/static/temp/cate15.jpg' },
+
+{
+  id: 32,
+  pid: 26,
+  name: '下装',
+  picture: '/static/temp/cate16.jpg' },
+
+{
+  id: 33,
+  pid: 4,
+  name: '奶粉' },
+
+{
+  id: 34,
+  pid: 4,
+  name: '营养辅食' },
+
+{
+  id: 35,
+  pid: 4,
+  name: '童装' },
+
+{
+  id: 39,
+  pid: 4,
+  name: '喂养用品' },
+
+{
+  id: 36,
+  pid: 33,
+  name: '有机奶粉',
+  picture: '/static/temp/cate17.jpg' },
+
+{
+  id: 37,
+  pid: 34,
+  name: '果泥/果汁',
+  picture: '/static/temp/cate18.jpg' },
+
+{
+  id: 39,
+  pid: 34,
+  name: '面条/粥',
+  picture: '/static/temp/cate20.jpg' },
+
+{
+  id: 42,
+  pid: 35,
+  name: '婴童衣橱',
+  picture: '/static/temp/cate19.jpg' },
+
+{
+  id: 43,
+  pid: 39,
+  name: '吸奶器',
+  picture: '/static/temp/cate21.jpg' },
+
+{
+  id: 44,
+  pid: 39,
+  name: '儿童餐具',
+  picture: '/static/temp/cate22.jpg' },
+
+{
+  id: 45,
+  pid: 39,
+  name: '牙胶安抚',
+  picture: '/static/temp/cate23.jpg' },
+
+{
+  id: 46,
+  pid: 39,
+  name: '围兜',
+  picture: '/static/temp/cate24.jpg' }];var _default =
+
+
+
+{
+  carouselList: carouselList,
+  cartList: cartList,
+  detailData: detailData,
+  lazyLoadList: lazyLoadList,
+  userInfo: userInfo,
+  shareList: shareList,
+  goodsList: goodsList,
+  orderList: orderList,
+  cateList: cateList };exports.default = _default;
+
+/***/ }),
+
+/***/ 135:
+/*!**********************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fnotice%2Fnotice"} ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _notice = _interopRequireDefault(__webpack_require__(/*! ./pages/notice/notice.vue */ 136));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_notice.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 14:
+/*!********************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Findex%2Findex"} ***!
+  \********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ 15));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_index.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 143:
+/*!**************************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fcategory%2Fcategory"} ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _category = _interopRequireDefault(__webpack_require__(/*! ./pages/category/category.vue */ 144));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_category.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 151:
+/*!*********************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fproduct%2Flist"} ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _list = _interopRequireDefault(__webpack_require__(/*! ./pages/product/list.vue */ 152));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_list.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 2:
 /*!******************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
   \******************************************************************************************/
@@ -7906,57 +7978,64 @@ function nextTick$1(vm, cb) {
 /*  */
 
 function cloneWithData(vm) {
-    // 确保当前 vm 所有数据被同步
-    var dataKeys = [].concat(
-        Object.keys(vm._data || {}),
-        Object.keys(vm._computedWatchers || {}));
+  // 确保当前 vm 所有数据被同步
+  var ret = Object.create(null);
+  var dataKeys = [].concat(
+    Object.keys(vm._data || {}),
+    Object.keys(vm._computedWatchers || {}));
 
-    var ret = dataKeys.reduce(function(ret, key) {
-        ret[key] = vm[key];
-        return ret
-    }, Object.create(null));
-    //TODO 需要把无用数据处理掉，比如 list=>l0 则 list 需要移除，否则多传输一份数据
-    Object.assign(ret, vm.$mp.data || {});
-    if (
-        Array.isArray(vm.$options.behaviors) &&
-        vm.$options.behaviors.indexOf('uni://form-field') !== -1
-    ) { //form-field
-        ret['name'] = vm.name;
-        ret['value'] = vm.value;
-    }
-    return JSON.parse(JSON.stringify(ret))
+  dataKeys.reduce(function(ret, key) {
+    ret[key] = vm[key];
+    return ret
+  }, ret);
+  //TODO 需要把无用数据处理掉，比如 list=>l0 则 list 需要移除，否则多传输一份数据
+  Object.assign(ret, vm.$mp.data || {});
+  if (
+    Array.isArray(vm.$options.behaviors) &&
+    vm.$options.behaviors.indexOf('uni://form-field') !== -1
+  ) { //form-field
+    ret['name'] = vm.name;
+    ret['value'] = vm.value;
+  }
+
+  return JSON.parse(JSON.stringify(ret))
 }
 
 var patch = function(oldVnode, vnode) {
-    var this$1 = this;
+  var this$1 = this;
 
-    if (vnode === null) { //destroy
-        return
+  if (vnode === null) { //destroy
+    return
+  }
+  if (this.mpType === 'page' || this.mpType === 'component') {
+    var mpInstance = this.$scope;
+    var data = Object.create(null);
+    try {
+      data = cloneWithData(this);
+    } catch (err) {
+      console.error(err);
     }
-    if (this.mpType === 'page' || this.mpType === 'component') {
-        var mpInstance = this.$scope;
-        var data = cloneWithData(this);
-        data.__webviewId__ = mpInstance.data.__webviewId__;
-        var mpData = Object.create(null);
-        Object.keys(data).forEach(function (key) { //仅同步 data 中有的数据
-            mpData[key] = mpInstance.data[key];
-        });
-        var diffData = diff(data, mpData);
-        if (Object.keys(diffData).length) {
-            if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
-                console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
-                    ']差量更新',
-                    JSON.stringify(diffData));
-            }
-            this.__next_tick_pending = true;
-            mpInstance.setData(diffData, function () {
-                this$1.__next_tick_pending = false;
-                flushCallbacks$1(this$1);
-            });
-        } else {
-            flushCallbacks$1(this);
-        }
+    data.__webviewId__ = mpInstance.data.__webviewId__;
+    var mpData = Object.create(null);
+    Object.keys(data).forEach(function (key) { //仅同步 data 中有的数据
+      mpData[key] = mpInstance.data[key];
+    });
+    var diffData = diff(data, mpData);
+    if (Object.keys(diffData).length) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
+          ']差量更新',
+          JSON.stringify(diffData));
+      }
+      this.__next_tick_pending = true;
+      mpInstance.setData(diffData, function () {
+        this$1.__next_tick_pending = false;
+        flushCallbacks$1(this$1);
+      });
+    } else {
+      flushCallbacks$1(this);
     }
+  }
 };
 
 /*  */
@@ -8102,132 +8181,136 @@ function normalizeStyleBinding (bindingStyle) {
 var MP_METHODS = ['createSelectorQuery', 'createIntersectionObserver', 'selectAllComponents', 'selectComponent'];
 
 function getTarget(obj, path) {
-    var parts = path.split('.');
-    var key = parts[0];
-    if (key.indexOf('__$n') === 0) { //number index
-        key = parseInt(key.replace('__$n', ''));
-    }
-    if (parts.length === 1) {
-        return obj[key]
-    }
-    return getTarget(obj[key], parts.slice(1).join('.'))
+  var parts = path.split('.');
+  var key = parts[0];
+  if (key.indexOf('__$n') === 0) { //number index
+    key = parseInt(key.replace('__$n', ''));
+  }
+  if (parts.length === 1) {
+    return obj[key]
+  }
+  return getTarget(obj[key], parts.slice(1).join('.'))
 }
 
 function internalMixin(Vue) {
 
-    var oldEmit = Vue.prototype.$emit;
+  Vue.config.errorHandler = function(err) {
+    console.error(err);
+  };
 
-    Vue.prototype.$emit = function(event) {
-        if (this.$scope && event) {
-            this.$scope['triggerEvent'](event, {
-                __args__: toArray(arguments, 1)
-            });
-        }
-        return oldEmit.apply(this, arguments)
+  var oldEmit = Vue.prototype.$emit;
+
+  Vue.prototype.$emit = function(event) {
+    if (this.$scope && event) {
+      this.$scope['triggerEvent'](event, {
+        __args__: toArray(arguments, 1)
+      });
+    }
+    return oldEmit.apply(this, arguments)
+  };
+
+  Vue.prototype.$nextTick = function(fn) {
+    return nextTick$1(this, fn)
+  };
+
+  MP_METHODS.forEach(function (method) {
+    Vue.prototype[method] = function(args) {
+      if (this.$scope) {
+        return this.$scope[method](args)
+      }
     };
+  });
 
-    Vue.prototype.$nextTick = function(fn) {
-        return nextTick$1(this, fn)
-    };
+  Vue.prototype.__init_provide = initProvide;
 
-    MP_METHODS.forEach(function (method) {
-        Vue.prototype[method] = function(args) {
-            if (this.$scope) {
-                return this.$scope[method](args)
-            }
-        };
-    });
+  Vue.prototype.__init_injections = initInjections;
 
-    Vue.prototype.__init_provide = initProvide;
+  Vue.prototype.__call_hook = function(hook, args) {
+    var vm = this;
+    // #7573 disable dep collection when invoking lifecycle hooks
+    pushTarget();
+    var handlers = vm.$options[hook];
+    var info = hook + " hook";
+    var ret;
+    if (handlers) {
+      for (var i = 0, j = handlers.length; i < j; i++) {
+        ret = invokeWithErrorHandling(handlers[i], vm, args ? [args] : null, vm, info);
+      }
+    }
+    if (vm._hasHookEvent) {
+      vm.$emit('hook:' + hook);
+    }
+    popTarget();
+    return ret
+  };
 
-    Vue.prototype.__init_injections = initInjections;
+  Vue.prototype.__set_model = function(target, key, value, modifiers) {
+    if (Array.isArray(modifiers)) {
+      if (modifiers.indexOf('trim') !== -1) {
+        value = value.trim();
+      }
+      if (modifiers.indexOf('number') !== -1) {
+        value = this._n(value);
+      }
+    }
+    if (!target) {
+      target = this;
+    }
+    target[key] = value;
+  };
 
-    Vue.prototype.__call_hook = function(hook, args) {
-        var vm = this;
-        // #7573 disable dep collection when invoking lifecycle hooks
-        pushTarget();
-        var handlers = vm.$options[hook];
-        var info = hook + " hook";
-        var ret;
-        if (handlers) {
-            for (var i = 0, j = handlers.length; i < j; i++) {
-                ret = invokeWithErrorHandling(handlers[i], vm, args ? [args] : null, vm, info);
-            }
-        }
-        if (vm._hasHookEvent) {
-            vm.$emit('hook:' + hook);
-        }
-        popTarget();
-        return ret
-    };
+  Vue.prototype.__set_sync = function(target, key, value) {
+    if (!target) {
+      target = this;
+    }
+    target[key] = value;
+  };
 
-    Vue.prototype.__set_model = function(target, key, value, modifiers) {
-        if (Array.isArray(modifiers)) {
-            if (modifiers.indexOf('trim') !== -1) {
-                value = value.trim();
-            }
-            if (modifiers.indexOf('number') !== -1) {
-                value = this._n(value);
-            }
-        }
-        if (!target) {
-            target = this;
-        }
-        target[key] = value;
-    };
+  Vue.prototype.__get_orig = function(item) {
+    if (isPlainObject(item)) {
+      return item['$orig'] || item
+    }
+    return item
+  };
 
-    Vue.prototype.__set_sync = function(target, key, value) {
-        if (!target) {
-            target = this;
-        }
-        target[key] = value;
-    };
-
-    Vue.prototype.__get_orig = function(item) {
-        if (isPlainObject(item)) {
-            return item['$orig'] || item
-        }
-        return item
-    };
-
-    Vue.prototype.__get_value = function(dataPath, target) {
-        return getTarget(target || this, dataPath)
-    };
+  Vue.prototype.__get_value = function(dataPath, target) {
+    return getTarget(target || this, dataPath)
+  };
 
 
-    Vue.prototype.__get_class = function(dynamicClass, staticClass) {
-        return renderClass(staticClass, dynamicClass)
-    };
+  Vue.prototype.__get_class = function(dynamicClass, staticClass) {
+    return renderClass(staticClass, dynamicClass)
+  };
 
-    Vue.prototype.__get_style = function(dynamicStyle, staticStyle) {
-        if (!dynamicStyle && !staticStyle) {
-            return ''
-        }
-        var dynamicStyleObj = normalizeStyleBinding(dynamicStyle);
-        var styleObj = staticStyle ? extend(staticStyle, dynamicStyleObj) : dynamicStyleObj;
-        return Object.keys(styleObj).map(function (name) { return ((hyphenate(name)) + ":" + (styleObj[name])); }).join(';')
-    };
+  Vue.prototype.__get_style = function(dynamicStyle, staticStyle) {
+    if (!dynamicStyle && !staticStyle) {
+      return ''
+    }
+    var dynamicStyleObj = normalizeStyleBinding(dynamicStyle);
+    var styleObj = staticStyle ? extend(staticStyle, dynamicStyleObj) : dynamicStyleObj;
+    return Object.keys(styleObj).map(function (name) { return ((hyphenate(name)) + ":" + (styleObj[name])); }).join(';')
+  };
 
-    Vue.prototype.__map = function(val, iteratee) {
-        //TODO 暂不考虑 string,number
-        var ret, i, l, keys, key;
-        if (Array.isArray(val)) {
-            ret = new Array(val.length);
-            for (i = 0, l = val.length; i < l; i++) {
-                ret[i] = iteratee(val[i], i);
-            }
-            return ret
-        } else if (isObject(val)) {
-            keys = Object.keys(val);
-            ret = Object.create(null);
-            for (i = 0, l = keys.length; i < l; i++) {
-                key = keys[i];
-                ret[key] = iteratee(val[key], key, i);
-            }
-            return ret
-        }
-        return []
-    };
+  Vue.prototype.__map = function(val, iteratee) {
+    //TODO 暂不考虑 string,number
+    var ret, i, l, keys, key;
+    if (Array.isArray(val)) {
+      ret = new Array(val.length);
+      for (i = 0, l = val.length; i < l; i++) {
+        ret[i] = iteratee(val[i], i);
+      }
+      return ret
+    } else if (isObject(val)) {
+      keys = Object.keys(val);
+      ret = Object.create(null);
+      for (i = 0, l = keys.length; i < l; i++) {
+        key = keys[i];
+        ret[key] = iteratee(val[key], key, i);
+      }
+      return ret
+    }
+    return []
+  };
 
 }
 
@@ -8312,11 +8395,23 @@ internalMixin(Vue);
 
 /* harmony default export */ __webpack_exports__["default"] = (Vue);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
 
 /***/ }),
 
-/***/ "./node_modules/regenerator-runtime/runtime-module.js":
+/***/ 20:
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ 21);
+
+
+/***/ }),
+
+/***/ 21:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -8347,7 +8442,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ "./node_modules/regenerator-runtime/runtime.js");
+module.exports = __webpack_require__(/*! ./runtime */ 22);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -8364,7 +8459,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ "./node_modules/regenerator-runtime/runtime.js":
+/***/ 22:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -9096,114 +9191,182 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 25:
+/*!************************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fproduct%2Fproduct"} ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _product = _interopRequireDefault(__webpack_require__(/*! ./pages/product/product.vue */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_product.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode /* vue-cli only */
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
+/***/ }),
 
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
+/***/ 3:
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
+var g;
 
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
 
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
 }
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
 
 
 /***/ }),
 
-/***/ "./node_modules/vuex/dist/vuex.esm.js":
+/***/ 33:
+/*!****************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fset%2Fset"} ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _set = _interopRequireDefault(__webpack_require__(/*! ./pages/set/set.vue */ 34));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_set.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 4:
+/*!**************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/pages.json ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/***/ }),
+
+/***/ 41:
+/*!**************************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuserinfo%2Fuserinfo"} ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _userinfo = _interopRequireDefault(__webpack_require__(/*! ./pages/userinfo/userinfo.vue */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_userinfo.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 49:
+/*!******************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fcart%2Fcart"} ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _cart = _interopRequireDefault(__webpack_require__(/*! ./pages/cart/cart.vue */ 50));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_cart.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 5:
+/*!******************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/store/index.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 6));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+_vue.default.use(_vuex.default);
+
+var store = new _vuex.default.Store({
+  state: {
+    hasLogin: false,
+    userInfo: {} },
+
+  mutations: {
+    login: function login(state, provider) {
+
+      state.hasLogin = true;
+      state.userInfo = provider;
+      uni.setStorage({ //缓存用户登陆状态
+        key: 'userInfo',
+        data: provider });
+
+      console.log(state.userInfo);
+    },
+    logout: function logout(state) {
+      state.hasLogin = false;
+      state.userInfo = {};
+      uni.removeStorage({
+        key: 'userInfo' });
+
+    } },
+
+  actions: {} });var _default =
+
+
+
+
+store;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 57:
+/*!*********************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fpublic%2Flogin"} ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _login = _interopRequireDefault(__webpack_require__(/*! ./pages/public/login.vue */ 58));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_login.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 6:
 /*!********************************************!*\
   !*** ./node_modules/vuex/dist/vuex.esm.js ***!
   \********************************************/
@@ -10154,34 +10317,88 @@ var index_esm = {
 
 /***/ }),
 
-/***/ "./node_modules/webpack/buildin/global.js":
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
+/***/ 65:
+/*!******************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuser%2Fuser"} ***!
+  \******************************************************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-var g;
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _user = _interopRequireDefault(__webpack_require__(/*! ./pages/user/user.vue */ 66));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_user.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
+/***/ }),
 
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
+/***/ 73:
+/*!**********************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fdetail%2Fdetail"} ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = g;
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/detail/detail.vue */ 74));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_detail.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 81:
+/*!********************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Forder%2Forder"} ***!
+  \********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _order = _interopRequireDefault(__webpack_require__(/*! ./pages/order/order.vue */ 82));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_order.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 89:
+/*!********************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmoney%2Fmoney"} ***!
+  \********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _money = _interopRequireDefault(__webpack_require__(/*! ./pages/money/money.vue */ 90));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_money.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 95:
+/*!**************************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Forder%2FcreateOrder"} ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _createOrder = _interopRequireDefault(__webpack_require__(/*! ./pages/order/createOrder.vue */ 96));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_createOrder.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ })
 
