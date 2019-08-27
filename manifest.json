@@ -60,5 +60,12 @@
         "setting" : {
             "urlCheck" : true
         }
+    },
+    "h5" : {
+        "title" : "优惠券",
+        "router" : {
+            "mode" : "history"
+        },
+        "template" : "template.h5.html"
     }
 }
