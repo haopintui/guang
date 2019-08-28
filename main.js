@@ -2,6 +2,8 @@ import Vue from 'vue'
 import store from './store'
 import App from './App'
 
+import { http } from '@/js_sdk/luch-request/index.js' // 全局挂载引入，配置相关在该index.js文件里修改
+
 import Json from './Json' //测试用数据
 /**
  *  因工具函数属于公司资产, 所以直接在Vue实例挂载几个常用的函数
@@ -40,8 +42,8 @@ const prePage = ()=>{
 	return prePage.$vm;
 }
 
-
 Vue.config.productionTip = false
+Vue.prototype.$http = http
 Vue.prototype.$fire = new Vue();
 Vue.prototype.$store = store;
 Vue.prototype.$api = {msg, json, prePage};

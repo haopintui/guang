@@ -64,8 +64,10 @@
     "h5" : {
         "title" : "优惠券",
         "router" : {
-            "mode" : "history"
+            "mode" : "hash",
+            "base" : "/"
         },
-        "template" : "template.h5.html"
+        "template" : "template.h5.html",
+        "publicPath" : "https://static.cdn.youdanhui.com/h5"
     }
 }

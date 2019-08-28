@@ -3,55 +3,10 @@
 		<!-- 小程序头部兼容 -->
 		<!-- #ifdef MP -->
 		<view class="mp-search-box">
-			<input class="ser-input" type="text" value="输入关键字搜索" disabled />
+			<input class="ser-input" type="text" value="粘贴商品或宝贝标题,搜索隐藏优惠券" disabled />
 		</view>
 		<!-- #endif -->
-		
-		<!-- 头部轮播 -->
-		<view class="carousel-section">
-			<!-- 标题栏和状态栏占位符 -->
-			<view class="titleNview-placing"></view>
-			<!-- 背景色区域 -->
-			<view class="titleNview-background" :style="{backgroundColor:titleNViewBackground}"></view>
-			<swiper class="carousel" circular @change="swiperChange">
-				<swiper-item v-for="(item, index) in carouselList" :key="index" class="carousel-item" @click="navToDetailPage({title: '轮播广告'})">
-					<image :src="item.src" />
-				</swiper-item>
-			</swiper>
-			<!-- 自定义swiper指示器 -->
-			<view class="swiper-dots">
-				<text class="num">{{swiperCurrent+1}}</text>
-				<text class="sign">/</text>
-				<text class="num">{{swiperLength}}</text>
-			</view>
-		</view>
-		<!-- 分类 -->
-		<view class="cate-section">
-			<view class="cate-item">
-				<image src="/static/temp/c3.png"></image>
-				<text>环球美食</text>
-			</view>
-			<view class="cate-item">
-				<image src="/static/temp/c5.png"></image>
-				<text>个护美妆</text>
-			</view>
-			<view class="cate-item">
-				<image src="/static/temp/c6.png"></image>
-				<text>营养保健</text>
-			</view>
-			<view class="cate-item">
-				<image src="/static/temp/c7.png"></image>
-				<text>家居厨卫</text>
-			</view>
-			<view class="cate-item">
-				<image src="/static/temp/c8.png"></image>
-				<text>速食生鲜</text>
-			</view>
-		</view>
-		
-		<view class="ad-1">
-			<image src="/static/temp/ad1.jpg" mode="scaleToFill"></image>
-		</view>
+		<component-item v-for="(item, index) in components" :item-data="item" :key="index" ></component-item>
 		
 		<!-- 秒杀楼层 -->
 		<view class="seckill-section m-t">
@@ -223,39 +178,50 @@
 		</view>
 		
 		<view class="guess-section">
-			<view 
-				v-for="(item, index) in goodsList" :key="index"
+			<view
+				v-for="(item, index) in items" :key="index"
 				class="guess-item"
 				@click="navToDetailPage(item)"
 			>
 				<view class="image-wrapper">
-					<image :src="item.image" mode="aspectFill"></image>
+					<image :src="item.goods.pic_url" mode="aspectFill"></image>
 				</view>
-				<text class="title clamp">{{item.title}}</text>
-				<text class="price">￥{{item.price}}</text>
+				<text class="title clamp">{{item.goods.title}}</text>
+				<text class="price">￥{{item.price.price}}</text>
 			</view>
 		</view>
-		
-
 	</view>
 </template>
 
 <script>
-
+	import componentItem from '@/components/model/components/index';
 	export default {
-
+		components: {
+			componentItem
+		},
 		data() {
 			return {
 				titleNViewBackground: '',
 				swiperCurrent: 0,
 				swiperLength: 0,
 				carouselList: [],
-				goodsList: []
+				goodsList: [],
+				components:[],
+				items:[],
+				query_goods_url:'',
+				page:{
+					ipage:0,
+					hasGoods:1,
+				}
 			};
 		},
-
 		onLoad() {
 			this.loadData();
+			this.query();
+			// this.query_items();
+		},
+		onReachBottom(){
+			this.queryItems();
 		},
 		methods: {
 			/**
@@ -284,6 +250,42 @@
 				uni.navigateTo({
 					url: `/pages/product/product?id=${id}`
 				})
+			},
+			// query_items() {
+			// 	console.log('url:'+this.query_goods_url);
+			// 	// this.$http.post(this.query_goods_url, {}).then(res => {
+			// 	// 	console.log(res)
+			// 	// }).catch(err => {});
+			// },
+			queryItems() {
+				console.log('url:'+this.query_goods_url);
+				if(!this.query_goods_url||this.page.hasGoods==0){
+					return;
+				}
+				this.page.ipage = this.page.ipage+1;
+				this.$http.post(this.query_goods_url, {ipage:this.page.ipage}).then(res => {
+					if(res.data.items&&res.data.items){
+						this.items.push(
+						...res.data.items
+						);
+					}else{
+						this.page.hasGoods = 0;
+					}
+					console.log(res)
+				}).catch(err => {});
+			},
+			query() {
+				this.$http.post('/app/page/home', {page_id:'youdanhui'}).then(res => {
+					if(res.data.components&&res.data.components){
+						this.components.push(
+						...res.data.components
+						);
+					}
+					if(res.data.items&&res.data.items.url){
+						this.query_goods_url = res.data.items.url;
+						this.queryItems();
+					}
+				}).catch(err => {});
 			},
 		},
 		// #ifndef MP
