@@ -28,6 +28,7 @@
 	import float from '@/components/model/components/float';
 	import goods from '@/components/model/components/goods';
 	import report from '@/components/model/components/report';
+	
 	export default {
 		components: {
 			agent,

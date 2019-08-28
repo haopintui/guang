@@ -300,10 +300,6 @@
 	content: "\e617";
 }
 
-
-
-
-
 view,
 scroll-view,
 swiper,
@@ -329,6 +325,7 @@ camera,
 image,
 video {
 	box-sizing: border-box;
+	font-family: PingFangSC-Medium;
 }
 /* 骨架屏替代方案 */
 .Skeleton {

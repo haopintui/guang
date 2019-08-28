@@ -7,27 +7,27 @@
 		<view class="line"></view>
 		<view class="tj-sction">
 			<view class="tj-item">
-				<text class="num">0</text>
-				<text>积分奖励（g个）</text>
+				<text class="num">{{itemData.money_total}}</text>
+				<text>累计奖励奖励（g个）</text>
 			</view>
 			<view class="tj-item">
-				<text class="num">20</text>
+				<text class="num">{{itemData.orders}}</text>
 				<text>奖励订单(笔)</text>
 			</view>
 		</view>
 		<view class="line"></view>
 		<view class="tj-sction">
 			<view class="tj-item">
-				<text class="num">128.8</text>
-				<text>累计奖励（元）</text>
+				<text class="num">{{itemData.today_money}}</text>
+				<text>今日奖励（元）</text>
 			</view>
 			<view class="tj-item">
-				<text class="num">0</text>
-				<text>积分奖励（g个）</text>
+				<text class="num">{{itemData.today_orders}}</text>
+				<text>今日成交（笔）</text>
 			</view>
 			<view class="tj-item">
-				<text class="num">20</text>
-				<text>奖励订单(笔)</text>
+				<text class="num">{{itemData.today_money_available}}</text>
+				<text>今日结算(元)</text>
 			</view>
 		</view>
 	</view>

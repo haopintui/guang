@@ -5,9 +5,9 @@
 		<view class="right-top-sign"></view>
 		<!-- 设置白色背景防止软键盘把下部绝对定位元素顶上来盖住输入框等 -->
 		<view class="wrapper">
-			<view class="left-top-sign">LOGIN</view>
+			<view class="left-top-sign">REGISTER</view>
 			<view class="welcome">
-				欢迎回来！
+				注册账号
 			</view>
 			<view class="input-content">
 				<view class="input-item">
@@ -36,22 +36,13 @@
 					/>
 				</view>
 			</view>
-			<button class="confirm-btn" @click="toLogin" :disabled="logining">登录</button>
-			<view class="forget-section">
-				忘记密码?
-			</view>
-		</view>
-		<view class="register-section">
-			还没有账号?
-			<text @click="toRegist">马上注册</text>
+			<button class="confirm-btn" @click="toLogin" :disabled="logining">注册</button>
 		</view>
 	</view>
 </template>
 
 <script>
-	import {  
-        mapMutations  
-    } from 'vuex';
+	import { mapMutations } from 'vuex';
 	
 	export default{
 		data(){
@@ -73,16 +64,10 @@
 			navBack(){
 				uni.navigateBack();
 			},
-			toRegist(){
-				uni.redirectTo({
-					url: '/pages/public/register'
-				})
-			},
 			async toLogin(){
 				this.logining = true;
 				const {mobile, password} = this;
-				
-				this.$http.post('/cms/token/login', {username:mobile,password:password}).then(res => {
+				this.$http.post('/cms/register/get_token', {user_name:mobile,passwd:password}).then(res => {
 					if(res.data.token){
 						this.setToken(res.data.token);
 						uni.navigateBack();
@@ -92,7 +77,6 @@
 						this.logining = false;
 					}
 				}).catch(err => {});
-				
 			}
 		},
 

@@ -2,21 +2,24 @@
 	<view class="user-section">
 		<view class="bg"></view>
 		<view class="user-info-box">
-			<view class="portrait-box">
-				<image class="portrait" :src="itemData.portrait || '/static/missing-face.png'"></image>
+			<view class="portrait-box" @click="navTo('/pages/set/set')">
+				<image class="portrait" :src="userInfo.img_url || 'https://img.youdanhui.cn/cms_img/2019-08-28/5d663304b1244.png'"></image>
 			</view>
-			<view class="info-box">
-				<text class="username">{{itemData.nickname || '吴哥'}}</text>
-				<text class="invite-code">邀请码: {{itemData.nickname || '1111111'}}</text>
+			<view class="info-box" v-if="hasLogin">
+				<text class="username">{{userInfo.user_name || ''}}</text>
+				<text class="invite-code">邀请码: {{itemData.invite_code || ''}} (复制)</text>
+			</view>
+			<view class="info-box" v-else>
+				<text class="username">登陆</text>
 			</view>
 		</view>
 		<view class="vip-card-box">
 			<view class="vip-card-btn">
 				<view class="vip-card-content">
 					<text class="yticon icon-iLinkapp-"></text>
-					可提现: 1000元
+					余额: {{itemData.money}}元
 				</view>
-				<view class="b-btn">
+				<view class="b-btn" @click="navTo('/pages/user/payment')">
 					提现
 				</view>
 			</view>
@@ -27,6 +30,7 @@
 </template>
 
 <script>
+    import { mapState ,mapMutations } from 'vuex'; 
 	export default {
 		props:{
 			itemData:{
@@ -38,8 +42,18 @@
 				
 			}
 		},
+        computed: {
+			...mapState(['hasLogin','userInfo'])
+		},
 		methods: {
-			
+			navTo(url) {
+				if(!this.hasLogin){
+					url = '/pages/public/login';
+				}
+				uni.navigateTo({
+					url:url
+				})
+			},
 			
 		}
 	}

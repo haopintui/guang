@@ -1,21 +1,18 @@
 <template>
 	<view class="tj-sction">
 		<view class="tj-item">
-			<text class="num">128.8</text>
+			<text class="num">{{itemData.money_total}}</text>
 			<text>累计奖励（元）</text>
 		</view>
 		<view class="tj-item">
-			<text class="num">0</text>
-			<text>积分奖励（g个）</text>
+			<text class="num">{{itemData.points_available}}</text>
+			<text>积分奖励（个）</text>
 		</view>
 		<view class="tj-item">
-			<text class="num">20</text>
+			<text class="num">{{itemData.orders}}</text>
 			<text>奖励订单(笔)</text>
 		</view>
 	</view>
-	<!-- <view>
-		<image class="arc" src="/static/arc.png"></image>
-	</view> -->
 </template>
 
 <script>

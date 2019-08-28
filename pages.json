@@ -1,40 +1,25 @@
 {
 	"pages": [
-
 		{
 			"path": "pages/index/index",
 			"style": {
 				// #ifdef MP 
-				"navigationBarTitleText": "Dloud商城",
+				"navigationBarTitleText": "首页",
 				//"navigationStyle": "custom",
 				// #endif 
 				"app-plus": {
 					"titleNView": {
 						"type": "transparent",
+						"backgroundColor": "#fe3a33",
 						"searchInput": {
-							"backgroundColor": "rgba(231, 231, 231,.7)",
+							"backgroundColor": "#fff",
 							"borderRadius": "16px",
 							"placeholder": "粘贴商品或宝贝标题,搜索隐藏优惠券",
 							"disabled": true,
-							"placeholderColor": "#606266"
+							"placeholderColor": "#999",
+							"fontSize": "24"
 						},
-						"buttons": [{
-								"fontSrc": "/static/yticon.ttf",
-								"text": "\ue60d",
-								"fontSize": "26",
-								"color": "#303133",
-								"float": "left",
-								"background": "rgba(0,0,0,0)"
-							},
-							{
-								"fontSrc": "/static/yticon.ttf",
-								"text": "\ue744",
-								"fontSize": "27",
-								"color": "#303133",
-								"background": "rgba(0,0,0,0)",
-								"redDot": true
-							}
-						]
+						"buttons": []
 					}
 				}
 			}
@@ -49,7 +34,8 @@
 					}
 				}
 			}
-		}, {
+		}, 
+		{
 			"path": "pages/set/set",
 			"style": {
 				"navigationBarTitleText": "设置"
@@ -66,7 +52,8 @@
 			"style": {
 				"navigationBarTitleText": "购物车"
 			}
-		}, {
+		}, 
+		{
 			"path": "pages/public/login",
 			"style": {
 				"navigationBarTitleText": "",
@@ -76,7 +63,19 @@
 					"animationType": "slide-in-bottom"
 				}
 			}
-		}, {
+		},
+		{
+			"path": "pages/public/register",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"animationType": "slide-in-bottom"
+				}
+			}
+		},
+		{
 			"path": "pages/user/user",
 			"style": {
 				"navigationBarTitleText": "我的",
@@ -175,6 +174,37 @@
             "style" : {
 				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "商品列表"
+			}
+        },
+		{
+            "path" : "pages/search/list",
+            "style" : {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "商品列表"
+			}
+        },
+		{
+            "path" : "pages/search/search",
+            "style" : {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "商品列表"
+			}
+        },
+		{
+            "path" : "pages/user/payment",
+            "style": {
+            	"navigationBarTitleText": "提现",
+            	"app-plus": {
+            		"titleNView": {
+            			"type": "transparent"
+            		}
+            	}
+            }
+        }
+        ,{
+            "path" : "pages/set/cash",
+			"style": {
+				"navigationBarTitleText": "设置"
 			}
         }
     ],

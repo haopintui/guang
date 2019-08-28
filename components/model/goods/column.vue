@@ -6,7 +6,16 @@
 			<image :src="itemData.goods.pic_url" mode="aspectFill"></image>
 		</view>
 		<text class="title clamp">{{itemData.goods.title}}</text>
-		<text class="price">￥{{itemData.price.price}}</text>
+		<view class="item-box" v-if="itemData.coupon.coupon_money>0">
+			<view class="coupon-money">￥{{itemData.coupon.coupon_money}}元券</view>
+		</view>
+		<view class="item-box">
+			<text class="coupon-price">券后 ¥<text class="em">{{itemData.price.buy_price}}</text></text>
+		</view>
+		<view class="item-box">
+			<text>{{itemData.goods.user_type_name}} ¥{{itemData.price.buy_price}}</text>
+			<text>已售 {{itemData.goods.volume_str}}</text>
+		</view>
 	</view>
 </template>
 
@@ -37,10 +46,13 @@
 
 <style lang="scss">
 .guess-item{
+	background: #fff;
 	display:flex;
 	flex-direction: column;
 	width: 48%;
-	padding-bottom: 40upx;
+	padding-bottom: 10upx;
+	border-radius:5px;
+	margin:10px 0px;
 	&:nth-child(2n+1){
 		margin-right: 4%;
 	}
@@ -57,13 +69,34 @@
 	}
 }
 .title{
-	font-size: $font-lg;
+	font-size: $font-sm;
 	color: $font-color-dark;
 	line-height: 80upx;
+	// font-weight: 500;
+	padding: 0px 5px;
 }
-.price{
-	font-size: $font-lg;
-	color: $uni-color-primary;
-	line-height: 1;
+.item-box{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	font-size: 24upx;
+	color: #999;
+	padding: 5px 5px;
+	.coupon-money{
+		font-size: $font-sm;
+		color: $uni-color-primary;
+		line-height: 1;
+		padding: 5px 10px;
+		background: linear-gradient(90deg,#ff8873 0,#ff4f4f 100%);
+		color: #FFF;
+		border-radius: 3px;
+	}
+	.coupon-price{
+		color: $uni-color-primary;
+		.em{
+			font-weight: 500;
+			font-size: 32upx;
+		}
+	}
 }
 </style>

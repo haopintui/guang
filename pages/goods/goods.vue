@@ -94,7 +94,7 @@
 				<text class="yticon icon-xiatubiao--copy"></text>
 				<text>首页</text>
 			</navigator>
-			<navigator url="/pa<!-- ges/cart/cart" open-type="switchTab" class="p-b-btn">
+			<!-- <navigator url="/pa<!-- ges/cart/cart" open-type="switchTab" class="p-b-btn">
 				<text class="yticon icon-gouwuche"></text>
 				<text>购物车</text>
 			</navigator> -->
@@ -167,7 +167,9 @@
 		},
 		data() {
 			return {
+				id:'',
 				goods:{},
+				click:{},
 				specClass: 'none',
 				specSelected:[],
 				
@@ -258,6 +260,7 @@
 			let id = options.id;
 			if(id){
 				this.$api.msg(`点击了${id}`);
+				this.id = id;
 				this.query_detail(id);
 			}
 			
@@ -319,14 +322,29 @@
 				this.favorite = !this.favorite;
 			},
 			buy(){
-				uni.navigateTo({
-					url: `/pages/order/createOrder`
-				})
+				// uni.navigateTo({
+				// 	url: `/pages/order/createOrder`
+				// })
+				if(!this.click.click_url){
+					this.query_click(this.id,true);
+				}else{
+					window.location.href = this.click.click_url;
+				}
 			},
 			query_detail(id){
 				this.$http.post('/cms/goods/view', {num_iid:id}).then(res => {
 					if(res.data.item&&res.data.item){
 						this.goods = res.data.item;
+					}
+				}).catch(err => {});
+			},
+			query_click(id,auto){
+				this.$http.post('/cms/goods/click', {num_iid:id}).then(res => {
+					if(res.data.click&&res.data.click){
+						this.click = res.data.click;
+						if(auto){
+							this.buy();
+						}
 					}
 				}).catch(err => {});
 			},

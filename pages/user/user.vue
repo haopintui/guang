@@ -1,8 +1,6 @@
 <template>  
     <view class="container">  
-		
 		<uheader v-for="(item, index) in components" v-if="item.type=='header'" :item-data="item.data" :key="index"></uheader>
-		
 		<view 
 			class="cover-container"
 			:style="[{
@@ -21,9 +19,7 @@
 	import listCell from '@/components/mix-list-cell';
 	import componentItem from '@/components/model/components/index';
 	import uheader from '@/components/model/components/header';
-    import {  
-        mapState 
-    } from 'vuex'; 
+    import { mapState ,mapMutations } from 'vuex'; 
 	 
 	let startY = 0, moveY = 0, pageAtTop = true;
 	
@@ -43,7 +39,30 @@
 		},
 		onLoad(){
 			this.query();
+			this.query_info();
+			uni.$on('info',function(data){
+				// console.log('监听到事件来自 update ，携带参数 msg 为：' + data.msg);
+				// this.query_info();
+				// this.query();
+				this.$http.post('/app/page/member', {}).then(res => {
+					if(res.data.components&&res.data.components){
+						this.components.push(
+						...res.data.components
+						);
+					}
+				}).catch(err => {});
+				this.$http.post('/cms/member/info/getinfo', {}).then(res => {
+					if(res.data.user&&res.data.user.id){
+						this.login(res.data.user);
+					}
+				}).catch(err => {});
+			})
 		},
+		 
+		onUnload() {  
+			// 移除监听事件  
+			uni.$off('info');  
+		},  
 		// #ifndef MP
 		onNavigationBarButtonTap(e) {
 			const index = e.index;
@@ -68,6 +87,7 @@
 			...mapState(['hasLogin','userInfo'])
 		},
         methods: {
+			...mapMutations(['login']),
 			query() {
 				this.$http.post('/app/page/member', {}).then(res => {
 					if(res.data.components&&res.data.components){
@@ -127,7 +147,14 @@
 				this.moving = false;
 				this.coverTransition = 'transform 0.3s cubic-bezier(.21,1.93,.53,.64)';
 				this.coverTransform = 'translateY(0px)';
-			}
+			},
+			query_info() {
+				this.$http.post('/cms/member/info/getinfo', {}).then(res => {
+					if(res.data.user&&res.data.user.id){
+						this.login(res.data.user);
+					}
+				}).catch(err => {});
+			},
         }  
     }  
 </script>  
