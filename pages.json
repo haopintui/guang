@@ -40,7 +40,7 @@
 			}
 		},
 		{
-			"path": "pages/product/product",
+			"path": "pages/goods/goods",
 			"style": {
 				"navigationBarTitleText": "详情展示",
 				"app-plus": {

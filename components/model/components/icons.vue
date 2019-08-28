@@ -56,8 +56,8 @@
 	}
 	/* 原图标颜色太深,不想改图了,所以加了透明度 */
 	image {
-		width: 60upx;
-		height: 60upx;
+		width: 88upx;
+		height: 88upx;
 		margin-bottom: 14upx;
 		// border-radius: 50%;
 		// opacity: .7;

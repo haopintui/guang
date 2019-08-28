@@ -1,11 +1,11 @@
 <template>
-	<view class="container">
+	<view class="container" v-if="goods.goods">
 		<view class="carousel">
 			<swiper indicator-dots circular=true duration="400">
-				<swiper-item class="swiper-item" v-for="(item,index) in imgList" :key="index">
+				<swiper-item class="swiper-item" v-for="(item,index) in goods.goods.pic_list" :key="index">
 					<view class="image-wrapper">
 						<image
-							:src="item.src" 
+							:src="item" 
 							class="loaded" 
 							mode="aspectFill"
 						></image>
@@ -15,17 +15,15 @@
 		</view>
 		
 		<view class="introduce-section">
-			<text class="title">恒源祥2019春季长袖白色t恤 新款春装</text>
+			<text class="title">{{goods.goods.title}}</text>
 			<view class="price-box">
 				<text class="price-tip">¥</text>
-				<text class="price">341.6</text>
-				<text class="m-price">¥488</text>
+				<text class="price">{{goods.price.buy_price}}</text>
+				<text class="m-price">¥{{goods.price.price}}</text>
 				<text class="coupon-tip">7折</text>
 			</view>
 			<view class="bot-row">
-				<text>销量: 108</text>
-				<text>库存: 4690</text>
-				<text>浏览量: 768</text>
+				<text>销量: {{goods.goods.volume}}</text>
 			</view>
 		</view>
 		
@@ -35,7 +33,7 @@
 				<text class="yticon icon-xingxing"></text>
 				 返
 			</view>
-			<text class="tit">该商品分享可领49减10红包</text>
+			<text class="tit">该商品下单后返{{goods.click.share_commission}}</text>
 			<text class="yticon icon-bangzhu1"></text>
 			<view class="share-btn">
 				立即分享
@@ -45,40 +43,21 @@
 		</view>
 		
 		<view class="c-list">
-			<view class="c-row b-b" @click="toggleSpec">
-				<text class="tit">购买类型</text>
-				<view class="con">
-					<text class="selected-text" v-for="(sItem, sIndex) in specSelected" :key="sIndex">
-						{{sItem.name}}
-					</text>
-				</view>
-				<text class="yticon icon-you"></text>
-			</view>
 			<view class="c-row b-b">
 				<text class="tit">优惠券</text>
-				<text class="con t-r red">领取优惠券</text>
+				<text class="con t-r red">{{goods.coupon.coupon_money}}元优惠券</text>
 				<text class="yticon icon-you"></text>
 			</view>
-			<view class="c-row b-b">
+			<!-- <view class="c-row b-b">
 				<text class="tit">促销活动</text>
 				<view class="con-list">
 					<text>新人首单送20元无门槛代金券</text>
-					<text>订单满50减10</text>
-					<text>订单满100减30</text>
-					<text>单笔购买满两件免邮费</text>
 				</view>
-			</view>
-			<view class="c-row b-b">
-				<text class="tit">服务</text>
-				<view class="bz-list con">
-					<text>7天无理由退换货 ·</text>
-					<text>假一赔十 ·</text>
-				</view>
-			</view>
+			</view> -->
 		</view>
 		
 		<!-- 评价 -->
-		<view class="eva-section">
+		<!-- <view class="eva-section">
 			<view class="e-header">
 				<text class="tit">评价</text>
 				<text>(86)</text>
@@ -96,13 +75,17 @@
 					</view>
 				</view>
 			</view>
-		</view>
+		</view> -->
 		
 		<view class="detail-desc">
 			<view class="d-header">
 				<text>图文详情</text>
 			</view>
-			<rich-text :nodes="desc"></rich-text>
+			<!-- <rich-text :nodes="desc"></rich-text> -->
+			<image  v-for="(item,index) in goods.goods.images" :key="index"
+				:src="item" 
+				mode="widthFix"
+			></image>
 		</view>
 		
 		<!-- 底部操作菜单 -->
@@ -111,19 +94,19 @@
 				<text class="yticon icon-xiatubiao--copy"></text>
 				<text>首页</text>
 			</navigator>
-			<navigator url="/pages/cart/cart" open-type="switchTab" class="p-b-btn">
+			<navigator url="/pa<!-- ges/cart/cart" open-type="switchTab" class="p-b-btn">
 				<text class="yticon icon-gouwuche"></text>
 				<text>购物车</text>
-			</navigator>
+			</navigator> -->
 			<view class="p-b-btn" :class="{active: favorite}" @click="toFavorite">
 				<text class="yticon icon-shoucang"></text>
 				<text>收藏</text>
 			</view>
 			
 			<view class="action-btn-group">
-				<button type="primary" class=" action-btn no-border buy-now-btn" @click="buy">立即购买</button>
-				<button type="primary" class=" action-btn no-border add-cart-btn">加入购物车</button>
-			</view>
+				<button type="primary" class=" action-btn no-border buy-now-btn" @click="buy">领券购买</button>
+<!-- 				<button type="primary" class=" action-btn no-border add-cart-btn">加入购物车</button>
+ -->			</view>
 		</view>
 		
 		
@@ -184,6 +167,7 @@
 		},
 		data() {
 			return {
+				goods:{},
 				specClass: 'none',
 				specSelected:[],
 				
@@ -274,6 +258,7 @@
 			let id = options.id;
 			if(id){
 				this.$api.msg(`点击了${id}`);
+				this.query_detail(id);
 			}
 			
 			
@@ -337,6 +322,13 @@
 				uni.navigateTo({
 					url: `/pages/order/createOrder`
 				})
+			},
+			query_detail(id){
+				this.$http.post('/cms/goods/view', {num_iid:id}).then(res => {
+					if(res.data.item&&res.data.item){
+						this.goods = res.data.item;
+					}
+				}).catch(err => {});
 			},
 			stopPrevent(){}
 		},
