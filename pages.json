@@ -14,7 +14,7 @@
 						"searchInput": {
 							"backgroundColor": "rgba(231, 231, 231,.7)",
 							"borderRadius": "16px",
-							"placeholder": "请输入地址 如：大钟寺",
+							"placeholder": "粘贴商品或宝贝标题,搜索隐藏优惠券",
 							"disabled": true,
 							"placeholderColor": "#606266"
 						},
@@ -171,7 +171,7 @@
 			}
         }
         ,{
-            "path" : "pages/product/list",
+            "path" : "pages/goods/list",
             "style" : {
 				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "商品列表"

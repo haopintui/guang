@@ -6,7 +6,7 @@
 		<uheader v-else-if="itemData.type=='header'" :item-data="itemData.data"></uheader>
 		<icons v-else-if="itemData.type=='icons'" :item-data="itemData.data"></icons>
 		<menus v-else-if="itemData.type=='menus'" :item-data="itemData.data"></menus>
-		<slide-rows v-else-if="itemData.type=='silide_rows'" :item-data="itemData.data"></slide-rows>
+		<slide-rows v-else-if="itemData.type=='slide_rows'" :item-data="itemData.data"></slide-rows>
 		<blocks v-else-if="itemData.type=='blocks'" :item-data="itemData.data"></blocks>
 		<column v-else-if="itemData.type=='column'" :item-data="itemData.data"></column>
 		<float v-else-if="itemData.type=='float'" :item-data="itemData.data"></float>
@@ -19,7 +19,7 @@
 	import agent from '@/components/model/components/agent';
 	import banner from '@/components/model/components/banner';
 	import haibao from '@/components/model/components/haibao';
-	import uheader from '@/components/model/components/header';
+	import uheader from '@/components/model/components/header_detail.vue';
 	import icons from '@/components/model/components/icons';
 	import menus from '@/components/model/components/menus';
 	import slideRows from '@/components/model/components/slide_rows';

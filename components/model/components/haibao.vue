@@ -7,7 +7,7 @@
 <!-- 			<view class="titleNview-background" :style="{backgroundColor:titleNViewBackground}"></view>
  -->			<swiper class="carousel" circular @change="swiperChange">
 				<swiper-item v-for="(item, index) in itemData.items" :key="index" class="carousel-item" @click="navToDetailPage({title: '轮播广告'})">
-					<image :src="item.pic_url" />
+					<image :src="item.pic_url" mode="widthFix" />
 				</swiper-item>
 			</swiper>
 			<!-- 自定义swiper指示器 -->
@@ -77,18 +77,18 @@
 }
 .carousel {
 	width: 100%;
-	height: 350upx;
+	min-height: 250upx;
 
 	.carousel-item {
 		width: 100%;
 		height: 100%;
 		padding: 0 28upx;
-		overflow: hidden;
+		// overflow: hidden;
 	}
 
 	image {
 		width: 100%;
-		height: 100%;
+		// height: 100%;
 		border-radius: 10upx;
 	}
 }
