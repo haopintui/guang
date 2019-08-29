@@ -1,14 +1,17 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/product/product",
+    "pages/goods/goods",
     "pages/set/set",
     "pages/userinfo/userinfo",
     "pages/cart/cart",
     "pages/public/login",
+    "pages/public/register",
     "pages/user/user",
     "pages/detail/detail",
-    "pages/order/order",
+    "pages/user/order",
+    "pages/user/income",
+    "pages/user/points",
     "pages/money/money",
     "pages/order/createOrder",
     "pages/address/address",
@@ -17,12 +20,26 @@
     "pages/money/paySuccess",
     "pages/notice/notice",
     "pages/category/category",
-    "pages/product/list"
+    "pages/goods/list",
+    "pages/search/list",
+    "pages/search/search",
+    "pages/user/payment",
+    "pages/set/cash",
+    "pages/user/history",
+    "pages/user/favorite",
+    "pages/user/checkin",
+    "pages/market/coupon",
+    "pages/market/jiu",
+    "pages/market/ju",
+    "pages/market/top",
+    "pages/market/tqg",
+    "pages/market/zhishu",
+    "pages/demo/demo"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
+    "navigationBarTitleText": "",
     "navigationBarBackgroundColor": "#FFFFFF",
     "backgroundColor": "#f8f8f8"
   },
@@ -52,5 +69,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap95.json"
 }

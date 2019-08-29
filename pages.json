@@ -255,18 +255,83 @@
 		    }
 		},
 		{
-		    "path" : "pages/common/question",
+		    "path" : "pages/user/checkin",
 		    "style": {
-		    	"navigationBarTitleText": "常见问题",
+		    	"navigationBarTitleText": "签到",
 		    	"app-plus": {
-		    		"bounce": "none"
+		    		"titleNView": {
+		    			"type": "transparent"
+		    		}
 		    	}
 		    }
+		},
+		{
+			"path": "pages/market/coupon",
+			"style": {
+				"navigationBarTitleText": "大额优惠券",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/market/jiu",
+			"style": {
+				"navigationBarTitleText": "九块九包邮",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/market/ju",
+			"style": {
+				"navigationBarTitleText": "聚划算",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/market/top",
+			"style": {
+				"navigationBarTitleText": "疯狂热销榜",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/market/tqg",
+			"style": {
+				"navigationBarTitleText": "淘抢购",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/market/zhishu",
+			"style": {
+				"navigationBarTitleText": "精选宝贝",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/demo/demo",
+			"style": {
+				"navigationBarTitleText": "精选宝贝",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
 		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#f8f8f8"
 	},

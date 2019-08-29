@@ -135,7 +135,6 @@
 			};
 		},
 		async onLoad(options){
-			
 			//接收传值,id里面放的是标题，因为测试数据并没写id 
 			let id = options.id;
 			if(id){
@@ -186,12 +185,15 @@
 			},
 			//收藏
 			toFavorite(){
-				this.favorite = !this.favorite;
+				this.$http.post('/cms/member/favorite/pin', {object_type:'goods',object_id:this.id}).then(res => {
+					if(res.info.status==0){
+						this.favorite = true;
+					}else{
+						this.favorite = false;
+					}
+				}).catch(err => {});
 			},
 			buy(){
-				// uni.navigateTo({
-				// 	url: `/pages/order/createOrder`
-				// })
 				if(!this.click.click_url){
 					this.query_click(this.id,true);
 				}else{
@@ -202,6 +204,13 @@
 				this.$http.post('/cms/goods/view', {num_iid:id}).then(res => {
 					if(res.data.item&&res.data.item){
 						this.goods = res.data.item;
+					}
+				}).catch(err => {});
+				this.$http.post('/cms/member/favorite/index', {object_type:'goods',object_id:id}).then(res => {
+					if(res.data.item&&res.data.item.id){
+						this.favorite = true;
+					}else{
+						this.favorite = false;
 					}
 				}).catch(err => {});
 			},

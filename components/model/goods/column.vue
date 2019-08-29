@@ -49,13 +49,14 @@
 	background: #fff;
 	display:flex;
 	flex-direction: column;
-	width: 48%;
+	// width: 48%;
+	width: 48vw;
 	padding-bottom: 10upx;
 	border-radius:5px;
-	margin:10px 0px;
-	&:nth-child(2n+1){
-		margin-right: 4%;
-	}
+	margin:10px 1vw;
+	// &:nth-child(2n+1){
+	// 	margin-right: 1vw;
+	// }
 }
 .image-wrapper{
 	width: 100%;

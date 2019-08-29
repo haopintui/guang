@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "list-cell": "/components/mix-list-cell"
+  },
+  "component": true
+}

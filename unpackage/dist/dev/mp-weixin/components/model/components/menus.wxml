@@ -1,0 +1,1 @@
+<view class="menus"><block wx:for="{{itemData.items}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view class="item"><text>{{item.name}}</text><text>></text></view></block></view>

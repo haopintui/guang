@@ -1,0 +1,110 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+page, .content {
+  background: #f8f8f8;
+}
+.content {
+  padding-top: 6rpx;
+}
+.user_signin_header {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  margin: auto;
+  background: url(https://img.youdanhui.cn/cms_img/2019-08-29/5d6786109d287.png) center no-repeat;
+  background-size: 100% 100%;
+  padding: 100rpx 10px 50px;
+}
+.user_signin_header .sign_box .sign_in_btn {
+    width: 116px;
+    height: 116px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    position: relative;
+    z-index: 1;
+    zoom: 1;
+}
+.user_signin_header .sign_box .sign_in_btn .btn_tip {
+      position: absolute;
+      z-index: 1;
+      zoom: 1;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 100px;
+      height: 100px;
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff0d2), to(#f9dba0));
+      background: -o-linear-gradient(top, #fff0d2 0, #f9dba0 100%);
+      background: linear-gradient(180deg, #fff0d2 0, #f9dba0 100%);
+      border-radius: 50%;
+      margin: auto;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+          -ms-flex-direction: column;
+              flex-direction: column;
+}
+.user_signin_header .sign_box .sign_in_btn .btn_tip .sign_in {
+        font-size: 22px;
+        font-family: PingFangSC-Medium;
+        font-weight: 500;
+        color: #35292b;
+        line-height: 30px;
+        display: block;
+        text-align: center;
+}
+/* 商品列表 */
+.goods-list {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.guess-section {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  padding: 0 30rpx;
+}
+.recommend {
+  margin: 20px auto 0;
+  width: 140px;
+  height: 22px;
+  font-size: 16px;
+  font-family: PingFangSC-Medium;
+  font-weight: 500;
+  color: #333;
+  line-height: 22px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+}
+

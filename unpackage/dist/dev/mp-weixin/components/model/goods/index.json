@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "column": "/components/model/goods/column",
+    "ju": "/components/model/goods/ju",
+    "list": "/components/model/goods/list",
+    "qiang": "/components/model/goods/qiang",
+    "history": "/components/model/goods/history",
+    "favorite": "/components/model/goods/favorite"
+  },
+  "component": true
+}
