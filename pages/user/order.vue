@@ -26,46 +26,28 @@
 						v-for="(item,index) in tabItem.orderList" :key="index"
 						class="order-item"
 					>
+					
+						<view class="action-box b-t">
+							<text>{{item.order.order_time}}</text>
+							<text>{{item.status_name}}</text>
+						</view>
 						<view class="i-top b-b">
 							<text class="time">{{item.time}}</text>
 							<text class="state" :style="{color: item.stateTipColor}">{{item.stateTip}}</text>
-							<text 
-								v-if="item.state===9" 
-								class="del-btn yticon icon-iconfontshanchu1"
-								@click="deleteOrder(index)"
-							></text>
 						</view>
-						
-						<scroll-view v-if="item.goodsList.length > 1" class="goods-box" scroll-x>
-							<view
-								v-for="(goodsItem, goodsIndex) in item.goodsList" :key="goodsIndex"
-								class="goods-item"
-							>
-								<image class="goods-img" :src="goodsItem.image" mode="aspectFill"></image>
-							</view>
-						</scroll-view>
-						<view 
-							v-if="item.goodsList.length === 1" 
-							class="goods-box-single"
-							v-for="(goodsItem, goodsIndex) in item.goodsList" :key="goodsIndex"
-						>
-							<image class="goods-img" :src="goodsItem.image" mode="aspectFill"></image>
+						<view class="goods-box-single">
+							<image class="goods-img" :src="item.order.object.pic_url" mode="aspectFill"></image>
 							<view class="right">
-								<text class="title clamp">{{goodsItem.title}}</text>
-								<text class="attr-box">{{goodsItem.attr}}  x {{goodsItem.number}}</text>
-								<text class="price">{{goodsItem.price}}</text>
+								<view class="memo">
+									<text>{{item.memo}}</text>
+									<text class="num">{{item.money}}</text>
+								</view>
+								<text class="title clamp">{{item.order.object.title}}</text>
 							</view>
 						</view>
-						
-						<view class="price-box">
-							共
-							<text class="num">7</text>
-							件商品 实付款
-							<text class="price">143.7</text>
-						</view>
-						<view class="action-box b-t" v-if="item.state != 9">
-							<button class="action-btn" @click="cancelOrder(item)">取消订单</button>
-							<button class="action-btn recom">立即支付</button>
+						<view class="action-box b-t">
+							<text>订单号:{{item.order.order_no}}</text>
+							<text>{{item.pay_time_str}}</text>
 						</view>
 					</view>
 					 
@@ -97,25 +79,19 @@
 					},
 					{
 						state: 1,
-						text: '待付款',
+						text: '已到账',
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: 2,
-						text: '待收货',
+						text: '到账中',
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: 3,
-						text: '待评价',
-						loadingType: 'more',
-						orderList: []
-					},
-					{
-						state: 4,
-						text: '售后',
+						text: '失效',
 						loadingType: 'more',
 						orderList: []
 					}
@@ -128,7 +104,10 @@
 			 * 修复app端点击除全部订单外的按钮进入时不加载数据的问题
 			 * 替换onLoad下代码即可
 			 */
+			console.log(options)
+			if(options.state){				
 			this.tabCurrentIndex = +options.state;
+			}
 			// #ifndef MP
 			this.loadData()
 			// #endif
@@ -159,28 +138,39 @@
 				
 				navItem.loadingType = 'loading';
 				
-				setTimeout(()=>{
-					let orderList = Json.orderList.filter(item=>{
-						//添加不同状态下订单的表现形式
-						item = Object.assign(item, this.orderStateExp(item.state));
-						//演示数据所以自己进行状态筛选
-						if(state === 0){
-							//0为全部订单
-							return item;
-						}
-						return item.state === state
-					});
-					orderList.forEach(item=>{
-						navItem.orderList.push(item);
-					})
-					//loaded新字段用于表示数据加载完毕，如果为空可以显示空白页
+				this.$http.post('/cms/member/order/list', {orders:'1',maxMoney:0.01,status:state}).then(res => {
+					navItem.loadingType = 'noMore';
+					if(res.data.items&&res.data.items){
+						navItem.orderList.push(
+							...res.data.items
+						);
+						navItem.loadingType = 'more';
+					}
 					this.$set(navItem, 'loaded', true);
 					
-					//判断是否还有数据， 有改为 more， 没有改为noMore 
-					navItem.loadingType = 'more';
-				}, 600);	
+				}).catch(err => {});
+				
+				// setTimeout(()=>{
+				// 	let orderList = Json.orderList.filter(item=>{
+				// 		//添加不同状态下订单的表现形式
+				// 		item = Object.assign(item, this.orderStateExp(item.state));
+				// 		//演示数据所以自己进行状态筛选
+				// 		if(state === 0){
+				// 			//0为全部订单
+				// 			return item;
+				// 		}
+				// 		return item.state === state
+				// 	});
+				// 	orderList.forEach(item=>{
+				// 		navItem.orderList.push(item);
+				// 	})
+				// 	//loaded新字段用于表示数据加载完毕，如果为空可以显示空白页
+				// 	this.$set(navItem, 'loaded', true);
+				// 	
+				// 	//判断是否还有数据， 有改为 more， 没有改为noMore 
+				// 	navItem.loadingType = 'more';
+				// }, 600);	
 			}, 
-
 			//swiper 切换
 			changeTab(e){
 				this.tabCurrentIndex = e.target.current;
@@ -221,7 +211,6 @@
 					uni.hideLoading();
 				}, 600)
 			},
-
 			//订单状态文字和颜色
 			orderStateExp(state){
 				let stateTip = '',
@@ -302,7 +291,7 @@
 		.i-top{
 			display: flex;
 			align-items: center;
-			height: 80upx;
+			// height: 80upx;
 			padding-right:30upx;
 			font-size: $font-base;
 			color: $font-color-dark;
@@ -375,10 +364,19 @@
 				.price{
 					font-size: $font-base + 2upx;
 					color: $font-color-dark;
-					&:before{
-						content: '￥';
-						font-size: $font-sm;
-						margin: 0 2upx 0 8upx;
+					// &:before{
+					// 	content: '￥';
+					// 	font-size: $font-sm;
+					// 	margin: 0 2upx 0 8upx;
+					// }
+				}
+				.memo{
+					font-size: $font-sm;
+					display: flex;
+					justify-content: space-between;
+					flex-direction: row;
+					.num{
+						color: $base-color;
 					}
 				}
 			}
@@ -398,20 +396,23 @@
 			.price{
 				font-size: $font-lg;
 				color: $font-color-dark;
-				&:before{
-					content: '￥';
-					font-size: $font-sm;
-					margin: 0 2upx 0 8upx;
-				}
+				// &:before{
+				// 	content: '￥';
+				// 	font-size: $font-sm;
+				// 	margin: 0 2upx 0 8upx;
+				// }
 			}
 		}
 		.action-box{
 			display: flex;
-			justify-content: flex-end;
+			justify-content: space-between;
 			align-items: center;
-			height: 100upx;
+			// height: 100upx;
 			position: relative;
 			padding-right: 30upx;
+			font-size: 24upx;
+			color: #666;
+			padding: 10px 0px;
 		}
 		.action-btn{
 			width: 160upx;

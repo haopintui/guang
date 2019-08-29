@@ -111,51 +111,12 @@
 		
 		
 		<!-- 规格-模态层弹窗 -->
-		<view 
-			class="popup spec" 
-			:class="specClass"
-			@touchmove.stop.prevent="stopPrevent"
-			@click="toggleSpec"
-		>
-			<!-- 遮罩层 -->
-			<view class="mask"></view>
-			<view class="layer attr-content" @click.stop="stopPrevent">
-				<view class="a-t">
-					<image src="https://gd3.alicdn.com/imgextra/i3/0/O1CN01IiyFQI1UGShoFKt1O_!!0-item_pic.jpg_400x400.jpg"></image>
-					<view class="right">
-						<text class="price">¥328.00</text>
-						<text class="stock">库存：188件</text>
-						<view class="selected">
-							已选：
-							<text class="selected-text" v-for="(sItem, sIndex) in specSelected" :key="sIndex">
-								{{sItem.name}}
-							</text>
-						</view>
-					</view>
-				</view>
-				<view v-for="(item,index) in specList" :key="index" class="attr-list">
-					<text>{{item.name}}</text>
-					<view class="item-list">
-						<text 
-							v-for="(childItem, childIndex) in specChildList" 
-							v-if="childItem.pid === item.id"
-							:key="childIndex" class="tit"
-							:class="{selected: childItem.selected}"
-							@click="selectSpec(childIndex, childItem.pid)"
-						>
-							{{childItem.name}}
-						</text>
-					</view>
-				</view>
-				<button class="btn" @click="toggleSpec">完成</button>
-			</view>
-		</view>
 		<!-- 分享 -->
-		<share 
+		<!-- <share 
 			ref="share" 
 			:contentHeight="580"
 			:shareList="shareList"
-		></share>
+		></share> -->
 	</view>
 </template>
 
@@ -170,88 +131,7 @@
 				id:'',
 				goods:{},
 				click:{},
-				specClass: 'none',
-				specSelected:[],
-				
-				favorite: true,
-				shareList: [],
-				imgList: [
-					{
-						src: 'https://gd3.alicdn.com/imgextra/i3/0/O1CN01IiyFQI1UGShoFKt1O_!!0-item_pic.jpg_400x400.jpg'
-					},
-					{
-						src: 'https://gd3.alicdn.com/imgextra/i3/TB1RPFPPFXXXXcNXpXXXXXXXXXX_!!0-item_pic.jpg_400x400.jpg'
-					},
-					{
-						src: 'https://gd2.alicdn.com/imgextra/i2/38832490/O1CN01IYq7gu1UGShvbEFnd_!!38832490.jpg_400x400.jpg'
-					}
-				],
-				desc: `
-					<div style="width:100%">
-						<img style="width:100%;display:block;" src="https://gd3.alicdn.com/imgextra/i4/479184430/O1CN01nCpuLc1iaz4bcSN17_!!479184430.jpg_400x400.jpg" />
-						<img style="width:100%;display:block;" src="https://gd2.alicdn.com/imgextra/i2/479184430/O1CN01gwbN931iaz4TzqzmG_!!479184430.jpg_400x400.jpg" />
-						<img style="width:100%;display:block;" src="https://gd3.alicdn.com/imgextra/i3/479184430/O1CN018wVjQh1iaz4aupv1A_!!479184430.jpg_400x400.jpg" />
-						<img style="width:100%;display:block;" src="https://gd4.alicdn.com/imgextra/i4/479184430/O1CN01tWg4Us1iaz4auqelt_!!479184430.jpg_400x400.jpg" />
-						<img style="width:100%;display:block;" src="https://gd1.alicdn.com/imgextra/i1/479184430/O1CN01Tnm1rU1iaz4aVKcwP_!!479184430.jpg_400x400.jpg" />
-					</div>
-				`,
-				specList: [
-					{
-						id: 1,
-						name: '尺寸',
-					},
-					{	
-						id: 2,
-						name: '颜色',
-					},
-				],
-				specChildList: [
-					{
-						id: 1,
-						pid: 1,
-						name: 'XS',
-					},
-					{
-						id: 2,
-						pid: 1,
-						name: 'S',
-					},
-					{
-						id: 3,
-						pid: 1,
-						name: 'M',
-					},
-					{
-						id: 4,
-						pid: 1,
-						name: 'L',
-					},
-					{
-						id: 5,
-						pid: 1,
-						name: 'XL',
-					},
-					{
-						id: 6,
-						pid: 1,
-						name: 'XXL',
-					},
-					{
-						id: 7,
-						pid: 2,
-						name: '白色',
-					},
-					{
-						id: 8,
-						pid: 2,
-						name: '珊瑚粉',
-					},
-					{
-						id: 9,
-						pid: 2,
-						name: '草木绿',
-					},
-				]
+				favorite: false,
 			};
 		},
 		async onLoad(options){
@@ -259,23 +139,10 @@
 			//接收传值,id里面放的是标题，因为测试数据并没写id 
 			let id = options.id;
 			if(id){
-				this.$api.msg(`点击了${id}`);
 				this.id = id;
 				this.query_detail(id);
+				this.pin(id);
 			}
-			
-			
-			//规格 默认选中第一条
-			this.specList.forEach(item=>{
-				for(let cItem of this.specChildList){
-					if(cItem.pid === item.id){
-						this.$set(cItem, 'selected', true);
-						this.specSelected.push(cItem);
-						break; //forEach不能使用break
-					}
-				}
-			})
-			this.shareList = await this.$api.json('shareList');
 		},
 		methods:{
 			//规格弹窗开关
@@ -346,6 +213,11 @@
 							this.buy();
 						}
 					}
+				}).catch(err => {});
+			},
+			pin(id){
+				this.$http.post('/cms/member/history/pin', {object_type:'goods',object_id:id}).then(res => {
+					
 				}).catch(err => {});
 			},
 			stopPrevent(){}

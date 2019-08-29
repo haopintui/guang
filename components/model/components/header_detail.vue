@@ -1,14 +1,14 @@
 <template>
 	<view class="tj-sction">
-		<view class="tj-item">
+		<view class="tj-item" @click="navTo('/pages/user/order')">
 			<text class="num">{{itemData.money_total}}</text>
 			<text>累计奖励（元）</text>
 		</view>
-		<view class="tj-item">
+		<view class="tj-item" @click="navTo('/pages/user/points')">
 			<text class="num">{{itemData.points_available}}</text>
 			<text>积分奖励（个）</text>
 		</view>
-		<view class="tj-item">
+		<view class="tj-item" @click="navTo('/pages/user/order')">
 			<text class="num">{{itemData.orders}}</text>
 			<text>奖励订单(笔)</text>
 		</view>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+    import { mapState ,mapMutations } from 'vuex'; 
 	export default {
 		props:{
 			itemData:{
@@ -27,8 +28,18 @@
 				
 			}
 		},
+        computed: {
+			...mapState(['hasLogin','userInfo'])
+		},
 		methods: {
-			
+			navTo(url) {
+				if(!this.hasLogin){
+					url = '/pages/public/login';
+				}
+				uni.navigateTo({
+					url:url
+				})
+			},
 			
 		}
 	}

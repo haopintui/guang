@@ -2,30 +2,30 @@
 	<view class="content">
 		<view class="title">
 			<view class="tip">团队业绩</view>
-			<view class="link">查看详情></view>
+			<view class="link" @click="navTo('/pages/user/order')">查看详情></view>
 		</view>
 		<view class="line"></view>
 		<view class="tj-sction">
-			<view class="tj-item">
+			<view class="tj-item" @click="navTo('/pages/user/order')">
 				<text class="num">{{itemData.money_total}}</text>
-				<text>累计奖励奖励（g个）</text>
+				<text>累计奖励奖励（元）</text>
 			</view>
-			<view class="tj-item">
+			<view class="tj-item" @click="navTo('/pages/user/order')">
 				<text class="num">{{itemData.orders}}</text>
 				<text>奖励订单(笔)</text>
 			</view>
 		</view>
 		<view class="line"></view>
 		<view class="tj-sction">
-			<view class="tj-item">
+			<view class="tj-item" @click="navTo('/pages/user/order')">
 				<text class="num">{{itemData.today_money}}</text>
 				<text>今日奖励（元）</text>
 			</view>
-			<view class="tj-item">
+			<view class="tj-item" @click="navTo('/pages/user/order')">
 				<text class="num">{{itemData.today_orders}}</text>
 				<text>今日成交（笔）</text>
 			</view>
-			<view class="tj-item">
+			<view class="tj-item" @click="navTo('/pages/user/order')">
 				<text class="num">{{itemData.today_money_available}}</text>
 				<text>今日结算(元)</text>
 			</view>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+    import { mapState ,mapMutations } from 'vuex'; 
 	export default {
 		props:{
 			itemData:{
@@ -45,8 +46,18 @@
 				
 			}
 		},
+        computed: {
+			...mapState(['hasLogin','userInfo'])
+		},
 		methods: {
-			
+			navTo(url) {
+				if(!this.hasLogin){
+					url = '/pages/public/login';
+				}
+				uni.navigateTo({
+					url:url
+				})
+			},
 			
 		}
 	}

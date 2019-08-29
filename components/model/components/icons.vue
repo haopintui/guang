@@ -2,7 +2,9 @@
 	<!-- 分类 -->
 	<view class="cate-section">
 		<view v-for="(item, index) in itemData.items" :item-data="item" :key="index" 
-			class="cate-item" :style="iconWidth">
+			class="cate-item" :style="iconWidth"
+			@click="navTo(item.pages)"
+			>
 			<image :src="item.pic_url"></image>
 			<text>{{item.title}}</text>
 		</view>
@@ -22,7 +24,11 @@
 			}
 		},
 		methods: {
-			
+			navTo(url) {
+				uni.navigateTo({
+					url:url
+				})
+			},
 		},
 		computed:{
 			iconWidth(){

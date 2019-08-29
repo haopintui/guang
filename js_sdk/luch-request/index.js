@@ -34,6 +34,8 @@ http.interceptor.request((config, cancel) => { /* 请求之前拦截器 */
 	params['hpt_token'] = hpt_token;
 	params['app_id'] = app_id;
 	
+	params['page_platform'] = 'cms';
+	
 	config.data = params;
 	/*
   if (!token) { // 如果token不存在，调用cancel 会取消本次请求，但是该函数的catch() 仍会执行
@@ -44,7 +46,6 @@ http.interceptor.request((config, cancel) => { /* 请求之前拦截器 */
 })
 
 http.interceptor.response((response) => { /* 请求之后拦截器 */
-	console.log(response)
     const { statusCode, data } = response;
 	if (statusCode >= 200 && statusCode < 300) {
 	 //  if (!noConsole) {
