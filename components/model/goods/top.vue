@@ -3,17 +3,25 @@
 		@click="navToDetailPage(itemData)">
 		<view class="pic">
 			<image :src="itemData.goods.pic_url"></image>
+			<view class="top">NO.{{top}}</view>
 		</view>
 		<view class="content">
 			<view class="item-box">
 				<text class="title">{{itemData.goods.title}}</text>
 			</view>
-			<view class="item-box" v-if="itemData.coupon.coupon_money>0">
+			<view class="item-box" v-if="itemData.profile.sales2h>0">
+				<view class="sales2h">近2小时疯抢<text class="em">{{itemData.profile.sales2h}}</text>件</view>
+			</view>
+			<view class="item-box">
+				<view class="price">{{itemData.goods.user_type_name}} ¥{{itemData.price.price}}</view>
+			</view>
+			<view class="item-box" v-if="itemData.goods.coupon_money>0">
 				<view class="coupon-money">￥{{itemData.coupon.coupon_money}}元券</view>
 			</view>
 			<view class="item-box">
-				<text>{{itemData.goods.user_type_name}} ¥{{itemData.price.buy_price}}</text>
-				<text>已售 {{itemData.goods.volume_str}}</text>
+				<view class="coupon-price">券后价 ¥<text class="em">{{itemData.price.buy_price}}</text></view>
+				<!-- <text>已售 {{itemData.goods.volume_str}}</text> -->
+				<view class="qiang-btn">立即抢</view>
 			</view>
 		</view>
 	</view>
@@ -24,6 +32,9 @@
 		props:{
 			itemData:{
 				type:Object
+			},
+			top:{
+				type:Number
 			}
 		},
 		data() {
@@ -55,12 +66,25 @@
 	.pic{
 		height: 300upx;
 		width: 300upx;
+		position: relative;
 		image{
 			height: 300upx;
 			width: 300upx;
 		}
+		.top{
+			position: absolute;
+			top: 0;
+			left: 0;
+			color: #fff;
+			font-size: 14px;
+			width: 42px;
+			padding-right: 11px;
+			height: 20px;
+			background: url(https://img.youdanhui.cn/cms_img/2019-08-30/5d68824803a51.png) no-repeat;
+		}
 	}
 	.content{
+		flex: 1;
 		padding: 10upx 10upx;
 		display:flex;
 		flex-direction: column;
@@ -69,10 +93,21 @@
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
-			margin: 5upx 0px;
+			margin: 5upx 0px 10upx;
 			color: #999;
 			font-size: 14px;
 			color: #333;
+			.sales2h{
+				font-size: 14px;
+				color: #888;
+				.em{
+					color: #FF7800;
+				}
+			}
+			.price{
+				font-size: 11px;
+				color: #aaa;
+			}
 			.coupon-money{
 				font-size: $font-sm;
 				color: $uni-color-primary;
@@ -84,10 +119,23 @@
 			}
 			.coupon-price{
 				color: $uni-color-primary;
+				font-style: normal;
+				font-size: 12px;
 				.em{
-					font-weight: 500;
-					font-size: 32upx;
+					color: #FF2B22;
+					font-size: 20px;
 				}
+			}
+			.qiang-btn{
+				background: rgba(252,63,120,1);
+				background: linear-gradient(-90deg,rgba(252,77,81,1),rgba(252,63,120,1));
+				border-radius: 100px;
+				color: #fff;
+				font-size: 14px;
+				padding: 3px 15px;
+				float: right;
+				line-height: 23px;
+				height: 25px;
 			}
 		}
 	}

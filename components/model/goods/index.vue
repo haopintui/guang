@@ -5,6 +5,8 @@
 	<qiang v-else-if="goodsType=='qiang'" :item-data="itemData"></qiang>
 	<history v-else-if="goodsType=='history'" :item-data="itemData"></history>
 	<favorite v-else-if="goodsType=='favorite'" :item-data="itemData"></favorite>
+	<top v-else-if="goodsType=='top'" :item-data="itemData" :top="top"></top>
+	<zhishu v-else-if="goodsType=='zhishu'" :item-data="itemData"></zhishu>
 	<column v-else :item-data="itemData"></column>
 </template>
 
@@ -15,6 +17,8 @@
 	import qiang from '@/components/model/goods/qiang';
 	import history from '@/components/model/goods/history';
 	import favorite from '@/components/model/goods/favorite';
+	import top from '@/components/model/goods/top';
+	import zhishu from '@/components/model/goods/zhishu';
 	
 	export default {
 		components: {
@@ -24,6 +28,8 @@
 			qiang,
 			history,
 			favorite,
+			top,
+			zhishu,
 		},
 		props:{
 			goodsType:{
@@ -31,6 +37,9 @@
 			},
 			itemData:{
 				type:Object
+			},
+			top:{
+				type:Number
 			}
 		},
 		data() {

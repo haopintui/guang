@@ -1,233 +1,117 @@
 <template>
 	<view class="content">
-		<view class="navbar">
-			<view 
-				v-for="(item, index) in navList" :key="index" 
-				class="nav-item" 
-				:class="{current: tabCurrentIndex === index}"
-				@click="tabClick(index)"
-			>
-				{{item.text}}
-			</view>
+		<wuc-tab :tab-list="navList" @change="changeTab" :tabCur.sync="tabCurrentIndex" tab-class="text-center text-white bg-nav" select-class="text-white"></wuc-tab>
+		<view class="list">
+			<!-- 空白页 -->
+			<empty v-if="loadingType === 'noMore' && items.length === 0"></empty>
+			<goods 
+				v-for="(item,index) in items" :key="index" 
+				:top="index+1"
+				:itemData="item" goodsType="top" />
+			<uni-load-more :status="loadingType"></uni-load-more>
 		</view>
-
-		<swiper :current="tabCurrentIndex" class="swiper-box" duration="300" @change="changeTab">
-			<swiper-item class="tab-content" v-for="(tabItem,tabIndex) in navList" :key="tabIndex">
-				<scroll-view 
-					class="list-scroll-content" 
-					scroll-y
-					@scrolltolower="loadData"
-				>
-					<!-- 空白页 -->
-					<empty v-if="tabItem.loaded === true && tabItem.orderList.length === 0"></empty>
-					
-					<!-- 订单列表 -->
-					<view 
-						v-for="(item,index) in tabItem.orderList" :key="index"
-						class="order-item"
-					>
-					
-						<view class="action-box b-t">
-							<text>{{item.order.order_time}}</text>
-							<text>{{item.status_name}}</text>
-						</view>
-						<view class="i-top b-b">
-							<text class="time">{{item.time}}</text>
-							<text class="state" :style="{color: item.stateTipColor}">{{item.stateTip}}</text>
-						</view>
-						<view class="goods-box-single">
-							<image class="goods-img" :src="item.order.object.pic_url" mode="aspectFill"></image>
-							<view class="right">
-								<view class="memo">
-									<text>{{item.memo}}</text>
-									<text class="num">{{item.money}}</text>
-								</view>
-								<text class="title clamp">{{item.order.object.title}}</text>
-							</view>
-						</view>
-						<view class="action-box b-t">
-							<text>订单号:{{item.order.order_no}}</text>
-							<text>{{item.pay_time_str}}</text>
-						</view>
-					</view>
-					 
-					<uni-load-more :status="tabItem.loadingType"></uni-load-more>
-					
-				</scroll-view>
-			</swiper-item>
-		</swiper>
 	</view>
 </template> 
 
 <script>
+	import WucTab from '@/components/wuc-tab/wuc-tab.vue';
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 	import empty from "@/components/empty";
-	import Json from '@/Json';
+	import goods from '@/components/model/goods/index';
+	
 	export default {
 		components: {
 			uniLoadMore,
-			empty
+			empty,
+			WucTab,
+			goods
 		},
 		data() {
 			return {
 				tabCurrentIndex: 0,
-				navList: [{
-						state: 0,
-						text: '全部',
-						loadingType: 'more',
-						orderList: []
-					},
-					{
-						state: 1,
-						text: '已到账',
-						loadingType: 'more',
-						orderList: []
-					},
-					{
-						state: 2,
-						text: '到账中',
-						loadingType: 'more',
-						orderList: []
-					},
-					{
-						state: 3,
-						text: '失效',
-						loadingType: 'more',
-						orderList: []
-					}
-				],
+				navList: [],
+				items:[],
+				loadingType:'',
+				ipage:0,
 			};
 		},
-		
 		onLoad(options){
+			this.loadNav();
 			/**
 			 * 修复app端点击除全部订单外的按钮进入时不加载数据的问题
 			 * 替换onLoad下代码即可
 			 */
-			console.log(options)
-			if(options.state){				
-			this.tabCurrentIndex = +options.state;
-			}
-			// #ifndef MP
-			this.loadData()
-			// #endif
-			// #ifdef MP
-			if(options.state == 0){
-				this.loadData()
-			}
-			// #endif
+			// console.log(options)
+			// if(options.state){				
+			// this.tabCurrentIndex = +options.state;
+			// }
+			// // #ifndef MP
+			// this.loadData()
+			// // #endif
+			// // #ifdef MP
+			// if(options.state == 0){
+			// 	this.loadData()
+			// }
+			// // #endif
 			
 		},
-		 
+		onReachBottom(){
+			this.loadData();
+		},
 		methods: {
+			loadNav(){
+				this.$http.post('/app/page/nav', {nav_types:''}).then(res => {
+					if(res.data.items&&res.data.items.items){
+						this.navList.push(
+							...res.data.items.items
+						);
+						this.loadData();
+					}
+					
+				}).catch(err => {});
+			},
 			//获取订单列表
 			loadData(source){
 				//这里是将订单挂载到tab列表下
 				let index = this.tabCurrentIndex;
 				let navItem = this.navList[index];
-				let state = navItem.state;
+				let cid = navItem.cid;
 				
-				if(source === 'tabChange' && navItem.loaded === true){
-					//tab切换只有第一次需要加载数据
-					return;
-				}
-				if(navItem.loadingType === 'loading'){
-					//防止重复加载
-					return;
+				if(source=='tabChange'){
+					this.items = [];
+					this.ipage  = 0;
 				}
 				
-				navItem.loadingType = 'loading';
+				this.loadingType = 'loading';
 				
-				this.$http.post('/cms/member/order/list', {orders:'1',maxMoney:0.01,status:state}).then(res => {
-					navItem.loadingType = 'noMore';
+				this.$http.post('/cms/goods/list', {ipage:this.ipage,cid:cid,sort:'day_sales'}).then(res => {
+					this.loadingType = 'noMore';
 					if(res.data.items&&res.data.items){
-						navItem.orderList.push(
-							...res.data.items
-						);
-						navItem.loadingType = 'more';
+						if(source=='tabChange'){
+							this.items = res.data.items;
+						}else{
+							this.items.push(
+								...res.data.items
+							);
+						}
+						if(res.data.pager&&res.data.pager.ipage){
+							this.ipage = parseInt(res.data.pager.ipage)+1;
+						}
+						if(res.data.items.length>=20){							
+							this.loadingType = 'more';
+						}
 					}
-					this.$set(navItem, 'loaded', true);
-					
+					// this.loaded = true;
 				}).catch(err => {});
-				
-				// setTimeout(()=>{
-				// 	let orderList = Json.orderList.filter(item=>{
-				// 		//添加不同状态下订单的表现形式
-				// 		item = Object.assign(item, this.orderStateExp(item.state));
-				// 		//演示数据所以自己进行状态筛选
-				// 		if(state === 0){
-				// 			//0为全部订单
-				// 			return item;
-				// 		}
-				// 		return item.state === state
-				// 	});
-				// 	orderList.forEach(item=>{
-				// 		navItem.orderList.push(item);
-				// 	})
-				// 	//loaded新字段用于表示数据加载完毕，如果为空可以显示空白页
-				// 	this.$set(navItem, 'loaded', true);
-				// 	
-				// 	//判断是否还有数据， 有改为 more， 没有改为noMore 
-				// 	navItem.loadingType = 'more';
-				// }, 600);	
 			}, 
 			//swiper 切换
-			changeTab(e){
-				this.tabCurrentIndex = e.target.current;
+			changeTab(current){
+				this.tabCurrentIndex = current;
 				this.loadData('tabChange');
 			},
 			//顶部tab点击
 			tabClick(index){
 				this.tabCurrentIndex = index;
-			},
-			//删除订单
-			deleteOrder(index){
-				uni.showLoading({
-					title: '请稍后'
-				})
-				setTimeout(()=>{
-					this.navList[this.tabCurrentIndex].orderList.splice(index, 1);
-					uni.hideLoading();
-				}, 600)
-			},
-			//取消订单
-			cancelOrder(item){
-				uni.showLoading({
-					title: '请稍后'
-				})
-				setTimeout(()=>{
-					let {stateTip, stateTipColor} = this.orderStateExp(9);
-					item = Object.assign(item, {
-						state: 9,
-						stateTip, 
-						stateTipColor
-					})
-					
-					//取消订单后删除待付款中该项
-					let list = this.navList[1].orderList;
-					let index = list.findIndex(val=>val.id === item.id);
-					index !== -1 && list.splice(index, 1);
-					
-					uni.hideLoading();
-				}, 600)
-			},
-			//订单状态文字和颜色
-			orderStateExp(state){
-				let stateTip = '',
-					stateTipColor = '#fa436a';
-				switch(+state){
-					case 1:
-						stateTip = '待付款'; break;
-					case 2:
-						stateTip = '待发货'; break;
-					case 9:
-						stateTip = '订单已关闭'; 
-						stateTipColor = '#909399';
-						break;
-						
-					//更多自定义
-				}
-				return {stateTip, stateTipColor};
 			}
 		},
 	}
@@ -245,7 +129,28 @@
 	.list-scroll-content{
 		height: 100%;
 	}
-	
+	.floor-list{
+		white-space: nowrap;
+		padding: 20upx;
+		padding-right: 50upx;
+		border-radius: 6upx;
+		// margin-top:-140upx;
+		// margin-left: 30upx;
+		background: #fff;
+		box-shadow: 1px 1px 5px rgba(0,0,0,.2);
+		// position: relative;
+		z-index: 1;
+	}
+	.scoll-wrapper{
+		display:flex;
+		align-items: flex-start;
+	}
+	.bg-nav{
+	    // background-color: #ffffff;
+		background: linear-gradient(to left,#FA4DBE 0,#FBAA58 100%);
+		border-bottom-color: transparent;
+		font-size: 15px;
+	}
 	.navbar{
 		display: flex;
 		height: 40px;
@@ -254,17 +159,22 @@
 		box-shadow: 0 1px 5px rgba(0,0,0,.06);
 		position: relative;
 		z-index: 10;
+		background: linear-gradient(to left,#FA4DBE 0,#FBAA58 100%);
+		border-bottom-color: transparent;
 		.nav-item{
-			flex: 1;
+			// width: 100upx;
+			// flex: 1;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			height: 100%;
 			font-size: 15px;
-			color: $font-color-dark;
+			// color: $font-color-dark;
+			color: #fff;
 			position: relative;
 			&.current{
-				color: $base-color;
+				// color: $base-color;
+				color: #fff;
 				&:after{
 					content: '';
 					position: absolute;
@@ -273,7 +183,7 @@
 					transform: translateX(-50%);
 					width: 44px;
 					height: 0;
-					border-bottom: 2px solid $base-color;
+					border-bottom: 2px solid #fff;
 				}
 			}
 		}
@@ -436,139 +346,6 @@
 					border-color: #f7bcc8;
 				}
 			}
-		}
-	}
-	
-	
-	/* load-more */
-	.uni-load-more {
-		display: flex;
-		flex-direction: row;
-		height: 80upx;
-		align-items: center;
-		justify-content: center
-	}
-	
-	.uni-load-more__text {
-		font-size: 28upx;
-		color: #999
-	}
-	
-	.uni-load-more__img {
-		height: 24px;
-		width: 24px;
-		margin-right: 10px
-	}
-	
-	.uni-load-more__img>view {
-		position: absolute
-	}
-	
-	.uni-load-more__img>view view {
-		width: 6px;
-		height: 2px;
-		border-top-left-radius: 1px;
-		border-bottom-left-radius: 1px;
-		background: #999;
-		position: absolute;
-		opacity: .2;
-		transform-origin: 50%;
-		animation: load 1.56s ease infinite
-	}
-	
-	.uni-load-more__img>view view:nth-child(1) {
-		transform: rotate(90deg);
-		top: 2px;
-		left: 9px
-	}
-	
-	.uni-load-more__img>view view:nth-child(2) {
-		transform: rotate(180deg);
-		top: 11px;
-		right: 0
-	}
-	
-	.uni-load-more__img>view view:nth-child(3) {
-		transform: rotate(270deg);
-		bottom: 2px;
-		left: 9px
-	}
-	
-	.uni-load-more__img>view view:nth-child(4) {
-		top: 11px;
-		left: 0
-	}
-	
-	.load1,
-	.load2,
-	.load3 {
-		height: 24px;
-		width: 24px
-	}
-	
-	.load2 {
-		transform: rotate(30deg)
-	}
-	
-	.load3 {
-		transform: rotate(60deg)
-	}
-	
-	.load1 view:nth-child(1) {
-		animation-delay: 0s
-	}
-	
-	.load2 view:nth-child(1) {
-		animation-delay: .13s
-	}
-	
-	.load3 view:nth-child(1) {
-		animation-delay: .26s
-	}
-	
-	.load1 view:nth-child(2) {
-		animation-delay: .39s
-	}
-	
-	.load2 view:nth-child(2) {
-		animation-delay: .52s
-	}
-	
-	.load3 view:nth-child(2) {
-		animation-delay: .65s
-	}
-	
-	.load1 view:nth-child(3) {
-		animation-delay: .78s
-	}
-	
-	.load2 view:nth-child(3) {
-		animation-delay: .91s
-	}
-	
-	.load3 view:nth-child(3) {
-		animation-delay: 1.04s
-	}
-	
-	.load1 view:nth-child(4) {
-		animation-delay: 1.17s
-	}
-	
-	.load2 view:nth-child(4) {
-		animation-delay: 1.3s
-	}
-	
-	.load3 view:nth-child(4) {
-		animation-delay: 1.43s
-	}
-	
-	@-webkit-keyframes load {
-		0% {
-			opacity: 1
-		}
-	
-		100% {
-			opacity: .2
 		}
 	}
 </style>

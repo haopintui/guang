@@ -1,36 +1,15 @@
 <template>
 	<view class="content">
-		<!-- <scroll-view class="floor-list" scroll-x>
-		<view class="navbar">
-			<view 
-				v-for="(item, index) in navList" :key="index" 
-				class="nav-item" 
-				:class="{current: tabCurrentIndex === index}"
-				@click="tabClick(index)"
-			>
-				{{item.name}}
-			</view>
+		<wuc-tab :tab-list="navList" @change="changeTab" :tabCur.sync="tabCurrentIndex" tab-class="text-center text-white bg-nav" select-class="text-white"></wuc-tab>
+		<view class="list">
+			<!-- 空白页 -->
+			<empty v-if="loadingType === 'noMore' && items.length === 0"></empty>
+			<goods 
+				v-for="(item,index) in items" :key="index" 
+				:top="index+1"
+				:itemData="item" goodsType="top" />
+			<uni-load-more :status="loadingType"></uni-load-more>
 		</view>
-		</scroll-view> -->
-		
-		<wuc-tab :tab-list="navList" :tabCur.sync="tabCurrentIndex" tab-class="text-center text-white bg-nav" select-class="text-white"></wuc-tab>
-		<swiper :current="tabCurrentIndex" class="swiper-box" duration="300" @change="changeTab">
-			<swiper-item class="tab-content" v-for="(tabItem,tabIndex) in navList" :key="tabIndex">
-				<scroll-view 
-					class="list-scroll-content" 
-					scroll-y
-					@scrolltolower="loadData"
-				>
-					<!-- 空白页 -->
-					<empty v-if="tabItem.loaded === true && tabItem.iterms.length === 0"></empty>
-					
-					<goods v-for="(item,index) in tabItem.iterms" :key="index" :itemData="item" goodsType="list" />
-					 
-					<uni-load-more :status="tabItem.loadingType"></uni-load-more>
-					
-				</scroll-view>
-			</swiper-item>
-		</swiper>
 	</view>
 </template> 
 
@@ -51,6 +30,9 @@
 			return {
 				tabCurrentIndex: 0,
 				navList: [],
+				items:[],
+				loadingType:'',
+				ipage:0,
 			};
 		},
 		onLoad(options){
@@ -73,7 +55,9 @@
 			// // #endif
 			
 		},
-		 
+		onReachBottom(){
+			this.loadData();
+		},
 		methods: {
 			loadNav(){
 				this.$http.post('/app/page/nav', {nav_types:''}).then(res => {
@@ -81,6 +65,7 @@
 						this.navList.push(
 							...res.data.items.items
 						);
+						this.loadData();
 					}
 					
 				}).catch(err => {});
@@ -90,39 +75,38 @@
 				//这里是将订单挂载到tab列表下
 				let index = this.tabCurrentIndex;
 				let navItem = this.navList[index];
-				let state = navItem.state;
+				let cid = navItem.cid;
 				
-				if(source === 'tabChange' && navItem.loaded === true){
-					//tab切换只有第一次需要加载数据
-					return;
-				}
-				if(navItem.loadingType === 'loading'){
-					//防止重复加载
-					return;
+				if(source=='tabChange'){
+					this.items = [];
+					this.ipage  = 0;
 				}
 				
-				navItem.loadingType = 'loading';
+				this.loadingType = 'loading';
 				
-				this.$http.post('/cms/goods/list', {ipage:0,status:state}).then(res => {
-					navItem.loadingType = 'noMore';
+				this.$http.post('/cms/goods/list', {ipage:this.ipage,cid:cid,sort:'day_sales'}).then(res => {
+					this.loadingType = 'noMore';
 					if(res.data.items&&res.data.items){
-						var items = navItem.items;
-						if(items==null){
-							items = [];	
+						if(source=='tabChange'){
+							this.items = res.data.items;
+						}else{
+							this.items.push(
+								...res.data.items
+							);
 						}
-						items.push(
-							...res.data.items
-						);
-						navItem.items = items;
-						navItem.loadingType = 'more';
+						if(res.data.pager&&res.data.pager.ipage){
+							this.ipage = parseInt(res.data.pager.ipage)+1;
+						}
+						if(res.data.items.length>=20){							
+							this.loadingType = 'more';
+						}
 					}
-					this.$set(navItem, 'loaded', true);
-					
+					// this.loaded = true;
 				}).catch(err => {});
 			}, 
 			//swiper 切换
-			changeTab(e){
-				this.tabCurrentIndex = e.target.current;
+			changeTab(current){
+				this.tabCurrentIndex = current;
 				this.loadData('tabChange');
 			},
 			//顶部tab点击
@@ -362,139 +346,6 @@
 					border-color: #f7bcc8;
 				}
 			}
-		}
-	}
-	
-	
-	/* load-more */
-	.uni-load-more {
-		display: flex;
-		flex-direction: row;
-		height: 80upx;
-		align-items: center;
-		justify-content: center
-	}
-	
-	.uni-load-more__text {
-		font-size: 28upx;
-		color: #999
-	}
-	
-	.uni-load-more__img {
-		height: 24px;
-		width: 24px;
-		margin-right: 10px
-	}
-	
-	.uni-load-more__img>view {
-		position: absolute
-	}
-	
-	.uni-load-more__img>view view {
-		width: 6px;
-		height: 2px;
-		border-top-left-radius: 1px;
-		border-bottom-left-radius: 1px;
-		background: #999;
-		position: absolute;
-		opacity: .2;
-		transform-origin: 50%;
-		animation: load 1.56s ease infinite
-	}
-	
-	.uni-load-more__img>view view:nth-child(1) {
-		transform: rotate(90deg);
-		top: 2px;
-		left: 9px
-	}
-	
-	.uni-load-more__img>view view:nth-child(2) {
-		transform: rotate(180deg);
-		top: 11px;
-		right: 0
-	}
-	
-	.uni-load-more__img>view view:nth-child(3) {
-		transform: rotate(270deg);
-		bottom: 2px;
-		left: 9px
-	}
-	
-	.uni-load-more__img>view view:nth-child(4) {
-		top: 11px;
-		left: 0
-	}
-	
-	.load1,
-	.load2,
-	.load3 {
-		height: 24px;
-		width: 24px
-	}
-	
-	.load2 {
-		transform: rotate(30deg)
-	}
-	
-	.load3 {
-		transform: rotate(60deg)
-	}
-	
-	.load1 view:nth-child(1) {
-		animation-delay: 0s
-	}
-	
-	.load2 view:nth-child(1) {
-		animation-delay: .13s
-	}
-	
-	.load3 view:nth-child(1) {
-		animation-delay: .26s
-	}
-	
-	.load1 view:nth-child(2) {
-		animation-delay: .39s
-	}
-	
-	.load2 view:nth-child(2) {
-		animation-delay: .52s
-	}
-	
-	.load3 view:nth-child(2) {
-		animation-delay: .65s
-	}
-	
-	.load1 view:nth-child(3) {
-		animation-delay: .78s
-	}
-	
-	.load2 view:nth-child(3) {
-		animation-delay: .91s
-	}
-	
-	.load3 view:nth-child(3) {
-		animation-delay: 1.04s
-	}
-	
-	.load1 view:nth-child(4) {
-		animation-delay: 1.17s
-	}
-	
-	.load2 view:nth-child(4) {
-		animation-delay: 1.3s
-	}
-	
-	.load3 view:nth-child(4) {
-		animation-delay: 1.43s
-	}
-	
-	@-webkit-keyframes load {
-		0% {
-			opacity: 1
-		}
-	
-		100% {
-			opacity: .2
 		}
 	}
 </style>
