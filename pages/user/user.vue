@@ -17,8 +17,8 @@
 </template>  
 <script>  
 	import listCell from '@/components/mix-list-cell';
-	import componentItem from '@/components/model/components/index';
-	import uheader from '@/components/model/components/header';
+	import componentItem from '@/common/model/components/index';
+	import uheader from '@/common/model/components/header';
     import { mapState ,mapMutations } from 'vuex'; 
 	 
 	let startY = 0, moveY = 0, pageAtTop = true;

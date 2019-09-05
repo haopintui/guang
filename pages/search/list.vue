@@ -250,7 +250,7 @@
 	import tuiLoadmore from "@/components/loadmore/loadmore"
 	import tuiNomore from "@/components/nomore/nomore"
 	import tuiTopDropdown from "@/components/top-dropdown/top-dropdown"
-	import goods from '@/components/model/goods/index';
+	import goods from '@/common/model/goods/index';
 	
 	export default {
 		components: {

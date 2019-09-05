@@ -11,14 +11,14 @@
 </template>
 
 <script>
-	import column from '@/components/model/goods/column';
-	import ju from '@/components/model/goods/ju';
-	import list from '@/components/model/goods/list';
-	import qiang from '@/components/model/goods/qiang';
-	import history from '@/components/model/goods/history';
-	import favorite from '@/components/model/goods/favorite';
-	import top from '@/components/model/goods/top';
-	import zhishu from '@/components/model/goods/zhishu';
+	import column from '@/common/model/goods/column';
+	import ju from '@/common/model/goods/ju';
+	import list from '@/common/model/goods/list';
+	import qiang from '@/common/model/goods/qiang';
+	import history from '@/common/model/goods/history';
+	import favorite from '@/common/model/goods/favorite';
+	import top from '@/common/model/goods/top';
+	import zhishu from '@/common/model/goods/zhishu';
 	
 	export default {
 		components: {

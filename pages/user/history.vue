@@ -11,7 +11,7 @@
 
 <script>
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
-	import goods from '@/components/model/goods/index';
+	import goods from '@/common/model/goods/index';
 	export default {
 		components: {
 			uniLoadMore,

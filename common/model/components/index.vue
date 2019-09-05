@@ -12,22 +12,24 @@
 		<float v-else-if="itemData.type=='float'" :item-data="itemData.data"></float>
 		<goods v-else-if="itemData.type=='goods'" :item-data="itemData.data"></goods>
 		<report v-else-if="itemData.type=='report'" :item-data="itemData.data"></report>
+		<header-haibao v-else-if="itemData.type=='header_haibao'" :item-data="itemData.data"></header-haibao>
 	</view>
 </template>
 
 <script>
-	import agent from '@/components/model/components/agent';
-	import banner from '@/components/model/components/banner';
-	import haibao from '@/components/model/components/haibao';
-	import uheader from '@/components/model/components/header_detail.vue';
-	import icons from '@/components/model/components/icons';
-	import menus from '@/components/model/components/menus';
-	import slideRows from '@/components/model/components/slide_rows';
-	import blocks from '@/components/model/components/blocks';
-	import column from '@/components/model/components/column';
-	import float from '@/components/model/components/float';
-	import goods from '@/components/model/components/goods';
-	import report from '@/components/model/components/report';
+	import agent from '@/common/model/components/agent';
+	import banner from '@/common/model/components/banner';
+	import haibao from '@/common/model/components/haibao';
+	import uheader from '@/common/model/components/header_detail.vue';
+	import icons from '@/common/model/components/icons';
+	import menus from '@/common/model/components/menus';
+	import slideRows from '@/common/model/components/slide_rows';
+	import blocks from '@/common/model/components/blocks';
+	import column from '@/common/model/components/column';
+	import float from '@/common/model/components/float';
+	import goods from '@/common/model/components/goods';
+	import report from '@/common/model/components/report';
+	import headerHaibao from '@/common/model/components/header_haibao';
 	
 	export default {
 		components: {
@@ -43,6 +45,7 @@
 			float,
 			goods,
 			report,
+			headerHaibao,
 		},
 		props:{
 			itemData:{

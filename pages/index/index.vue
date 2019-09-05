@@ -15,8 +15,8 @@
 </template>
 
 <script>
-	import componentItem from '@/components/model/components/index';
-	import goods from '@/components/model/goods/index';
+	import componentItem from '@/common/model/components/index';
+	import goods from '@/common/model/goods/index';
 	
 	export default {
 		components: {

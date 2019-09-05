@@ -20,7 +20,7 @@
 	import WucTab from '@/components/wuc-tab/wuc-tab.vue';
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 	import empty from "@/components/empty";
-	import goods from '@/components/model/goods/index';
+	import goods from '@/common/model/goods/index';
 	
 	export default {
 		components: {
