@@ -55,6 +55,7 @@
   font-size: 24rpx;
   color: #999;
   padding: 5px 5px;
+  background-color: #fff;
 }
 .item-box .coupon-money {
     font-size: 24rpx;

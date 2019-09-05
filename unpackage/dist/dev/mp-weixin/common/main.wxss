@@ -260,7 +260,7 @@ image,
 video {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  font-family: PingFangSC-Medium;
+  font-family: Arial,Helvetica,sans-serif,"Microsoft YaHei";
 }
 /* 骨架屏替代方案 */
 .Skeleton {

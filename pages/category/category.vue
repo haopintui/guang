@@ -35,6 +35,17 @@
 			this.loadData();
 		},
 		methods: {
+			query() {
+				this.$http.post('/cms/cate/all', {}).then(res => {
+					if(res.data.items&&res.data.items){
+						this.items = res.data.items;
+					}
+					// if(res.data.items&&res.data.items.url){
+					// 	this.query_goods_url = res.data.items.url;
+					// 	this.queryItems();
+					// }
+				}).catch(err => {});
+			},
 			async loadData(){
 				let list = await this.$api.json('cateList');
 				list.forEach(item=>{

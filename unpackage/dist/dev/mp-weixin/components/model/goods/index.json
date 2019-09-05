@@ -5,7 +5,9 @@
     "list": "/components/model/goods/list",
     "qiang": "/components/model/goods/qiang",
     "history": "/components/model/goods/history",
-    "favorite": "/components/model/goods/favorite"
+    "favorite": "/components/model/goods/favorite",
+    "top": "/components/model/goods/top",
+    "zhishu": "/components/model/goods/zhishu"
   },
   "component": true
 }

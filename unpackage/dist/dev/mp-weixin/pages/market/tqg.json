@@ -1,4 +1,9 @@
 {
   "navigationBarTitleText": "淘抢购",
-  "usingComponents": {}
+  "usingComponents": {
+    "uni-load-more": "/components/uni-load-more/uni-load-more",
+    "empty": "/components/empty",
+    "wuc-tab": "/components/wuc-tab/wuc-tab",
+    "goods": "/components/model/goods/index"
+  }
 }

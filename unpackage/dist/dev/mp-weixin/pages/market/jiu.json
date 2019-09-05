@@ -2,6 +2,8 @@
   "navigationBarTitleText": "九块九包邮",
   "usingComponents": {
     "uni-load-more": "/components/uni-load-more/uni-load-more",
-    "empty": "/components/empty"
+    "empty": "/components/empty",
+    "wuc-tab": "/components/wuc-tab/wuc-tab",
+    "goods": "/components/model/goods/index"
   }
 }

@@ -65,6 +65,7 @@
 		display:flex;
 		flex-direction: column;
 		font-size: $font-sm;
+		background-color: #fff;
 		.item-box{
 			display: flex;
 			flex-direction: row;
@@ -73,6 +74,9 @@
 			color: #999;
 			font-size: 14px;
 			color: #333;
+			.title{
+				
+			}
 			.coupon-money{
 				font-size: $font-sm;
 				color: $uni-color-primary;

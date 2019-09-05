@@ -1,0 +1,94 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+.item {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  margin: 5rpx 0px;
+  padding: 10rpx 10rpx;
+  background: #fff;
+}
+.item .pic {
+    height: 300rpx;
+    width: 300rpx;
+}
+.item .pic image {
+      height: 300rpx;
+      width: 300rpx;
+}
+.item .content {
+    padding: 10rpx 10rpx;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    font-size: 24rpx;
+}
+.item .content .item-box {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: row;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -webkit-box-pack: justify;
+      -webkit-justify-content: space-between;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      margin: 5rpx 0px;
+      color: #999;
+      font-size: 16px;
+      color: #333;
+}
+.item .content .item-box .coupon-money {
+        font-size: 24rpx;
+        color: #fa436a;
+        line-height: 1;
+        padding: 5px 10px;
+        background: -webkit-gradient(linear, left top, right top, color-stop(0, #ff8873), to(#ff4f4f));
+        background: -o-linear-gradient(left, #ff8873 0, #ff4f4f 100%);
+        background: linear-gradient(90deg, #ff8873 0, #ff4f4f 100%);
+        color: #FFF;
+        border-radius: 3px;
+}
+.item .content .item-box .coupon-price {
+        font-size: 11px;
+        color: #888;
+}
+.item .content .item-box .coupon-price .em {
+          color: #fa436a;
+          font-size: 20px;
+}
+.item .content .item-box .volume {
+        font-size: 12px;
+        color: #888;
+}
+.item .content .item-box .tqg {
+        font-size: 12px;
+        color: #fa436a;
+        padding: 0px 5px;
+        background: -webkit-gradient(linear, left top, right top, from(#FF008C), to(#FF6A00));
+        background: -o-linear-gradient(left, #FF008C, #FF6A00);
+        background: linear-gradient(to right, #FF008C, #FF6A00);
+        color: #FFF;
+}
+

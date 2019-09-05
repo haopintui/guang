@@ -13,7 +13,7 @@
 			</view>
 			<view class="item-box">
 				<view class="coupon-price">
-					{{itemData.goods.user_type_name}}<text class="em"> 券后¥{{itemData.price.buy_price}}</text>
+					券后<text class="em">¥{{itemData.price.buy_price}}</text>
 				</view>
 				<text class="volume">已售 {{itemData.goods.volume_str}}</text>
 			</view>
@@ -68,6 +68,7 @@
 		display:flex;
 		flex-direction: column;
 		font-size: $font-sm;
+		background-color: #fff;
 		.item-box{
 			display: flex;
 			flex-direction: row;
@@ -76,6 +77,9 @@
 			color: #999;
 			font-size: 16px;
 			color: #333;
+			.title{
+				font-size: 14px;
+			}
 			.coupon-money{
 				// font-size: $font-sm;
 				// color: $uni-color-primary;
@@ -96,6 +100,7 @@
 			.coupon-price{
 				font-size: 11px;
 				color: #888;
+				color: $uni-color-primary;
 				.em{
 					color: $uni-color-primary;
 					font-size: 20px;

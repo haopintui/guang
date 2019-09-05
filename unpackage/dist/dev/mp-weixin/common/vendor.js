@@ -8,14 +8,14 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni, createApp) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(uni, createApp) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _store = _interopRequireDefault(__webpack_require__(/*! ./store */ 5));
-var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 7));
+var _store = _interopRequireDefault(__webpack_require__(/*! ./store */ 9));
+var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 11));
 
-var _index = __webpack_require__(/*! @/js_sdk/luch-request/index.js */ 13);
+var _index = __webpack_require__(/*! @/js_sdk/luch-request/index.js */ 17);
 
-var _Json = _interopRequireDefault(__webpack_require__(/*! ./Json */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;} //测试用数据
+var _Json = _interopRequireDefault(__webpack_require__(/*! ./Json */ 23));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;} //测试用数据
 /**
  *  因工具函数属于公司资产, 所以直接在Vue实例挂载几个常用的函数
  *  所有测试用数据均存放于根目录json.js
@@ -310,7 +310,7 @@ var promiseInterceptor = {
 
 
 var SYNC_API_RE =
-/^\$|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64/;
+/^\$|^report|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64/;
 
 var CONTEXT_API_RE = /^create|Manager$/;
 
@@ -1483,6 +1483,9 @@ var uni = {};
 if (typeof Proxy !== 'undefined' && "mp-weixin" !== 'app-plus') {
   uni = new Proxy({}, {
     get: function get(target, name) {
+      if (target[name]) {
+        return target[name];
+      }
       if (baseApi[name]) {
         return baseApi[name];
       }
@@ -1504,6 +1507,10 @@ if (typeof Proxy !== 'undefined' && "mp-weixin" !== 'app-plus') {
         return;
       }
       return promisify(name, wrapper(name, wx[name]));
+    },
+    set: function set(target, name, value) {
+      target[name] = value;
+      return true;
     } });
 
 } else {
@@ -1545,7 +1552,958 @@ uni$1;exports.default = _default;
 
 /***/ }),
 
-/***/ 103:
+/***/ 10:
+/*!********************************************!*\
+  !*** ./node_modules/vuex/dist/vuex.esm.js ***!
+  \********************************************/
+/*! exports provided: Store, install, mapState, mapMutations, mapGetters, mapActions, createNamespacedHelpers, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapState", function() { return mapState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapMutations", function() { return mapMutations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapGetters", function() { return mapGetters; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return mapActions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNamespacedHelpers", function() { return createNamespacedHelpers; });
+/**
+ * vuex v3.0.1
+ * (c) 2017 Evan You
+ * @license MIT
+ */
+var applyMixin = function (Vue) {
+  var version = Number(Vue.version.split('.')[0]);
+
+  if (version >= 2) {
+    Vue.mixin({ beforeCreate: vuexInit });
+  } else {
+    // override init and inject vuex init procedure
+    // for 1.x backwards compatibility.
+    var _init = Vue.prototype._init;
+    Vue.prototype._init = function (options) {
+      if ( options === void 0 ) options = {};
+
+      options.init = options.init
+        ? [vuexInit].concat(options.init)
+        : vuexInit;
+      _init.call(this, options);
+    };
+  }
+
+  /**
+   * Vuex init hook, injected into each instances init hooks list.
+   */
+
+  function vuexInit () {
+    var options = this.$options;
+    // store injection
+    if (options.store) {
+      this.$store = typeof options.store === 'function'
+        ? options.store()
+        : options.store;
+    } else if (options.parent && options.parent.$store) {
+      this.$store = options.parent.$store;
+    }
+  }
+};
+
+var devtoolHook =
+  typeof window !== 'undefined' &&
+  window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+
+function devtoolPlugin (store) {
+  if (!devtoolHook) { return }
+
+  store._devtoolHook = devtoolHook;
+
+  devtoolHook.emit('vuex:init', store);
+
+  devtoolHook.on('vuex:travel-to-state', function (targetState) {
+    store.replaceState(targetState);
+  });
+
+  store.subscribe(function (mutation, state) {
+    devtoolHook.emit('vuex:mutation', mutation, state);
+  });
+}
+
+/**
+ * Get the first item that pass the test
+ * by second argument function
+ *
+ * @param {Array} list
+ * @param {Function} f
+ * @return {*}
+ */
+/**
+ * Deep copy the given object considering circular structure.
+ * This function caches all nested objects and its copies.
+ * If it detects circular structure, use cached copy to avoid infinite loop.
+ *
+ * @param {*} obj
+ * @param {Array<Object>} cache
+ * @return {*}
+ */
+
+
+/**
+ * forEach for object
+ */
+function forEachValue (obj, fn) {
+  Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
+}
+
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
+function isPromise (val) {
+  return val && typeof val.then === 'function'
+}
+
+function assert (condition, msg) {
+  if (!condition) { throw new Error(("[vuex] " + msg)) }
+}
+
+var Module = function Module (rawModule, runtime) {
+  this.runtime = runtime;
+  this._children = Object.create(null);
+  this._rawModule = rawModule;
+  var rawState = rawModule.state;
+  this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
+};
+
+var prototypeAccessors$1 = { namespaced: { configurable: true } };
+
+prototypeAccessors$1.namespaced.get = function () {
+  return !!this._rawModule.namespaced
+};
+
+Module.prototype.addChild = function addChild (key, module) {
+  this._children[key] = module;
+};
+
+Module.prototype.removeChild = function removeChild (key) {
+  delete this._children[key];
+};
+
+Module.prototype.getChild = function getChild (key) {
+  return this._children[key]
+};
+
+Module.prototype.update = function update (rawModule) {
+  this._rawModule.namespaced = rawModule.namespaced;
+  if (rawModule.actions) {
+    this._rawModule.actions = rawModule.actions;
+  }
+  if (rawModule.mutations) {
+    this._rawModule.mutations = rawModule.mutations;
+  }
+  if (rawModule.getters) {
+    this._rawModule.getters = rawModule.getters;
+  }
+};
+
+Module.prototype.forEachChild = function forEachChild (fn) {
+  forEachValue(this._children, fn);
+};
+
+Module.prototype.forEachGetter = function forEachGetter (fn) {
+  if (this._rawModule.getters) {
+    forEachValue(this._rawModule.getters, fn);
+  }
+};
+
+Module.prototype.forEachAction = function forEachAction (fn) {
+  if (this._rawModule.actions) {
+    forEachValue(this._rawModule.actions, fn);
+  }
+};
+
+Module.prototype.forEachMutation = function forEachMutation (fn) {
+  if (this._rawModule.mutations) {
+    forEachValue(this._rawModule.mutations, fn);
+  }
+};
+
+Object.defineProperties( Module.prototype, prototypeAccessors$1 );
+
+var ModuleCollection = function ModuleCollection (rawRootModule) {
+  // register root module (Vuex.Store options)
+  this.register([], rawRootModule, false);
+};
+
+ModuleCollection.prototype.get = function get (path) {
+  return path.reduce(function (module, key) {
+    return module.getChild(key)
+  }, this.root)
+};
+
+ModuleCollection.prototype.getNamespace = function getNamespace (path) {
+  var module = this.root;
+  return path.reduce(function (namespace, key) {
+    module = module.getChild(key);
+    return namespace + (module.namespaced ? key + '/' : '')
+  }, '')
+};
+
+ModuleCollection.prototype.update = function update$1 (rawRootModule) {
+  update([], this.root, rawRootModule);
+};
+
+ModuleCollection.prototype.register = function register (path, rawModule, runtime) {
+    var this$1 = this;
+    if ( runtime === void 0 ) runtime = true;
+
+  if (true) {
+    assertRawModule(path, rawModule);
+  }
+
+  var newModule = new Module(rawModule, runtime);
+  if (path.length === 0) {
+    this.root = newModule;
+  } else {
+    var parent = this.get(path.slice(0, -1));
+    parent.addChild(path[path.length - 1], newModule);
+  }
+
+  // register nested modules
+  if (rawModule.modules) {
+    forEachValue(rawModule.modules, function (rawChildModule, key) {
+      this$1.register(path.concat(key), rawChildModule, runtime);
+    });
+  }
+};
+
+ModuleCollection.prototype.unregister = function unregister (path) {
+  var parent = this.get(path.slice(0, -1));
+  var key = path[path.length - 1];
+  if (!parent.getChild(key).runtime) { return }
+
+  parent.removeChild(key);
+};
+
+function update (path, targetModule, newModule) {
+  if (true) {
+    assertRawModule(path, newModule);
+  }
+
+  // update target module
+  targetModule.update(newModule);
+
+  // update nested modules
+  if (newModule.modules) {
+    for (var key in newModule.modules) {
+      if (!targetModule.getChild(key)) {
+        if (true) {
+          console.warn(
+            "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
+            'manual reload is needed'
+          );
+        }
+        return
+      }
+      update(
+        path.concat(key),
+        targetModule.getChild(key),
+        newModule.modules[key]
+      );
+    }
+  }
+}
+
+var functionAssert = {
+  assert: function (value) { return typeof value === 'function'; },
+  expected: 'function'
+};
+
+var objectAssert = {
+  assert: function (value) { return typeof value === 'function' ||
+    (typeof value === 'object' && typeof value.handler === 'function'); },
+  expected: 'function or object with "handler" function'
+};
+
+var assertTypes = {
+  getters: functionAssert,
+  mutations: functionAssert,
+  actions: objectAssert
+};
+
+function assertRawModule (path, rawModule) {
+  Object.keys(assertTypes).forEach(function (key) {
+    if (!rawModule[key]) { return }
+
+    var assertOptions = assertTypes[key];
+
+    forEachValue(rawModule[key], function (value, type) {
+      assert(
+        assertOptions.assert(value),
+        makeAssertionMessage(path, key, type, value, assertOptions.expected)
+      );
+    });
+  });
+}
+
+function makeAssertionMessage (path, key, type, value, expected) {
+  var buf = key + " should be " + expected + " but \"" + key + "." + type + "\"";
+  if (path.length > 0) {
+    buf += " in module \"" + (path.join('.')) + "\"";
+  }
+  buf += " is " + (JSON.stringify(value)) + ".";
+  return buf
+}
+
+var Vue; // bind on install
+
+var Store = function Store (options) {
+  var this$1 = this;
+  if ( options === void 0 ) options = {};
+
+  // Auto install if it is not done yet and `window` has `Vue`.
+  // To allow users to avoid auto-installation in some cases,
+  // this code should be placed here. See #731
+  if (!Vue && typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+  }
+
+  if (true) {
+    assert(Vue, "must call Vue.use(Vuex) before creating a store instance.");
+    assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.");
+    assert(this instanceof Store, "Store must be called with the new operator.");
+  }
+
+  var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
+  var strict = options.strict; if ( strict === void 0 ) strict = false;
+
+  var state = options.state; if ( state === void 0 ) state = {};
+  if (typeof state === 'function') {
+    state = state() || {};
+  }
+
+  // store internal state
+  this._committing = false;
+  this._actions = Object.create(null);
+  this._actionSubscribers = [];
+  this._mutations = Object.create(null);
+  this._wrappedGetters = Object.create(null);
+  this._modules = new ModuleCollection(options);
+  this._modulesNamespaceMap = Object.create(null);
+  this._subscribers = [];
+  this._watcherVM = new Vue();
+
+  // bind commit and dispatch to self
+  var store = this;
+  var ref = this;
+  var dispatch = ref.dispatch;
+  var commit = ref.commit;
+  this.dispatch = function boundDispatch (type, payload) {
+    return dispatch.call(store, type, payload)
+  };
+  this.commit = function boundCommit (type, payload, options) {
+    return commit.call(store, type, payload, options)
+  };
+
+  // strict mode
+  this.strict = strict;
+
+  // init root module.
+  // this also recursively registers all sub-modules
+  // and collects all module getters inside this._wrappedGetters
+  installModule(this, state, [], this._modules.root);
+
+  // initialize the store vm, which is responsible for the reactivity
+  // (also registers _wrappedGetters as computed properties)
+  resetStoreVM(this, state);
+
+  // apply plugins
+  plugins.forEach(function (plugin) { return plugin(this$1); });
+
+  if (Vue.config.devtools) {
+    devtoolPlugin(this);
+  }
+};
+
+var prototypeAccessors = { state: { configurable: true } };
+
+prototypeAccessors.state.get = function () {
+  return this._vm._data.$$state
+};
+
+prototypeAccessors.state.set = function (v) {
+  if (true) {
+    assert(false, "Use store.replaceState() to explicit replace store state.");
+  }
+};
+
+Store.prototype.commit = function commit (_type, _payload, _options) {
+    var this$1 = this;
+
+  // check object-style commit
+  var ref = unifyObjectStyle(_type, _payload, _options);
+    var type = ref.type;
+    var payload = ref.payload;
+    var options = ref.options;
+
+  var mutation = { type: type, payload: payload };
+  var entry = this._mutations[type];
+  if (!entry) {
+    if (true) {
+      console.error(("[vuex] unknown mutation type: " + type));
+    }
+    return
+  }
+  this._withCommit(function () {
+    entry.forEach(function commitIterator (handler) {
+      handler(payload);
+    });
+  });
+  this._subscribers.forEach(function (sub) { return sub(mutation, this$1.state); });
+
+  if (
+     true &&
+    options && options.silent
+  ) {
+    console.warn(
+      "[vuex] mutation type: " + type + ". Silent option has been removed. " +
+      'Use the filter functionality in the vue-devtools'
+    );
+  }
+};
+
+Store.prototype.dispatch = function dispatch (_type, _payload) {
+    var this$1 = this;
+
+  // check object-style dispatch
+  var ref = unifyObjectStyle(_type, _payload);
+    var type = ref.type;
+    var payload = ref.payload;
+
+  var action = { type: type, payload: payload };
+  var entry = this._actions[type];
+  if (!entry) {
+    if (true) {
+      console.error(("[vuex] unknown action type: " + type));
+    }
+    return
+  }
+
+  this._actionSubscribers.forEach(function (sub) { return sub(action, this$1.state); });
+
+  return entry.length > 1
+    ? Promise.all(entry.map(function (handler) { return handler(payload); }))
+    : entry[0](payload)
+};
+
+Store.prototype.subscribe = function subscribe (fn) {
+  return genericSubscribe(fn, this._subscribers)
+};
+
+Store.prototype.subscribeAction = function subscribeAction (fn) {
+  return genericSubscribe(fn, this._actionSubscribers)
+};
+
+Store.prototype.watch = function watch (getter, cb, options) {
+    var this$1 = this;
+
+  if (true) {
+    assert(typeof getter === 'function', "store.watch only accepts a function.");
+  }
+  return this._watcherVM.$watch(function () { return getter(this$1.state, this$1.getters); }, cb, options)
+};
+
+Store.prototype.replaceState = function replaceState (state) {
+    var this$1 = this;
+
+  this._withCommit(function () {
+    this$1._vm._data.$$state = state;
+  });
+};
+
+Store.prototype.registerModule = function registerModule (path, rawModule, options) {
+    if ( options === void 0 ) options = {};
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if (true) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+    assert(path.length > 0, 'cannot register the root module by using registerModule.');
+  }
+
+  this._modules.register(path, rawModule);
+  installModule(this, this.state, path, this._modules.get(path), options.preserveState);
+  // reset store to update getters...
+  resetStoreVM(this, this.state);
+};
+
+Store.prototype.unregisterModule = function unregisterModule (path) {
+    var this$1 = this;
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if (true) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+  }
+
+  this._modules.unregister(path);
+  this._withCommit(function () {
+    var parentState = getNestedState(this$1.state, path.slice(0, -1));
+    Vue.delete(parentState, path[path.length - 1]);
+  });
+  resetStore(this);
+};
+
+Store.prototype.hotUpdate = function hotUpdate (newOptions) {
+  this._modules.update(newOptions);
+  resetStore(this, true);
+};
+
+Store.prototype._withCommit = function _withCommit (fn) {
+  var committing = this._committing;
+  this._committing = true;
+  fn();
+  this._committing = committing;
+};
+
+Object.defineProperties( Store.prototype, prototypeAccessors );
+
+function genericSubscribe (fn, subs) {
+  if (subs.indexOf(fn) < 0) {
+    subs.push(fn);
+  }
+  return function () {
+    var i = subs.indexOf(fn);
+    if (i > -1) {
+      subs.splice(i, 1);
+    }
+  }
+}
+
+function resetStore (store, hot) {
+  store._actions = Object.create(null);
+  store._mutations = Object.create(null);
+  store._wrappedGetters = Object.create(null);
+  store._modulesNamespaceMap = Object.create(null);
+  var state = store.state;
+  // init all modules
+  installModule(store, state, [], store._modules.root, true);
+  // reset vm
+  resetStoreVM(store, state, hot);
+}
+
+function resetStoreVM (store, state, hot) {
+  var oldVm = store._vm;
+
+  // bind store public getters
+  store.getters = {};
+  var wrappedGetters = store._wrappedGetters;
+  var computed = {};
+  forEachValue(wrappedGetters, function (fn, key) {
+    // use computed to leverage its lazy-caching mechanism
+    computed[key] = function () { return fn(store); };
+    Object.defineProperty(store.getters, key, {
+      get: function () { return store._vm[key]; },
+      enumerable: true // for local getters
+    });
+  });
+
+  // use a Vue instance to store the state tree
+  // suppress warnings just in case the user has added
+  // some funky global mixins
+  var silent = Vue.config.silent;
+  Vue.config.silent = true;
+  store._vm = new Vue({
+    data: {
+      $$state: state
+    },
+    computed: computed
+  });
+  Vue.config.silent = silent;
+
+  // enable strict mode for new vm
+  if (store.strict) {
+    enableStrictMode(store);
+  }
+
+  if (oldVm) {
+    if (hot) {
+      // dispatch changes in all subscribed watchers
+      // to force getter re-evaluation for hot reloading.
+      store._withCommit(function () {
+        oldVm._data.$$state = null;
+      });
+    }
+    Vue.nextTick(function () { return oldVm.$destroy(); });
+  }
+}
+
+function installModule (store, rootState, path, module, hot) {
+  var isRoot = !path.length;
+  var namespace = store._modules.getNamespace(path);
+
+  // register in namespace map
+  if (module.namespaced) {
+    store._modulesNamespaceMap[namespace] = module;
+  }
+
+  // set state
+  if (!isRoot && !hot) {
+    var parentState = getNestedState(rootState, path.slice(0, -1));
+    var moduleName = path[path.length - 1];
+    store._withCommit(function () {
+      Vue.set(parentState, moduleName, module.state);
+    });
+  }
+
+  var local = module.context = makeLocalContext(store, namespace, path);
+
+  module.forEachMutation(function (mutation, key) {
+    var namespacedType = namespace + key;
+    registerMutation(store, namespacedType, mutation, local);
+  });
+
+  module.forEachAction(function (action, key) {
+    var type = action.root ? key : namespace + key;
+    var handler = action.handler || action;
+    registerAction(store, type, handler, local);
+  });
+
+  module.forEachGetter(function (getter, key) {
+    var namespacedType = namespace + key;
+    registerGetter(store, namespacedType, getter, local);
+  });
+
+  module.forEachChild(function (child, key) {
+    installModule(store, rootState, path.concat(key), child, hot);
+  });
+}
+
+/**
+ * make localized dispatch, commit, getters and state
+ * if there is no namespace, just use root ones
+ */
+function makeLocalContext (store, namespace, path) {
+  var noNamespace = namespace === '';
+
+  var local = {
+    dispatch: noNamespace ? store.dispatch : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if ( true && !store._actions[type]) {
+          console.error(("[vuex] unknown local action type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      return store.dispatch(type, payload)
+    },
+
+    commit: noNamespace ? store.commit : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if ( true && !store._mutations[type]) {
+          console.error(("[vuex] unknown local mutation type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      store.commit(type, payload, options);
+    }
+  };
+
+  // getters and state object must be gotten lazily
+  // because they will be changed by vm update
+  Object.defineProperties(local, {
+    getters: {
+      get: noNamespace
+        ? function () { return store.getters; }
+        : function () { return makeLocalGetters(store, namespace); }
+    },
+    state: {
+      get: function () { return getNestedState(store.state, path); }
+    }
+  });
+
+  return local
+}
+
+function makeLocalGetters (store, namespace) {
+  var gettersProxy = {};
+
+  var splitPos = namespace.length;
+  Object.keys(store.getters).forEach(function (type) {
+    // skip if the target getter is not match this namespace
+    if (type.slice(0, splitPos) !== namespace) { return }
+
+    // extract local getter type
+    var localType = type.slice(splitPos);
+
+    // Add a port to the getters proxy.
+    // Define as getter property because
+    // we do not want to evaluate the getters in this time.
+    Object.defineProperty(gettersProxy, localType, {
+      get: function () { return store.getters[type]; },
+      enumerable: true
+    });
+  });
+
+  return gettersProxy
+}
+
+function registerMutation (store, type, handler, local) {
+  var entry = store._mutations[type] || (store._mutations[type] = []);
+  entry.push(function wrappedMutationHandler (payload) {
+    handler.call(store, local.state, payload);
+  });
+}
+
+function registerAction (store, type, handler, local) {
+  var entry = store._actions[type] || (store._actions[type] = []);
+  entry.push(function wrappedActionHandler (payload, cb) {
+    var res = handler.call(store, {
+      dispatch: local.dispatch,
+      commit: local.commit,
+      getters: local.getters,
+      state: local.state,
+      rootGetters: store.getters,
+      rootState: store.state
+    }, payload, cb);
+    if (!isPromise(res)) {
+      res = Promise.resolve(res);
+    }
+    if (store._devtoolHook) {
+      return res.catch(function (err) {
+        store._devtoolHook.emit('vuex:error', err);
+        throw err
+      })
+    } else {
+      return res
+    }
+  });
+}
+
+function registerGetter (store, type, rawGetter, local) {
+  if (store._wrappedGetters[type]) {
+    if (true) {
+      console.error(("[vuex] duplicate getter key: " + type));
+    }
+    return
+  }
+  store._wrappedGetters[type] = function wrappedGetter (store) {
+    return rawGetter(
+      local.state, // local state
+      local.getters, // local getters
+      store.state, // root state
+      store.getters // root getters
+    )
+  };
+}
+
+function enableStrictMode (store) {
+  store._vm.$watch(function () { return this._data.$$state }, function () {
+    if (true) {
+      assert(store._committing, "Do not mutate vuex store state outside mutation handlers.");
+    }
+  }, { deep: true, sync: true });
+}
+
+function getNestedState (state, path) {
+  return path.length
+    ? path.reduce(function (state, key) { return state[key]; }, state)
+    : state
+}
+
+function unifyObjectStyle (type, payload, options) {
+  if (isObject(type) && type.type) {
+    options = payload;
+    payload = type;
+    type = type.type;
+  }
+
+  if (true) {
+    assert(typeof type === 'string', ("Expects string as the type, but found " + (typeof type) + "."));
+  }
+
+  return { type: type, payload: payload, options: options }
+}
+
+function install (_Vue) {
+  if (Vue && _Vue === Vue) {
+    if (true) {
+      console.error(
+        '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+      );
+    }
+    return
+  }
+  Vue = _Vue;
+  applyMixin(Vue);
+}
+
+var mapState = normalizeNamespace(function (namespace, states) {
+  var res = {};
+  normalizeMap(states).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedState () {
+      var state = this.$store.state;
+      var getters = this.$store.getters;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapState', namespace);
+        if (!module) {
+          return
+        }
+        state = module.context.state;
+        getters = module.context.getters;
+      }
+      return typeof val === 'function'
+        ? val.call(this, state, getters)
+        : state[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+var mapMutations = normalizeNamespace(function (namespace, mutations) {
+  var res = {};
+  normalizeMap(mutations).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedMutation () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      var commit = this.$store.commit;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapMutations', namespace);
+        if (!module) {
+          return
+        }
+        commit = module.context.commit;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [commit].concat(args))
+        : commit.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+var mapGetters = normalizeNamespace(function (namespace, getters) {
+  var res = {};
+  normalizeMap(getters).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    val = namespace + val;
+    res[key] = function mappedGetter () {
+      if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
+        return
+      }
+      if ( true && !(val in this.$store.getters)) {
+        console.error(("[vuex] unknown getter: " + val));
+        return
+      }
+      return this.$store.getters[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+var mapActions = normalizeNamespace(function (namespace, actions) {
+  var res = {};
+  normalizeMap(actions).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedAction () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      var dispatch = this.$store.dispatch;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapActions', namespace);
+        if (!module) {
+          return
+        }
+        dispatch = module.context.dispatch;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [dispatch].concat(args))
+        : dispatch.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+var createNamespacedHelpers = function (namespace) { return ({
+  mapState: mapState.bind(null, namespace),
+  mapGetters: mapGetters.bind(null, namespace),
+  mapMutations: mapMutations.bind(null, namespace),
+  mapActions: mapActions.bind(null, namespace)
+}); };
+
+function normalizeMap (map) {
+  return Array.isArray(map)
+    ? map.map(function (key) { return ({ key: key, val: key }); })
+    : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
+}
+
+function normalizeNamespace (fn) {
+  return function (namespace, map) {
+    if (typeof namespace !== 'string') {
+      map = namespace;
+      namespace = '';
+    } else if (namespace.charAt(namespace.length - 1) !== '/') {
+      namespace += '/';
+    }
+    return fn(namespace, map)
+  }
+}
+
+function getModuleByNamespace (store, helper, namespace) {
+  var module = store._modulesNamespaceMap[namespace];
+  if ( true && !module) {
+    console.error(("[vuex] module namespace not found in " + helper + "(): " + namespace));
+  }
+  return module
+}
+
+var index_esm = {
+  Store: Store,
+  install: install,
+  version: '3.0.1',
+  mapState: mapState,
+  mapMutations: mapMutations,
+  mapGetters: mapGetters,
+  mapActions: mapActions,
+  createNamespacedHelpers: createNamespacedHelpers
+};
+
+
+/* harmony default export */ __webpack_exports__["default"] = (index_esm);
+
+
+/***/ }),
+
+/***/ 107:
 /*!********************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuser%2Fincome"} ***!
   \********************************************************************************************/
@@ -1553,16 +2511,16 @@ uni$1;exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _income = _interopRequireDefault(__webpack_require__(/*! ./pages/user/income.vue */ 104));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _income = _interopRequireDefault(__webpack_require__(/*! ./pages/user/income.vue */ 108));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_income.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 111:
+/***/ 115:
 /*!********************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuser%2Fpoints"} ***!
   \********************************************************************************************/
@@ -1570,16 +2528,16 @@ createPage(_income.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _points = _interopRequireDefault(__webpack_require__(/*! ./pages/user/points.vue */ 112));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _points = _interopRequireDefault(__webpack_require__(/*! ./pages/user/points.vue */ 116));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_points.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 119:
+/***/ 123:
 /*!********************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmoney%2Fmoney"} ***!
   \********************************************************************************************/
@@ -1587,16 +2545,84 @@ createPage(_points.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _money = _interopRequireDefault(__webpack_require__(/*! ./pages/money/money.vue */ 120));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _money = _interopRequireDefault(__webpack_require__(/*! ./pages/money/money.vue */ 124));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_money.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 12:
+/***/ 129:
+/*!**************************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Forder%2FcreateOrder"} ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _createOrder = _interopRequireDefault(__webpack_require__(/*! ./pages/order/createOrder.vue */ 130));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_createOrder.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 137:
+/*!************************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Faddress%2Faddress"} ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _address = _interopRequireDefault(__webpack_require__(/*! ./pages/address/address.vue */ 138));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_address.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 145:
+/*!******************************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Faddress%2FaddressManage"} ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _addressManage = _interopRequireDefault(__webpack_require__(/*! ./pages/address/addressManage.vue */ 146));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_addressManage.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 153:
+/*!******************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmoney%2Fpay"} ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _pay = _interopRequireDefault(__webpack_require__(/*! ./pages/money/pay.vue */ 154));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_pay.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 16:
 /*!********************************************************************!*\
   !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
   \********************************************************************/
@@ -1703,24 +2729,41 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 125:
-/*!**************************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Forder%2FcreateOrder"} ***!
-  \**************************************************************************************************/
+/***/ 161:
+/*!*************************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmoney%2FpaySuccess"} ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _createOrder = _interopRequireDefault(__webpack_require__(/*! ./pages/order/createOrder.vue */ 126));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_createOrder.default);
+var _paySuccess = _interopRequireDefault(__webpack_require__(/*! ./pages/money/paySuccess.vue */ 162));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_paySuccess.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 13:
+/***/ 169:
+/*!**********************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fnotice%2Fnotice"} ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _notice = _interopRequireDefault(__webpack_require__(/*! ./pages/notice/notice.vue */ 170));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_notice.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 17:
 /*!********************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/js_sdk/luch-request/index.js ***!
   \********************************************************************************/
@@ -1728,8 +2771,8 @@ createPage(_createOrder.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.http = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ./request */ 14));
-var _md = _interopRequireDefault(__webpack_require__(/*! @/js_sdk/ccdzhang-dokey/md5.js */ 15));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.http = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ./request */ 18));
+var _md = _interopRequireDefault(__webpack_require__(/*! @/js_sdk/ccdzhang-dokey/md5.js */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 
 var http = new _request.default();exports.http = http;
 
@@ -1803,24 +2846,24 @@ http.interceptor.response(function (response) {/* 请求之后拦截器 */var
 
 /***/ }),
 
-/***/ 133:
-/*!************************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Faddress%2Faddress"} ***!
-  \************************************************************************************************/
+/***/ 177:
+/*!**************************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fcategory%2Fcategory"} ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _address = _interopRequireDefault(__webpack_require__(/*! ./pages/address/address.vue */ 134));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_address.default);
+var _category = _interopRequireDefault(__webpack_require__(/*! ./pages/category/category.vue */ 178));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_category.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 14:
+/***/ 18:
 /*!**********************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/js_sdk/luch-request/request.js ***!
   \**********************************************************************************/
@@ -2059,41 +3102,24 @@ Request = /*#__PURE__*/function () {function Request() {var _this = this;_classC
 
 /***/ }),
 
-/***/ 141:
-/*!******************************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Faddress%2FaddressManage"} ***!
-  \******************************************************************************************************/
+/***/ 185:
+/*!*******************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fgoods%2Flist"} ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _addressManage = _interopRequireDefault(__webpack_require__(/*! ./pages/address/addressManage.vue */ 142));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_addressManage.default);
+var _list = _interopRequireDefault(__webpack_require__(/*! ./pages/goods/list.vue */ 186));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_list.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 149:
-/*!******************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmoney%2Fpay"} ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _pay = _interopRequireDefault(__webpack_require__(/*! ./pages/money/pay.vue */ 150));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_pay.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 15:
+/***/ 19:
 /*!********************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/js_sdk/ccdzhang-dokey/md5.js ***!
   \********************************************************************************/
@@ -2127,7 +3153,7 @@ createPage(_pay.default);
     root = self;
   }
   var COMMON_JS = !root.JS_MD5_NO_COMMON_JS && typeof module === 'object' && module.exports;
-  var AMD =  true && __webpack_require__(/*! !webpack amd options */ 18);
+  var AMD =  true && __webpack_require__(/*! !webpack amd options */ 22);
   var ARRAY_BUFFER = !root.JS_MD5_NO_ARRAY_BUFFER && typeof ArrayBuffer !== 'undefined';
   var HEX_CHARS = '0123456789abcdef'.split('');
   var EXTRA = [128, 32768, 8388608, -2147483648];
@@ -2787,370 +3813,11 @@ createPage(_pay.default);
     }
   }
 })();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../../../Applications/HBuilderX-Alpha.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 16), __webpack_require__(/*! ./../../../../../../../../../Applications/HBuilderX-Alpha.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/webpack/buildin/global.js */ 3)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../../../Applications/HBuilderX-Alpha.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 20), __webpack_require__(/*! ./../../../../../../../../../Applications/HBuilderX-Alpha.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/webpack/buildin/global.js */ 3)))
 
 /***/ }),
 
-/***/ 157:
-/*!*************************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmoney%2FpaySuccess"} ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _paySuccess = _interopRequireDefault(__webpack_require__(/*! ./pages/money/paySuccess.vue */ 158));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_paySuccess.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 16:
-/*!********************************************************!*\
-  !*** ./node_modules/node-libs-browser/mock/process.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports.nextTick = function nextTick(fn) {
-	setTimeout(fn, 0);
-};
-
-exports.platform = exports.arch = 
-exports.execPath = exports.title = 'browser';
-exports.pid = 1;
-exports.browser = true;
-exports.env = {};
-exports.argv = [];
-
-exports.binding = function (name) {
-	throw new Error('No such module. (Possibly not yet loaded)')
-};
-
-(function () {
-    var cwd = '/';
-    var path;
-    exports.cwd = function () { return cwd };
-    exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 17);
-        cwd = path.resolve(dir, cwd);
-    };
-})();
-
-exports.exit = exports.kill = 
-exports.umask = exports.dlopen = 
-exports.uptime = exports.memoryUsage = 
-exports.uvCounters = function() {};
-exports.features = {};
-
-
-/***/ }),
-
-/***/ 165:
-/*!**********************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fnotice%2Fnotice"} ***!
-  \**********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _notice = _interopRequireDefault(__webpack_require__(/*! ./pages/notice/notice.vue */ 166));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_notice.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 17:
-/*!***********************************************!*\
-  !*** ./node_modules/path-browserify/index.js ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// resolves . and .. elements in a path array with directory names there
-// must be no slashes, empty elements, or device names (c:\) in the array
-// (so also no leading and trailing slashes - it does not distinguish
-// relative and absolute paths)
-function normalizeArray(parts, allowAboveRoot) {
-  // if the path tries to go above the root, `up` ends up > 0
-  var up = 0;
-  for (var i = parts.length - 1; i >= 0; i--) {
-    var last = parts[i];
-    if (last === '.') {
-      parts.splice(i, 1);
-    } else if (last === '..') {
-      parts.splice(i, 1);
-      up++;
-    } else if (up) {
-      parts.splice(i, 1);
-      up--;
-    }
-  }
-
-  // if the path is allowed to go above the root, restore leading ..s
-  if (allowAboveRoot) {
-    for (; up--; up) {
-      parts.unshift('..');
-    }
-  }
-
-  return parts;
-}
-
-// Split a filename into [root, dir, basename, ext], unix version
-// 'root' is just a slash, or nothing.
-var splitPathRe =
-    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
-var splitPath = function(filename) {
-  return splitPathRe.exec(filename).slice(1);
-};
-
-// path.resolve([from ...], to)
-// posix version
-exports.resolve = function() {
-  var resolvedPath = '',
-      resolvedAbsolute = false;
-
-  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
-    var path = (i >= 0) ? arguments[i] : process.cwd();
-
-    // Skip empty and invalid entries
-    if (typeof path !== 'string') {
-      throw new TypeError('Arguments to path.resolve must be strings');
-    } else if (!path) {
-      continue;
-    }
-
-    resolvedPath = path + '/' + resolvedPath;
-    resolvedAbsolute = path.charAt(0) === '/';
-  }
-
-  // At this point the path should be resolved to a full absolute path, but
-  // handle relative paths to be safe (might happen when process.cwd() fails)
-
-  // Normalize the path
-  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
-    return !!p;
-  }), !resolvedAbsolute).join('/');
-
-  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
-};
-
-// path.normalize(path)
-// posix version
-exports.normalize = function(path) {
-  var isAbsolute = exports.isAbsolute(path),
-      trailingSlash = substr(path, -1) === '/';
-
-  // Normalize the path
-  path = normalizeArray(filter(path.split('/'), function(p) {
-    return !!p;
-  }), !isAbsolute).join('/');
-
-  if (!path && !isAbsolute) {
-    path = '.';
-  }
-  if (path && trailingSlash) {
-    path += '/';
-  }
-
-  return (isAbsolute ? '/' : '') + path;
-};
-
-// posix version
-exports.isAbsolute = function(path) {
-  return path.charAt(0) === '/';
-};
-
-// posix version
-exports.join = function() {
-  var paths = Array.prototype.slice.call(arguments, 0);
-  return exports.normalize(filter(paths, function(p, index) {
-    if (typeof p !== 'string') {
-      throw new TypeError('Arguments to path.join must be strings');
-    }
-    return p;
-  }).join('/'));
-};
-
-
-// path.relative(from, to)
-// posix version
-exports.relative = function(from, to) {
-  from = exports.resolve(from).substr(1);
-  to = exports.resolve(to).substr(1);
-
-  function trim(arr) {
-    var start = 0;
-    for (; start < arr.length; start++) {
-      if (arr[start] !== '') break;
-    }
-
-    var end = arr.length - 1;
-    for (; end >= 0; end--) {
-      if (arr[end] !== '') break;
-    }
-
-    if (start > end) return [];
-    return arr.slice(start, end - start + 1);
-  }
-
-  var fromParts = trim(from.split('/'));
-  var toParts = trim(to.split('/'));
-
-  var length = Math.min(fromParts.length, toParts.length);
-  var samePartsLength = length;
-  for (var i = 0; i < length; i++) {
-    if (fromParts[i] !== toParts[i]) {
-      samePartsLength = i;
-      break;
-    }
-  }
-
-  var outputParts = [];
-  for (var i = samePartsLength; i < fromParts.length; i++) {
-    outputParts.push('..');
-  }
-
-  outputParts = outputParts.concat(toParts.slice(samePartsLength));
-
-  return outputParts.join('/');
-};
-
-exports.sep = '/';
-exports.delimiter = ':';
-
-exports.dirname = function(path) {
-  var result = splitPath(path),
-      root = result[0],
-      dir = result[1];
-
-  if (!root && !dir) {
-    // No dirname whatsoever
-    return '.';
-  }
-
-  if (dir) {
-    // It has a dirname, strip trailing slash
-    dir = dir.substr(0, dir.length - 1);
-  }
-
-  return root + dir;
-};
-
-
-exports.basename = function(path, ext) {
-  var f = splitPath(path)[2];
-  // TODO: make this comparison case-insensitive on windows?
-  if (ext && f.substr(-1 * ext.length) === ext) {
-    f = f.substr(0, f.length - ext.length);
-  }
-  return f;
-};
-
-
-exports.extname = function(path) {
-  return splitPath(path)[3];
-};
-
-function filter (xs, f) {
-    if (xs.filter) return xs.filter(f);
-    var res = [];
-    for (var i = 0; i < xs.length; i++) {
-        if (f(xs[i], i, xs)) res.push(xs[i]);
-    }
-    return res;
-}
-
-// String.prototype.substr - negative index don't work in IE8
-var substr = 'ab'.substr(-1) === 'b'
-    ? function (str, start, len) { return str.substr(start, len) }
-    : function (str, start, len) {
-        if (start < 0) start = str.length + start;
-        return str.substr(start, len);
-    }
-;
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 16)))
-
-/***/ }),
-
-/***/ 173:
-/*!**************************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fcategory%2Fcategory"} ***!
-  \**************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _category = _interopRequireDefault(__webpack_require__(/*! ./pages/category/category.vue */ 174));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_category.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 18:
-/*!****************************************!*\
-  !*** (webpack)/buildin/amd-options.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
-module.exports = __webpack_amd_options__;
-
-/* WEBPACK VAR INJECTION */}.call(this, {}))
-
-/***/ }),
-
-/***/ 181:
-/*!*******************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fgoods%2Flist"} ***!
-  \*******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _list = _interopRequireDefault(__webpack_require__(/*! ./pages/goods/list.vue */ 182));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_list.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 189:
+/***/ 193:
 /*!********************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fsearch%2Flist"} ***!
   \********************************************************************************************/
@@ -3158,686 +3825,16 @@ createPage(_list.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _list = _interopRequireDefault(__webpack_require__(/*! ./pages/search/list.vue */ 190));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _list = _interopRequireDefault(__webpack_require__(/*! ./pages/search/list.vue */ 194));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_list.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 19:
-/*!***********************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/Json.js ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /* 用户 */
-var userInfo = {
-  status: 1,
-  data: {
-    id: 1,
-    mobile: 18888888888,
-    nickname: 'Leo yo',
-    portrait: 'http://img.61ef.cn/news/201409/28/2014092805595807.jpg' },
-
-  msg: '提示'
-
-  /* 首页轮播图 */ };
-var carouselList = [{
-  src: "/static/temp/banner3.jpg",
-  background: "rgb(203, 87, 60)" },
-
-{
-  src: "/static/temp/banner2.jpg",
-  background: "rgb(205, 215, 218)" },
-
-{
-  src: "/static/temp/banner4.jpg",
-  background: "rgb(183, 73, 69)" }];
-
-
-/* 商品列表 */
-var goodsList = [{
-  image: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553187020783&di=bac9dd78b36fd984502d404d231011c0&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F26%2F20160926173213_s5adi.jpeg",
-  image2: "http://pic.rmb.bdstatic.com/819a044daa66718c2c40a48c1ba971e6.jpeg",
-  image3: "http://img001.hc360.cn/y5/M00/1B/45/wKhQUVYFE0uEZ7zVAAAAAMj3H1w418.jpg",
-  title: "古黛妃 短袖t恤女夏装2019新款韩版宽松",
-  price: 179,
-  sales: 61 },
-
-{
-  image: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg",
-  image2: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1554013048&di=a3dc9fd1406dd7bad7fbb97b5489ec04&imgtype=jpg&er=1&src=http%3A%2F%2Fimg009.hc360.cn%2Fhb%2FnKo44ac2656F831c684507E3Da0E3a26841.jpg",
-  image3: "http://img.zcool.cn/community/017a4e58b4eab6a801219c77084373.jpg",
-  title: "潘歌针织连衣裙",
-  price: 78,
-  sales: 16 },
-
-{
-  image: "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg",
-  image2: "http://m.360buyimg.com/n12/jfs/t247/42/1078640382/162559/3628a0b/53f5ad09N0dd79894.jpg%21q70.jpg",
-  image3: "http://ikids.61kids.com.cn/upload/2018-12-29/1546070626796114.jpg",
-  title: "巧谷2019春夏季新品新款女装",
-  price: 108.8,
-  sales: 5 },
-{
-  image: "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=756705744,3505936868&fm=11&gp=0.jpg",
-  image2: "http://images.jaadee.com/images/201702/goods_img/30150_d85aed83521.jpg",
-  image3: "http://img13.360buyimg.com/popWaterMark/jfs/t865/120/206320620/138889/dcc94caa/550acedcN613e2a9d.jpg",
-  title: "私萱连衣裙",
-  price: 265,
-  sales: 88 },
-{
-  image: "https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg",
-  image2: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553418265666&di=d4a7f7eb0ae3c859edeb921641ee1c3a&imgtype=0&src=http%3A%2F%2Fimg003.hc360.cn%2Fy3%2FM02%2FF8%2F9F%2FwKhQh1TuSkGELIlQAAAAAPuLl4M987.jpg",
-  image3: "http://img.ef43.com.cn/product/2016/8/05100204b0c.jpg",
-  title: "娇诗茹 ulzzang原宿风学生潮韩版春夏短",
-  price: 422,
-  sales: 137 },
-{
-  image: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553187020783&di=bac9dd78b36fd984502d404d231011c0&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F26%2F20160926173213_s5adi.jpeg",
-  image2: "http://image5.suning.cn/uimg/b2c/newcatentries/0070158827-000000000622091973_2_800x800.jpg",
-  image3: "http://img.61ef.cn/news/201903/20/2019032009251784.jpg",
-  title: "古黛妃 短袖t恤女夏装2019新款韩版宽松",
-  price: 179,
-  sales: 95 }];
-
-
-
-/* 购物车 */
-var cartList = [{
-  id: 1,
-  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553005139&di=3368549edf9eee769a9bcb3fbbed2504&imgtype=jpg&er=1&src=http%3A%2F%2Fimg002.hc360.cn%2Fy3%2FM01%2F5F%2FDB%2FwKhQh1T7iceEGRdWAAAAADQvqk8733.jpg',
-  attr_val: '春装款 L',
-  stock: 15,
-  title: 'OVBE 长袖风衣',
-  price: 278.00,
-  number: 1 },
-
-{
-  id: 3,
-  image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2319343996,1107396922&fm=26&gp=0.jpg',
-  attr_val: '激光导航 扫拖一体',
-  stock: 3,
-  title: '科沃斯 Ecovacs 扫地机器人',
-  price: 1348.00,
-  number: 5 },
-
-{
-  id: 4,
-  image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg',
-  attr_val: 'XL',
-  stock: 55,
-  title: '朵绒菲小西装',
-  price: 175.88,
-  number: 1 },
-
-{
-  id: 5,
-  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552410549432&di=06dd3758053fb6d6362516f30a42d055&imgtype=0&src=http%3A%2F%2Fimgcache.mysodao.com%2Fimg3%2FM0A%2F67%2F42%2FCgAPD1vNSsHNm-TnAAEy61txQb4543_400x400x2.JPG',
-  attr_val: '520 #粉红色',
-  stock: 15,
-  title: '迪奥（Dior）烈艳唇膏',
-  price: 1089.00,
-  number: 1 },
-
-{
-  id: 6,
-  image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1031875829,2994442603&fm=26&gp=0.jpg',
-  attr_val: '樱花味润手霜 30ml',
-  stock: 15,
-  title: "欧舒丹（L'OCCITANE）乳木果",
-  price: 128,
-  number: 1 },
-
-{
-  id: 7,
-  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553007107&di=390915aa8a022cf0b03c03340881b0e7&imgtype=jpg&er=1&src=http%3A%2F%2Fimg13.360buyimg.com%2Fn0%2Fjfs%2Ft646%2F285%2F736444951%2F480473%2Faa701c97%2F548176feN10c9ed7b.jpg',
-  attr_val: '特级 12个',
-  stock: 7,
-  title: '新疆阿克苏苹果 特级',
-  price: 58.8,
-  number: 10 },
-
-{
-  id: 8,
-  image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2319343996,1107396922&fm=26&gp=0.jpg',
-  attr_val: '激光导航 扫拖一体',
-  stock: 15,
-  title: '科沃斯 Ecovacs 扫地机器人',
-  price: 1348.00,
-  number: 1 },
-
-{
-  id: 9,
-  image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg',
-  attr_val: 'XL',
-  stock: 55,
-  title: '朵绒菲小西装',
-  price: 175.88,
-  number: 1 },
-
-{
-  id: 10,
-  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552410549432&di=06dd3758053fb6d6362516f30a42d055&imgtype=0&src=http%3A%2F%2Fimgcache.mysodao.com%2Fimg3%2FM0A%2F67%2F42%2FCgAPD1vNSsHNm-TnAAEy61txQb4543_400x400x2.JPG',
-  attr_val: '520 #粉红色',
-  stock: 15,
-  title: '迪奥（Dior）烈艳唇膏',
-  price: 1089.00,
-  number: 1 },
-
-{
-  id: 11,
-  image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1031875829,2994442603&fm=26&gp=0.jpg',
-  attr_val: '樱花味润手霜 30ml',
-  stock: 15,
-  title: "欧舒丹（L'OCCITANE）乳木果",
-  price: 128,
-  number: 1 },
-
-{
-  id: 12,
-  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553007107&di=390915aa8a022cf0b03c03340881b0e7&imgtype=jpg&er=1&src=http%3A%2F%2Fimg13.360buyimg.com%2Fn0%2Fjfs%2Ft646%2F285%2F736444951%2F480473%2Faa701c97%2F548176feN10c9ed7b.jpg',
-  attr_val: '特级 12个',
-  stock: 7,
-  title: '新疆阿克苏苹果 特级',
-  price: 58.8,
-  number: 10 },
-
-{
-  id: 13,
-  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552405266625&di=a703f2b2cdb0fe7f3f05f62dd91307ab&imgtype=0&src=http%3A%2F%2Fwww.78.cn%2Fzixun%2Fnews%2Fupload%2F20190214%2F1550114706486250.jpg',
-  attr_val: '春装款/m',
-  stock: 15,
-  title: '女装2019春秋新款',
-  price: 420.00,
-  number: 1 }];
-
-
-//详情展示页面
-var detailData = {
-  title: '纯种金毛幼犬活体有血统证书',
-  title2: '拆家小能手 你值得拥有',
-  favorite: true,
-  imgList: [{
-    src: 'http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg' },
-
-  {
-    src: 'http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1309/06/c4/25310541_1378426131583.jpg' },
-
-  {
-    src: 'http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1610/26/c4/28926240_1477451226577_mthumb.jpg' },
-
-  {
-    src: 'http://picture.ik123.com/uploads/allimg/190219/12-1Z219105139.jpg' }],
-
-
-  episodeList: [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-
-  guessList: [{
-    src: 'http://img.52z.com/upload/news/image/20180530/20180530081619_31029.jpg',
-    title: '猫眼指甲油',
-    title2: '独树一帜的免照灯猫眼指甲' },
-
-  {
-    src: 'http://m.china-7.net/uploads/14778449362891.jpg',
-    title: '创意屋',
-    title2: '创意屋形上下双层高低床' },
-
-  {
-    src: 'http://www.k73.com/up/allimg/130415/22-130415093527.jpg',
-    title: 'MissCandy 指甲油',
-    title2: '十分适合喜欢素净的妹纸，尽显淡雅的气质' },
-
-  {
-    src: 'http://img0.imgtn.bdimg.com/it/u=2108933440,2194129200&fm=214&gp=0.jpg	',
-    title: 'RMK 2017星空海蓝唇釉',
-    title2: '唇釉质地，上唇后很滋润。少女也会心动的蓝色，透明液体形状。' }],
-
-
-  evaList: [{
-    src: 'http://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/77c6a7efce1b9d1663174705fbdeb48f8d546486.jpg',
-    nickname: 'Ranth Allngal',
-    time: '09-20 12:54',
-    zan: '54',
-    content: '评论不要太苛刻，不管什么产品都会有瑕疵，客服也说了可以退货并且商家承担运费，我觉得至少态度就可以给五星。' },
-
-  {
-    src: 'http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg',
-    nickname: 'Ranth Allngal',
-    time: '09-20 12:54',
-    zan: '54',
-    content: '楼上说的好有道理。' }] };
-
-
-
-var shareList = [{
-  type: 1,
-  icon: '/static/temp/share_wechat.png',
-  text: '微信好友' },
-
-{
-  type: 2,
-  icon: '/static/temp/share_moment.png',
-  text: '朋友圈' },
-
-{
-  type: 3,
-  icon: '/static/temp/share_qq.png',
-  text: 'QQ好友' },
-
-{
-  type: 4,
-  icon: '/static/temp/share_qqzone.png',
-  text: 'QQ空间' }];
-
-
-var lazyLoadList = [{
-  src: 'http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg' },
-
-{
-  src: 'http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1309/06/c4/25310541_1378426131583.jpg' },
-
-{
-  src: 'http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1610/26/c4/28926240_1477451226577_mthumb.jpg' },
-
-{
-  src: 'http://picture.ik123.com/uploads/allimg/190219/12-1Z219105139.jpg' },
-
-{
-  src: 'http://img5.imgtn.bdimg.com/it/u=2904900134,438461613&fm=26&gp=0.jpg' },
-
-{
-  src: 'http://img1.imgtn.bdimg.com/it/u=1690475408,2565370337&fm=26&gp=0.jpg' },
-
-{
-  src: 'http://img.99114.com/group1/M00/7F/99/wKgGS1kVrPGAe5LmAAU2KrJmb3Q923_600_600.jpg' },
-
-{
-  src: 'http://img4.imgtn.bdimg.com/it/u=261047209,372231813&fm=26&gp=0.jpg' },
-
-{
-  src: 'http://i2.17173cdn.com/i7mz64/YWxqaGBf/tu17173com/20150107/eMyVMObjlbcvDEv.jpg' },
-
-{
-  src: 'http://img008.hc360.cn/m4/M02/E7/87/wKhQ6FSrfU6EfUoyAAAAAITAfyc280.jpg' },
-
-{
-  src: 'http://pic1.win4000.com/wallpaper/d/5991569950166.jpg' },
-
-{
-  src: 'http://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/6f061d950a7b0208f9fe945e60d9f2d3572cc85e.jpg' },
-
-{
-  src: 'http://pic41.nipic.com/20140429/18169759_125841756000_2.jpg' },
-
-{
-  src: 'http://www.k73.com/up/allimg/130415/22-130415093527.jpg' },
-
-{
-  src: 'http://img.52z.com/upload/news/image/20180530/20180530081619_31029.jpg' },
-
-{
-  src: 'http://b-ssl.duitang.com/uploads/item/201410/02/20141002111638_tXAzU.jpeg' },
-
-{
-  src: 'http://img2.ph.126.net/C4JW6f57QWSB21-8jh2UGQ==/1762596304262286698.jpg' },
-
-{
-  src: 'http://att.bbs.duowan.com/forum/201405/17/190257nzcvkkdg6w2e8226.jpg' },
-
-{
-  src: 'http://attach.bbs.miui.com/forum/201504/10/223644v3intigyvva0vgym.jpg' },
-
-{
-  src: 'http://pic1.win4000.com/mobile/3/57888a298d61d.jpg' }];
-
-
-
-var orderList = [{
-  time: '2019-04-06 11:37',
-  state: 1,
-  goodsList: [{
-    image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553187020783&di=bac9dd78b36fd984502d404d231011c0&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F26%2F20160926173213_s5adi.jpeg' },
-
-  {
-    image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg' },
-
-  {
-    image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg' },
-
-  {
-    image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg' },
-
-  {
-    image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg' },
-
-  {
-    image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg' },
-
-  {
-    image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg' }] },
-
-
-
-{
-  time: '2019-04-06 11:37',
-  state: 9,
-  goodsList: [{
-    title: '古黛妃 短袖t恤女 春夏装2019新款韩版宽松',
-    price: 179.5,
-    image: 'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg',
-    number: 1,
-    attr: '珊瑚粉 M' }] },
-
-
-{
-  time: '2019-04-06 11:37',
-  state: 1,
-  goodsList: [{
-    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i2/2120460599/O1CN01LBPS4C1GINkwsOTXS_!!2120460599.jpg_430x430q90.jpg' },
-
-  {
-    image: 'https://img.alicdn.com/imgextra/i2/1069876356/TB2ocTQG4WYBuNjy1zkXXXGGpXa_!!1069876356.jpg_430x430q90.jpg' },
-
-  {
-    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i4/2120460599/O1CN01YsmgwZ1GINkv38rkn_!!2120460599.jpg_430x430q90.jpg' }] },
-
-
-
-{
-  time: '2019-04-06 11:37',
-  state: 1,
-  goodsList: [{
-    title: '回力女鞋高帮帆布鞋女学生韩版鞋子女2019潮鞋女鞋新款春季板鞋女',
-    price: 69,
-    image: 'https://img.alicdn.com/imgextra/i3/2128794607/TB2gzzoc41YBuNjy1zcXXbNcXXa_!!2128794607.jpg_430x430q90.jpg',
-    number: 1,
-    attr: '白色-高帮 39' }] },
-
-
-{
-  time: '2019-04-06 11:37',
-  state: 1,
-  goodsList: [{
-    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i4/3358098495/O1CN01dhYyid2Ccl5MWLDok_!!3358098495.jpg_430x430q90.jpg' },
-
-  {
-    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i3/3358098495/O1CN01AWsnFA2Ccl5OzvqsL_!!3358098495.jpg_430x430q90.jpg' }] },
-
-
-
-{
-  time: '2019-04-06 11:37',
-  state: 1,
-  goodsList: [{
-    image: 'https://img.alicdn.com/imgextra/i4/3470687433/O1CN0124mMQOSERr18L1h_!!3470687433.jpg_430x430q90.jpg' },
-
-  {
-    image: 'https://img.alicdn.com/imgextra/i3/2888462616/O1CN01ERra5J1VCAbZaKI5n_!!0-item_pic.jpg_430x430q90.jpg' },
-
-  {
-    image: 'https://gd3.alicdn.com/imgextra/i3/819381730/O1CN01YV4mXj1OeNhQIhQlh_!!819381730.jpg_400x400.jpg' }] }];
-
-
-
-
-
-var cateList = [{
-  id: 1,
-  name: '手机数码' },
-
-{
-  id: 2,
-  name: '礼品鲜花' },
-
-{
-  id: 3,
-  name: '男装女装' },
-
-{
-  id: 4,
-  name: '母婴用品' },
-
-{
-  id: 5,
-  pid: 1,
-  name: '手机通讯' },
-
-{
-  id: 6,
-  pid: 1,
-  name: '运营商' },
-
-{
-  id: 8,
-  pid: 5,
-  name: '全面屏手机',
-  picture: '/static/temp/cate2.jpg' },
-
-{
-  id: 9,
-  pid: 5,
-  name: '游戏手机',
-  picture: '/static/temp/cate3.jpg' },
-
-{
-  id: 10,
-  pid: 5,
-  name: '老人机',
-  picture: '/static/temp/cate1.jpg' },
-
-{
-  id: 11,
-  pid: 5,
-  name: '拍照手机',
-  picture: '/static/temp/cate4.jpg' },
-
-{
-  id: 12,
-  pid: 5,
-  name: '女性手机',
-  picture: '/static/temp/cate5.jpg' },
-
-{
-  id: 14,
-  pid: 6,
-  name: '合约机',
-  picture: '/static/temp/cate1.jpg' },
-
-{
-  id: 15,
-  pid: 6,
-  name: '选好卡',
-  picture: '/static/temp/cate4.jpg' },
-
-{
-  id: 16,
-  pid: 6,
-  name: '办套餐',
-  picture: '/static/temp/cate5.jpg' },
-
-{
-  id: 17,
-  pid: 2,
-  name: '礼品' },
-
-{
-  id: 18,
-  pid: 2,
-  name: '鲜花' },
-
-{
-  id: 19,
-  pid: 17,
-  name: '公益摆件',
-  picture: '/static/temp/cate7.jpg' },
-
-{
-  id: 20,
-  pid: 17,
-  name: '创意礼品',
-  picture: '/static/temp/cate8.jpg' },
-
-{
-  id: 21,
-  pid: 18,
-  name: '鲜花',
-  picture: '/static/temp/cate9.jpg' },
-
-{
-  id: 22,
-  pid: 18,
-  name: '每周一花',
-  picture: '/static/temp/cate10.jpg' },
-
-{
-  id: 23,
-  pid: 18,
-  name: '卡通花束',
-  picture: '/static/temp/cate11.jpg' },
-
-{
-  id: 24,
-  pid: 18,
-  name: '永生花',
-  picture: '/static/temp/cate12.jpg' },
-
-{
-  id: 25,
-  pid: 3,
-  name: '男装' },
-
-{
-  id: 26,
-  pid: 3,
-  name: '女装' },
-
-{
-  id: 27,
-  pid: 25,
-  name: '男士T恤',
-  picture: '/static/temp/cate13.jpg' },
-
-{
-  id: 28,
-  pid: 25,
-  name: '男士外套',
-  picture: '/static/temp/cate14.jpg' },
-
-{
-  id: 29,
-  pid: 26,
-  name: '裙装',
-  picture: '/static/temp/cate15.jpg' },
-
-{
-  id: 30,
-  pid: 26,
-  name: 'T恤',
-  picture: '/static/temp/cate16.jpg' },
-
-{
-  id: 31,
-  pid: 26,
-  name: '上装',
-  picture: '/static/temp/cate15.jpg' },
-
-{
-  id: 32,
-  pid: 26,
-  name: '下装',
-  picture: '/static/temp/cate16.jpg' },
-
-{
-  id: 33,
-  pid: 4,
-  name: '奶粉' },
-
-{
-  id: 34,
-  pid: 4,
-  name: '营养辅食' },
-
-{
-  id: 35,
-  pid: 4,
-  name: '童装' },
-
-{
-  id: 39,
-  pid: 4,
-  name: '喂养用品' },
-
-{
-  id: 36,
-  pid: 33,
-  name: '有机奶粉',
-  picture: '/static/temp/cate17.jpg' },
-
-{
-  id: 37,
-  pid: 34,
-  name: '果泥/果汁',
-  picture: '/static/temp/cate18.jpg' },
-
-{
-  id: 39,
-  pid: 34,
-  name: '面条/粥',
-  picture: '/static/temp/cate20.jpg' },
-
-{
-  id: 42,
-  pid: 35,
-  name: '婴童衣橱',
-  picture: '/static/temp/cate19.jpg' },
-
-{
-  id: 43,
-  pid: 39,
-  name: '吸奶器',
-  picture: '/static/temp/cate21.jpg' },
-
-{
-  id: 44,
-  pid: 39,
-  name: '儿童餐具',
-  picture: '/static/temp/cate22.jpg' },
-
-{
-  id: 45,
-  pid: 39,
-  name: '牙胶安抚',
-  picture: '/static/temp/cate23.jpg' },
-
-{
-  id: 46,
-  pid: 39,
-  name: '围兜',
-  picture: '/static/temp/cate24.jpg' }];var _default =
-
-
-
-{
-  carouselList: carouselList,
-  cartList: cartList,
-  detailData: detailData,
-  lazyLoadList: lazyLoadList,
-  userInfo: userInfo,
-  shareList: shareList,
-  goodsList: goodsList,
-  orderList: orderList,
-  cateList: cateList };exports.default = _default;
-
-/***/ }),
-
-/***/ 195:
+/***/ 199:
 /*!**********************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fsearch%2Fsearch"} ***!
   \**********************************************************************************************/
@@ -3845,10 +3842,10 @@ var cateList = [{
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _search = _interopRequireDefault(__webpack_require__(/*! ./pages/search/search.vue */ 196));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _search = _interopRequireDefault(__webpack_require__(/*! ./pages/search/search.vue */ 200));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_search.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
@@ -4775,7 +4772,13 @@ var Observer = function Observer (value) {
   def(value, '__ob__', this);
   if (Array.isArray(value)) {
     if (hasProto) {
-      protoAugment(value, arrayMethods);
+      {// fixed by xxxxxx 微信小程序使用 plugins 之后，数组方法被直接挂载到了数组对象上，需要执行 copyAugment 逻辑
+        if(value.push !== value.__proto__.push){
+          copyAugment(value, arrayMethods, arrayKeys);
+        } else {
+          protoAugment(value, arrayMethods);
+        }
+      }
     } else {
       copyAugment(value, arrayMethods, arrayKeys);
     }
@@ -6340,7 +6343,12 @@ function resolveSlots (
         slot.push(child);
       }
     } else {
-      (slots.default || (slots.default = [])).push(child);
+      // fixed by xxxxxx 临时 hack 掉 uni-app 中的异步 name slot page
+      if(child.asyncMeta && child.asyncMeta.data && child.asyncMeta.data.slot === 'page'){
+        (slots['page'] || (slots['page'] = [])).push(child);
+      }else{
+        (slots.default || (slots.default = [])).push(child);
+      }
     }
   }
   // ignore slots that contains only whitespace
@@ -9804,23 +9812,47 @@ internalMixin(Vue);
 /***/ }),
 
 /***/ 20:
-/*!********************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Findex%2Findex"} ***!
-  \********************************************************************************************/
+/*!********************************************************!*\
+  !*** ./node_modules/node-libs-browser/mock/process.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+exports.nextTick = function nextTick(fn) {
+	setTimeout(fn, 0);
+};
 
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_index.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+exports.platform = exports.arch = 
+exports.execPath = exports.title = 'browser';
+exports.pid = 1;
+exports.browser = true;
+exports.env = {};
+exports.argv = [];
+
+exports.binding = function (name) {
+	throw new Error('No such module. (Possibly not yet loaded)')
+};
+
+(function () {
+    var cwd = '/';
+    var path;
+    exports.cwd = function () { return cwd };
+    exports.chdir = function (dir) {
+        if (!path) path = __webpack_require__(/*! path */ 21);
+        cwd = path.resolve(dir, cwd);
+    };
+})();
+
+exports.exit = exports.kill = 
+exports.umask = exports.dlopen = 
+exports.uptime = exports.memoryUsage = 
+exports.uvCounters = function() {};
+exports.features = {};
+
 
 /***/ }),
 
-/***/ 201:
+/***/ 205:
 /*!*********************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuser%2Fpayment"} ***!
   \*********************************************************************************************/
@@ -9828,16 +9860,252 @@ createPage(_index.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _payment = _interopRequireDefault(__webpack_require__(/*! ./pages/user/payment.vue */ 202));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _payment = _interopRequireDefault(__webpack_require__(/*! ./pages/user/payment.vue */ 206));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_payment.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 209:
+/***/ 21:
+/*!***********************************************!*\
+  !*** ./node_modules/path-browserify/index.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// resolves . and .. elements in a path array with directory names there
+// must be no slashes, empty elements, or device names (c:\) in the array
+// (so also no leading and trailing slashes - it does not distinguish
+// relative and absolute paths)
+function normalizeArray(parts, allowAboveRoot) {
+  // if the path tries to go above the root, `up` ends up > 0
+  var up = 0;
+  for (var i = parts.length - 1; i >= 0; i--) {
+    var last = parts[i];
+    if (last === '.') {
+      parts.splice(i, 1);
+    } else if (last === '..') {
+      parts.splice(i, 1);
+      up++;
+    } else if (up) {
+      parts.splice(i, 1);
+      up--;
+    }
+  }
+
+  // if the path is allowed to go above the root, restore leading ..s
+  if (allowAboveRoot) {
+    for (; up--; up) {
+      parts.unshift('..');
+    }
+  }
+
+  return parts;
+}
+
+// Split a filename into [root, dir, basename, ext], unix version
+// 'root' is just a slash, or nothing.
+var splitPathRe =
+    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+var splitPath = function(filename) {
+  return splitPathRe.exec(filename).slice(1);
+};
+
+// path.resolve([from ...], to)
+// posix version
+exports.resolve = function() {
+  var resolvedPath = '',
+      resolvedAbsolute = false;
+
+  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+    var path = (i >= 0) ? arguments[i] : process.cwd();
+
+    // Skip empty and invalid entries
+    if (typeof path !== 'string') {
+      throw new TypeError('Arguments to path.resolve must be strings');
+    } else if (!path) {
+      continue;
+    }
+
+    resolvedPath = path + '/' + resolvedPath;
+    resolvedAbsolute = path.charAt(0) === '/';
+  }
+
+  // At this point the path should be resolved to a full absolute path, but
+  // handle relative paths to be safe (might happen when process.cwd() fails)
+
+  // Normalize the path
+  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+    return !!p;
+  }), !resolvedAbsolute).join('/');
+
+  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+};
+
+// path.normalize(path)
+// posix version
+exports.normalize = function(path) {
+  var isAbsolute = exports.isAbsolute(path),
+      trailingSlash = substr(path, -1) === '/';
+
+  // Normalize the path
+  path = normalizeArray(filter(path.split('/'), function(p) {
+    return !!p;
+  }), !isAbsolute).join('/');
+
+  if (!path && !isAbsolute) {
+    path = '.';
+  }
+  if (path && trailingSlash) {
+    path += '/';
+  }
+
+  return (isAbsolute ? '/' : '') + path;
+};
+
+// posix version
+exports.isAbsolute = function(path) {
+  return path.charAt(0) === '/';
+};
+
+// posix version
+exports.join = function() {
+  var paths = Array.prototype.slice.call(arguments, 0);
+  return exports.normalize(filter(paths, function(p, index) {
+    if (typeof p !== 'string') {
+      throw new TypeError('Arguments to path.join must be strings');
+    }
+    return p;
+  }).join('/'));
+};
+
+
+// path.relative(from, to)
+// posix version
+exports.relative = function(from, to) {
+  from = exports.resolve(from).substr(1);
+  to = exports.resolve(to).substr(1);
+
+  function trim(arr) {
+    var start = 0;
+    for (; start < arr.length; start++) {
+      if (arr[start] !== '') break;
+    }
+
+    var end = arr.length - 1;
+    for (; end >= 0; end--) {
+      if (arr[end] !== '') break;
+    }
+
+    if (start > end) return [];
+    return arr.slice(start, end - start + 1);
+  }
+
+  var fromParts = trim(from.split('/'));
+  var toParts = trim(to.split('/'));
+
+  var length = Math.min(fromParts.length, toParts.length);
+  var samePartsLength = length;
+  for (var i = 0; i < length; i++) {
+    if (fromParts[i] !== toParts[i]) {
+      samePartsLength = i;
+      break;
+    }
+  }
+
+  var outputParts = [];
+  for (var i = samePartsLength; i < fromParts.length; i++) {
+    outputParts.push('..');
+  }
+
+  outputParts = outputParts.concat(toParts.slice(samePartsLength));
+
+  return outputParts.join('/');
+};
+
+exports.sep = '/';
+exports.delimiter = ':';
+
+exports.dirname = function(path) {
+  var result = splitPath(path),
+      root = result[0],
+      dir = result[1];
+
+  if (!root && !dir) {
+    // No dirname whatsoever
+    return '.';
+  }
+
+  if (dir) {
+    // It has a dirname, strip trailing slash
+    dir = dir.substr(0, dir.length - 1);
+  }
+
+  return root + dir;
+};
+
+
+exports.basename = function(path, ext) {
+  var f = splitPath(path)[2];
+  // TODO: make this comparison case-insensitive on windows?
+  if (ext && f.substr(-1 * ext.length) === ext) {
+    f = f.substr(0, f.length - ext.length);
+  }
+  return f;
+};
+
+
+exports.extname = function(path) {
+  return splitPath(path)[3];
+};
+
+function filter (xs, f) {
+    if (xs.filter) return xs.filter(f);
+    var res = [];
+    for (var i = 0; i < xs.length; i++) {
+        if (f(xs[i], i, xs)) res.push(xs[i]);
+    }
+    return res;
+}
+
+// String.prototype.substr - negative index don't work in IE8
+var substr = 'ab'.substr(-1) === 'b'
+    ? function (str, start, len) { return str.substr(start, len) }
+    : function (str, start, len) {
+        if (start < 0) start = str.length + start;
+        return str.substr(start, len);
+    }
+;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 20)))
+
+/***/ }),
+
+/***/ 213:
 /*!*****************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fset%2Fcash"} ***!
   \*****************************************************************************************/
@@ -9845,16 +10113,30 @@ createPage(_payment.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _cash = _interopRequireDefault(__webpack_require__(/*! ./pages/set/cash.vue */ 210));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _cash = _interopRequireDefault(__webpack_require__(/*! ./pages/set/cash.vue */ 214));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_cash.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 217:
+/***/ 22:
+/*!****************************************!*\
+  !*** (webpack)/buildin/amd-options.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
+module.exports = __webpack_amd_options__;
+
+/* WEBPACK VAR INJECTION */}.call(this, {}))
+
+/***/ }),
+
+/***/ 221:
 /*!*********************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuser%2Fhistory"} ***!
   \*********************************************************************************************/
@@ -9862,16 +10144,16 @@ createPage(_cash.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _history = _interopRequireDefault(__webpack_require__(/*! ./pages/user/history.vue */ 218));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _history = _interopRequireDefault(__webpack_require__(/*! ./pages/user/history.vue */ 222));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_history.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 225:
+/***/ 229:
 /*!**********************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuser%2Ffavorite"} ***!
   \**********************************************************************************************/
@@ -9879,16 +10161,686 @@ createPage(_history.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _favorite = _interopRequireDefault(__webpack_require__(/*! ./pages/user/favorite.vue */ 226));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _favorite = _interopRequireDefault(__webpack_require__(/*! ./pages/user/favorite.vue */ 230));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_favorite.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 233:
+/***/ 23:
+/*!***********************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/Json.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /* 用户 */
+var userInfo = {
+  status: 1,
+  data: {
+    id: 1,
+    mobile: 18888888888,
+    nickname: 'Leo yo',
+    portrait: 'http://img.61ef.cn/news/201409/28/2014092805595807.jpg' },
+
+  msg: '提示'
+
+  /* 首页轮播图 */ };
+var carouselList = [{
+  src: "/static/temp/banner3.jpg",
+  background: "rgb(203, 87, 60)" },
+
+{
+  src: "/static/temp/banner2.jpg",
+  background: "rgb(205, 215, 218)" },
+
+{
+  src: "/static/temp/banner4.jpg",
+  background: "rgb(183, 73, 69)" }];
+
+
+/* 商品列表 */
+var goodsList = [{
+  image: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553187020783&di=bac9dd78b36fd984502d404d231011c0&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F26%2F20160926173213_s5adi.jpeg",
+  image2: "http://pic.rmb.bdstatic.com/819a044daa66718c2c40a48c1ba971e6.jpeg",
+  image3: "http://img001.hc360.cn/y5/M00/1B/45/wKhQUVYFE0uEZ7zVAAAAAMj3H1w418.jpg",
+  title: "古黛妃 短袖t恤女夏装2019新款韩版宽松",
+  price: 179,
+  sales: 61 },
+
+{
+  image: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg",
+  image2: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1554013048&di=a3dc9fd1406dd7bad7fbb97b5489ec04&imgtype=jpg&er=1&src=http%3A%2F%2Fimg009.hc360.cn%2Fhb%2FnKo44ac2656F831c684507E3Da0E3a26841.jpg",
+  image3: "http://img.zcool.cn/community/017a4e58b4eab6a801219c77084373.jpg",
+  title: "潘歌针织连衣裙",
+  price: 78,
+  sales: 16 },
+
+{
+  image: "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg",
+  image2: "http://m.360buyimg.com/n12/jfs/t247/42/1078640382/162559/3628a0b/53f5ad09N0dd79894.jpg%21q70.jpg",
+  image3: "http://ikids.61kids.com.cn/upload/2018-12-29/1546070626796114.jpg",
+  title: "巧谷2019春夏季新品新款女装",
+  price: 108.8,
+  sales: 5 },
+{
+  image: "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=756705744,3505936868&fm=11&gp=0.jpg",
+  image2: "http://images.jaadee.com/images/201702/goods_img/30150_d85aed83521.jpg",
+  image3: "http://img13.360buyimg.com/popWaterMark/jfs/t865/120/206320620/138889/dcc94caa/550acedcN613e2a9d.jpg",
+  title: "私萱连衣裙",
+  price: 265,
+  sales: 88 },
+{
+  image: "https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg",
+  image2: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553418265666&di=d4a7f7eb0ae3c859edeb921641ee1c3a&imgtype=0&src=http%3A%2F%2Fimg003.hc360.cn%2Fy3%2FM02%2FF8%2F9F%2FwKhQh1TuSkGELIlQAAAAAPuLl4M987.jpg",
+  image3: "http://img.ef43.com.cn/product/2016/8/05100204b0c.jpg",
+  title: "娇诗茹 ulzzang原宿风学生潮韩版春夏短",
+  price: 422,
+  sales: 137 },
+{
+  image: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553187020783&di=bac9dd78b36fd984502d404d231011c0&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F26%2F20160926173213_s5adi.jpeg",
+  image2: "http://image5.suning.cn/uimg/b2c/newcatentries/0070158827-000000000622091973_2_800x800.jpg",
+  image3: "http://img.61ef.cn/news/201903/20/2019032009251784.jpg",
+  title: "古黛妃 短袖t恤女夏装2019新款韩版宽松",
+  price: 179,
+  sales: 95 }];
+
+
+
+/* 购物车 */
+var cartList = [{
+  id: 1,
+  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553005139&di=3368549edf9eee769a9bcb3fbbed2504&imgtype=jpg&er=1&src=http%3A%2F%2Fimg002.hc360.cn%2Fy3%2FM01%2F5F%2FDB%2FwKhQh1T7iceEGRdWAAAAADQvqk8733.jpg',
+  attr_val: '春装款 L',
+  stock: 15,
+  title: 'OVBE 长袖风衣',
+  price: 278.00,
+  number: 1 },
+
+{
+  id: 3,
+  image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2319343996,1107396922&fm=26&gp=0.jpg',
+  attr_val: '激光导航 扫拖一体',
+  stock: 3,
+  title: '科沃斯 Ecovacs 扫地机器人',
+  price: 1348.00,
+  number: 5 },
+
+{
+  id: 4,
+  image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg',
+  attr_val: 'XL',
+  stock: 55,
+  title: '朵绒菲小西装',
+  price: 175.88,
+  number: 1 },
+
+{
+  id: 5,
+  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552410549432&di=06dd3758053fb6d6362516f30a42d055&imgtype=0&src=http%3A%2F%2Fimgcache.mysodao.com%2Fimg3%2FM0A%2F67%2F42%2FCgAPD1vNSsHNm-TnAAEy61txQb4543_400x400x2.JPG',
+  attr_val: '520 #粉红色',
+  stock: 15,
+  title: '迪奥（Dior）烈艳唇膏',
+  price: 1089.00,
+  number: 1 },
+
+{
+  id: 6,
+  image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1031875829,2994442603&fm=26&gp=0.jpg',
+  attr_val: '樱花味润手霜 30ml',
+  stock: 15,
+  title: "欧舒丹（L'OCCITANE）乳木果",
+  price: 128,
+  number: 1 },
+
+{
+  id: 7,
+  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553007107&di=390915aa8a022cf0b03c03340881b0e7&imgtype=jpg&er=1&src=http%3A%2F%2Fimg13.360buyimg.com%2Fn0%2Fjfs%2Ft646%2F285%2F736444951%2F480473%2Faa701c97%2F548176feN10c9ed7b.jpg',
+  attr_val: '特级 12个',
+  stock: 7,
+  title: '新疆阿克苏苹果 特级',
+  price: 58.8,
+  number: 10 },
+
+{
+  id: 8,
+  image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2319343996,1107396922&fm=26&gp=0.jpg',
+  attr_val: '激光导航 扫拖一体',
+  stock: 15,
+  title: '科沃斯 Ecovacs 扫地机器人',
+  price: 1348.00,
+  number: 1 },
+
+{
+  id: 9,
+  image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg',
+  attr_val: 'XL',
+  stock: 55,
+  title: '朵绒菲小西装',
+  price: 175.88,
+  number: 1 },
+
+{
+  id: 10,
+  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552410549432&di=06dd3758053fb6d6362516f30a42d055&imgtype=0&src=http%3A%2F%2Fimgcache.mysodao.com%2Fimg3%2FM0A%2F67%2F42%2FCgAPD1vNSsHNm-TnAAEy61txQb4543_400x400x2.JPG',
+  attr_val: '520 #粉红色',
+  stock: 15,
+  title: '迪奥（Dior）烈艳唇膏',
+  price: 1089.00,
+  number: 1 },
+
+{
+  id: 11,
+  image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1031875829,2994442603&fm=26&gp=0.jpg',
+  attr_val: '樱花味润手霜 30ml',
+  stock: 15,
+  title: "欧舒丹（L'OCCITANE）乳木果",
+  price: 128,
+  number: 1 },
+
+{
+  id: 12,
+  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553007107&di=390915aa8a022cf0b03c03340881b0e7&imgtype=jpg&er=1&src=http%3A%2F%2Fimg13.360buyimg.com%2Fn0%2Fjfs%2Ft646%2F285%2F736444951%2F480473%2Faa701c97%2F548176feN10c9ed7b.jpg',
+  attr_val: '特级 12个',
+  stock: 7,
+  title: '新疆阿克苏苹果 特级',
+  price: 58.8,
+  number: 10 },
+
+{
+  id: 13,
+  image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552405266625&di=a703f2b2cdb0fe7f3f05f62dd91307ab&imgtype=0&src=http%3A%2F%2Fwww.78.cn%2Fzixun%2Fnews%2Fupload%2F20190214%2F1550114706486250.jpg',
+  attr_val: '春装款/m',
+  stock: 15,
+  title: '女装2019春秋新款',
+  price: 420.00,
+  number: 1 }];
+
+
+//详情展示页面
+var detailData = {
+  title: '纯种金毛幼犬活体有血统证书',
+  title2: '拆家小能手 你值得拥有',
+  favorite: true,
+  imgList: [{
+    src: 'http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg' },
+
+  {
+    src: 'http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1309/06/c4/25310541_1378426131583.jpg' },
+
+  {
+    src: 'http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1610/26/c4/28926240_1477451226577_mthumb.jpg' },
+
+  {
+    src: 'http://picture.ik123.com/uploads/allimg/190219/12-1Z219105139.jpg' }],
+
+
+  episodeList: [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+
+  guessList: [{
+    src: 'http://img.52z.com/upload/news/image/20180530/20180530081619_31029.jpg',
+    title: '猫眼指甲油',
+    title2: '独树一帜的免照灯猫眼指甲' },
+
+  {
+    src: 'http://m.china-7.net/uploads/14778449362891.jpg',
+    title: '创意屋',
+    title2: '创意屋形上下双层高低床' },
+
+  {
+    src: 'http://www.k73.com/up/allimg/130415/22-130415093527.jpg',
+    title: 'MissCandy 指甲油',
+    title2: '十分适合喜欢素净的妹纸，尽显淡雅的气质' },
+
+  {
+    src: 'http://img0.imgtn.bdimg.com/it/u=2108933440,2194129200&fm=214&gp=0.jpg	',
+    title: 'RMK 2017星空海蓝唇釉',
+    title2: '唇釉质地，上唇后很滋润。少女也会心动的蓝色，透明液体形状。' }],
+
+
+  evaList: [{
+    src: 'http://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/77c6a7efce1b9d1663174705fbdeb48f8d546486.jpg',
+    nickname: 'Ranth Allngal',
+    time: '09-20 12:54',
+    zan: '54',
+    content: '评论不要太苛刻，不管什么产品都会有瑕疵，客服也说了可以退货并且商家承担运费，我觉得至少态度就可以给五星。' },
+
+  {
+    src: 'http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg',
+    nickname: 'Ranth Allngal',
+    time: '09-20 12:54',
+    zan: '54',
+    content: '楼上说的好有道理。' }] };
+
+
+
+var shareList = [{
+  type: 1,
+  icon: '/static/temp/share_wechat.png',
+  text: '微信好友' },
+
+{
+  type: 2,
+  icon: '/static/temp/share_moment.png',
+  text: '朋友圈' },
+
+{
+  type: 3,
+  icon: '/static/temp/share_qq.png',
+  text: 'QQ好友' },
+
+{
+  type: 4,
+  icon: '/static/temp/share_qqzone.png',
+  text: 'QQ空间' }];
+
+
+var lazyLoadList = [{
+  src: 'http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg' },
+
+{
+  src: 'http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1309/06/c4/25310541_1378426131583.jpg' },
+
+{
+  src: 'http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1610/26/c4/28926240_1477451226577_mthumb.jpg' },
+
+{
+  src: 'http://picture.ik123.com/uploads/allimg/190219/12-1Z219105139.jpg' },
+
+{
+  src: 'http://img5.imgtn.bdimg.com/it/u=2904900134,438461613&fm=26&gp=0.jpg' },
+
+{
+  src: 'http://img1.imgtn.bdimg.com/it/u=1690475408,2565370337&fm=26&gp=0.jpg' },
+
+{
+  src: 'http://img.99114.com/group1/M00/7F/99/wKgGS1kVrPGAe5LmAAU2KrJmb3Q923_600_600.jpg' },
+
+{
+  src: 'http://img4.imgtn.bdimg.com/it/u=261047209,372231813&fm=26&gp=0.jpg' },
+
+{
+  src: 'http://i2.17173cdn.com/i7mz64/YWxqaGBf/tu17173com/20150107/eMyVMObjlbcvDEv.jpg' },
+
+{
+  src: 'http://img008.hc360.cn/m4/M02/E7/87/wKhQ6FSrfU6EfUoyAAAAAITAfyc280.jpg' },
+
+{
+  src: 'http://pic1.win4000.com/wallpaper/d/5991569950166.jpg' },
+
+{
+  src: 'http://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/6f061d950a7b0208f9fe945e60d9f2d3572cc85e.jpg' },
+
+{
+  src: 'http://pic41.nipic.com/20140429/18169759_125841756000_2.jpg' },
+
+{
+  src: 'http://www.k73.com/up/allimg/130415/22-130415093527.jpg' },
+
+{
+  src: 'http://img.52z.com/upload/news/image/20180530/20180530081619_31029.jpg' },
+
+{
+  src: 'http://b-ssl.duitang.com/uploads/item/201410/02/20141002111638_tXAzU.jpeg' },
+
+{
+  src: 'http://img2.ph.126.net/C4JW6f57QWSB21-8jh2UGQ==/1762596304262286698.jpg' },
+
+{
+  src: 'http://att.bbs.duowan.com/forum/201405/17/190257nzcvkkdg6w2e8226.jpg' },
+
+{
+  src: 'http://attach.bbs.miui.com/forum/201504/10/223644v3intigyvva0vgym.jpg' },
+
+{
+  src: 'http://pic1.win4000.com/mobile/3/57888a298d61d.jpg' }];
+
+
+
+var orderList = [{
+  time: '2019-04-06 11:37',
+  state: 1,
+  goodsList: [{
+    image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553187020783&di=bac9dd78b36fd984502d404d231011c0&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F26%2F20160926173213_s5adi.jpeg' },
+
+  {
+    image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg' },
+
+  {
+    image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg' },
+
+  {
+    image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg' },
+
+  {
+    image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg' },
+
+  {
+    image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg' },
+
+  {
+    image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg' }] },
+
+
+
+{
+  time: '2019-04-06 11:37',
+  state: 9,
+  goodsList: [{
+    title: '古黛妃 短袖t恤女 春夏装2019新款韩版宽松',
+    price: 179.5,
+    image: 'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg',
+    number: 1,
+    attr: '珊瑚粉 M' }] },
+
+
+{
+  time: '2019-04-06 11:37',
+  state: 1,
+  goodsList: [{
+    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i2/2120460599/O1CN01LBPS4C1GINkwsOTXS_!!2120460599.jpg_430x430q90.jpg' },
+
+  {
+    image: 'https://img.alicdn.com/imgextra/i2/1069876356/TB2ocTQG4WYBuNjy1zkXXXGGpXa_!!1069876356.jpg_430x430q90.jpg' },
+
+  {
+    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i4/2120460599/O1CN01YsmgwZ1GINkv38rkn_!!2120460599.jpg_430x430q90.jpg' }] },
+
+
+
+{
+  time: '2019-04-06 11:37',
+  state: 1,
+  goodsList: [{
+    title: '回力女鞋高帮帆布鞋女学生韩版鞋子女2019潮鞋女鞋新款春季板鞋女',
+    price: 69,
+    image: 'https://img.alicdn.com/imgextra/i3/2128794607/TB2gzzoc41YBuNjy1zcXXbNcXXa_!!2128794607.jpg_430x430q90.jpg',
+    number: 1,
+    attr: '白色-高帮 39' }] },
+
+
+{
+  time: '2019-04-06 11:37',
+  state: 1,
+  goodsList: [{
+    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i4/3358098495/O1CN01dhYyid2Ccl5MWLDok_!!3358098495.jpg_430x430q90.jpg' },
+
+  {
+    image: 'https://img.alicdn.com/imgextra/https://img.alicdn.com/imgextra/i3/3358098495/O1CN01AWsnFA2Ccl5OzvqsL_!!3358098495.jpg_430x430q90.jpg' }] },
+
+
+
+{
+  time: '2019-04-06 11:37',
+  state: 1,
+  goodsList: [{
+    image: 'https://img.alicdn.com/imgextra/i4/3470687433/O1CN0124mMQOSERr18L1h_!!3470687433.jpg_430x430q90.jpg' },
+
+  {
+    image: 'https://img.alicdn.com/imgextra/i3/2888462616/O1CN01ERra5J1VCAbZaKI5n_!!0-item_pic.jpg_430x430q90.jpg' },
+
+  {
+    image: 'https://gd3.alicdn.com/imgextra/i3/819381730/O1CN01YV4mXj1OeNhQIhQlh_!!819381730.jpg_400x400.jpg' }] }];
+
+
+
+
+
+var cateList = [{
+  id: 1,
+  name: '手机数码' },
+
+{
+  id: 2,
+  name: '礼品鲜花' },
+
+{
+  id: 3,
+  name: '男装女装' },
+
+{
+  id: 4,
+  name: '母婴用品' },
+
+{
+  id: 5,
+  pid: 1,
+  name: '手机通讯' },
+
+{
+  id: 6,
+  pid: 1,
+  name: '运营商' },
+
+{
+  id: 8,
+  pid: 5,
+  name: '全面屏手机',
+  picture: '/static/temp/cate2.jpg' },
+
+{
+  id: 9,
+  pid: 5,
+  name: '游戏手机',
+  picture: '/static/temp/cate3.jpg' },
+
+{
+  id: 10,
+  pid: 5,
+  name: '老人机',
+  picture: '/static/temp/cate1.jpg' },
+
+{
+  id: 11,
+  pid: 5,
+  name: '拍照手机',
+  picture: '/static/temp/cate4.jpg' },
+
+{
+  id: 12,
+  pid: 5,
+  name: '女性手机',
+  picture: '/static/temp/cate5.jpg' },
+
+{
+  id: 14,
+  pid: 6,
+  name: '合约机',
+  picture: '/static/temp/cate1.jpg' },
+
+{
+  id: 15,
+  pid: 6,
+  name: '选好卡',
+  picture: '/static/temp/cate4.jpg' },
+
+{
+  id: 16,
+  pid: 6,
+  name: '办套餐',
+  picture: '/static/temp/cate5.jpg' },
+
+{
+  id: 17,
+  pid: 2,
+  name: '礼品' },
+
+{
+  id: 18,
+  pid: 2,
+  name: '鲜花' },
+
+{
+  id: 19,
+  pid: 17,
+  name: '公益摆件',
+  picture: '/static/temp/cate7.jpg' },
+
+{
+  id: 20,
+  pid: 17,
+  name: '创意礼品',
+  picture: '/static/temp/cate8.jpg' },
+
+{
+  id: 21,
+  pid: 18,
+  name: '鲜花',
+  picture: '/static/temp/cate9.jpg' },
+
+{
+  id: 22,
+  pid: 18,
+  name: '每周一花',
+  picture: '/static/temp/cate10.jpg' },
+
+{
+  id: 23,
+  pid: 18,
+  name: '卡通花束',
+  picture: '/static/temp/cate11.jpg' },
+
+{
+  id: 24,
+  pid: 18,
+  name: '永生花',
+  picture: '/static/temp/cate12.jpg' },
+
+{
+  id: 25,
+  pid: 3,
+  name: '男装' },
+
+{
+  id: 26,
+  pid: 3,
+  name: '女装' },
+
+{
+  id: 27,
+  pid: 25,
+  name: '男士T恤',
+  picture: '/static/temp/cate13.jpg' },
+
+{
+  id: 28,
+  pid: 25,
+  name: '男士外套',
+  picture: '/static/temp/cate14.jpg' },
+
+{
+  id: 29,
+  pid: 26,
+  name: '裙装',
+  picture: '/static/temp/cate15.jpg' },
+
+{
+  id: 30,
+  pid: 26,
+  name: 'T恤',
+  picture: '/static/temp/cate16.jpg' },
+
+{
+  id: 31,
+  pid: 26,
+  name: '上装',
+  picture: '/static/temp/cate15.jpg' },
+
+{
+  id: 32,
+  pid: 26,
+  name: '下装',
+  picture: '/static/temp/cate16.jpg' },
+
+{
+  id: 33,
+  pid: 4,
+  name: '奶粉' },
+
+{
+  id: 34,
+  pid: 4,
+  name: '营养辅食' },
+
+{
+  id: 35,
+  pid: 4,
+  name: '童装' },
+
+{
+  id: 39,
+  pid: 4,
+  name: '喂养用品' },
+
+{
+  id: 36,
+  pid: 33,
+  name: '有机奶粉',
+  picture: '/static/temp/cate17.jpg' },
+
+{
+  id: 37,
+  pid: 34,
+  name: '果泥/果汁',
+  picture: '/static/temp/cate18.jpg' },
+
+{
+  id: 39,
+  pid: 34,
+  name: '面条/粥',
+  picture: '/static/temp/cate20.jpg' },
+
+{
+  id: 42,
+  pid: 35,
+  name: '婴童衣橱',
+  picture: '/static/temp/cate19.jpg' },
+
+{
+  id: 43,
+  pid: 39,
+  name: '吸奶器',
+  picture: '/static/temp/cate21.jpg' },
+
+{
+  id: 44,
+  pid: 39,
+  name: '儿童餐具',
+  picture: '/static/temp/cate22.jpg' },
+
+{
+  id: 45,
+  pid: 39,
+  name: '牙胶安抚',
+  picture: '/static/temp/cate23.jpg' },
+
+{
+  id: 46,
+  pid: 39,
+  name: '围兜',
+  picture: '/static/temp/cate24.jpg' }];var _default =
+
+
+
+{
+  carouselList: carouselList,
+  cartList: cartList,
+  detailData: detailData,
+  lazyLoadList: lazyLoadList,
+  userInfo: userInfo,
+  shareList: shareList,
+  goodsList: goodsList,
+  orderList: orderList,
+  cateList: cateList };exports.default = _default;
+
+/***/ }),
+
+/***/ 237:
 /*!*********************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuser%2Fcheckin"} ***!
   \*********************************************************************************************/
@@ -9896,16 +10848,33 @@ createPage(_favorite.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _checkin = _interopRequireDefault(__webpack_require__(/*! ./pages/user/checkin.vue */ 234));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _checkin = _interopRequireDefault(__webpack_require__(/*! ./pages/user/checkin.vue */ 238));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_checkin.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 241:
+/***/ 24:
+/*!********************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Findex%2Findex"} ***!
+  \********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ 25));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_index.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 245:
 /*!**********************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmarket%2Fcoupon"} ***!
   \**********************************************************************************************/
@@ -9913,16 +10882,16 @@ createPage(_checkin.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _coupon = _interopRequireDefault(__webpack_require__(/*! ./pages/market/coupon.vue */ 242));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _coupon = _interopRequireDefault(__webpack_require__(/*! ./pages/market/coupon.vue */ 246));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_coupon.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 247:
+/***/ 253:
 /*!*******************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmarket%2Fjiu"} ***!
   \*******************************************************************************************/
@@ -9930,16 +10899,16 @@ createPage(_coupon.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _jiu = _interopRequireDefault(__webpack_require__(/*! ./pages/market/jiu.vue */ 248));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _jiu = _interopRequireDefault(__webpack_require__(/*! ./pages/market/jiu.vue */ 254));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_jiu.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 255:
+/***/ 261:
 /*!******************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmarket%2Fju"} ***!
   \******************************************************************************************/
@@ -9947,28 +10916,16 @@ createPage(_jiu.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _ju = _interopRequireDefault(__webpack_require__(/*! ./pages/market/ju.vue */ 256));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _ju = _interopRequireDefault(__webpack_require__(/*! ./pages/market/ju.vue */ 262));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_ju.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 26:
-/*!**********************************************************!*\
-  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! regenerator-runtime */ 27);
-
-
-/***/ }),
-
-/***/ 261:
+/***/ 269:
 /*!*******************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmarket%2Ftop"} ***!
   \*******************************************************************************************/
@@ -9976,16 +10933,16 @@ module.exports = __webpack_require__(/*! regenerator-runtime */ 27);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _top = _interopRequireDefault(__webpack_require__(/*! ./pages/market/top.vue */ 262));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _top = _interopRequireDefault(__webpack_require__(/*! ./pages/market/top.vue */ 270));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_top.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 269:
+/***/ 277:
 /*!*******************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmarket%2Ftqg"} ***!
   \*******************************************************************************************/
@@ -9993,16 +10950,115 @@ createPage(_top.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _tqg = _interopRequireDefault(__webpack_require__(/*! ./pages/market/tqg.vue */ 270));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _tqg = _interopRequireDefault(__webpack_require__(/*! ./pages/market/tqg.vue */ 278));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_tqg.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 27:
+/***/ 285:
+/*!**********************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmarket%2Fzhishu"} ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _zhishu = _interopRequireDefault(__webpack_require__(/*! ./pages/market/zhishu.vue */ 286));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_zhishu.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 293:
+/*!******************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fdemo%2Fdemo"} ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _demo = _interopRequireDefault(__webpack_require__(/*! ./pages/demo/demo.vue */ 294));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_demo.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 299:
+/*!*****************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/pages/demo/utils/index.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.obj2style = obj2style; /**
+                                                                                                           * 为样式动态赋值
+                                                                                                           * @param {*} style
+                                                                                                           */
+function obj2style(style) {
+  var str = [];
+  Object.keys(style).forEach(function (key) {
+    str.push("".concat(key, ":").concat(style[key], ";"));
+  });
+  return str.join(';');
+}
+
+/***/ }),
+
+/***/ 3:
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 30:
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ 31);
+
+
+/***/ }),
+
+/***/ 31:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -10033,7 +11089,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 28);
+module.exports = __webpack_require__(/*! ./runtime */ 32);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -10050,24 +11106,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 275:
-/*!**********************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmarket%2Fzhishu"} ***!
-  \**********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _zhishu = _interopRequireDefault(__webpack_require__(/*! ./pages/market/zhishu.vue */ 276));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_zhishu.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 28:
+/***/ 32:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -10799,77 +11838,7 @@ createPage(_zhishu.default);
 
 /***/ }),
 
-/***/ 281:
-/*!******************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fdemo%2Fdemo"} ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _demo = _interopRequireDefault(__webpack_require__(/*! ./pages/demo/demo.vue */ 282));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_demo.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 287:
-/*!*****************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/pages/demo/utils/index.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.obj2style = obj2style; /**
-                                                                                                           * 为样式动态赋值
-                                                                                                           * @param {*} style
-                                                                                                           */
-function obj2style(style) {
-  var str = [];
-  Object.keys(style).forEach(function (key) {
-    str.push("".concat(key, ":").concat(style[key], ";"));
-  });
-  return str.join(';');
-}
-
-/***/ }),
-
-/***/ 3:
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 31:
+/***/ 35:
 /*!********************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fgoods%2Fgoods"} ***!
   \********************************************************************************************/
@@ -10877,28 +11846,11 @@ module.exports = g;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _goods = _interopRequireDefault(__webpack_require__(/*! ./pages/goods/goods.vue */ 32));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _goods = _interopRequireDefault(__webpack_require__(/*! ./pages/goods/goods.vue */ 36));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_goods.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 39:
-/*!****************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fset%2Fset"} ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _set = _interopRequireDefault(__webpack_require__(/*! ./pages/set/set.vue */ 40));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_set.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -10915,7 +11867,911 @@ createPage(_set.default);
 
 /***/ }),
 
-/***/ 47:
+/***/ 43:
+/*!****************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fset%2Fset"} ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _set = _interopRequireDefault(__webpack_require__(/*! ./pages/set/set.vue */ 44));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_set.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 5:
+/*!*******************************************************!*\
+  !*** ./node_modules/@dcloudio/uni-stat/dist/index.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {var _package = __webpack_require__(/*! ../package.json */ 6);function _possibleConstructorReturn(self, call) {if (call && (typeof call === "object" || typeof call === "function")) {return call;}return _assertThisInitialized(self);}function _assertThisInitialized(self) {if (self === void 0) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return self;}function _getPrototypeOf(o) {_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {return o.__proto__ || Object.getPrototypeOf(o);};return _getPrototypeOf(o);}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function");}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } });if (superClass) _setPrototypeOf(subClass, superClass);}function _setPrototypeOf(o, p) {_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {o.__proto__ = p;return o;};return _setPrototypeOf(o, p);}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}
+
+var STAT_VERSION = _package.version;
+var STAT_URL = 'https://tongji.dcloud.net.cn/uni/stat';
+var STAT_H5_URL = 'https://tongji.dcloud.net.cn/uni/stat.gif';
+var PAGE_PVER_TIME = 1800;
+var APP_PVER_TIME = 300;
+var OPERATING_TIME = 10;
+
+var UUID_KEY = '__DC_STAT_UUID';
+var UUID_VALUE = '__DC_UUID_VALUE';
+
+function getUuid() {
+  var uuid = '';
+  if (getPlatformName() === 'n') {
+    try {
+      uuid = plus.runtime.getDCloudId();
+    } catch (e) {
+      uuid = '';
+    }
+    return uuid;
+  }
+
+  try {
+    uuid = uni.getStorageSync(UUID_KEY);
+  } catch (e) {
+    uuid = UUID_VALUE;
+  }
+
+  if (!uuid) {
+    uuid = Date.now() + '' + Math.floor(Math.random() * 1e7);
+    try {
+      uni.setStorageSync(UUID_KEY, uuid);
+    } catch (e) {
+      uni.setStorageSync(UUID_KEY, UUID_VALUE);
+    }
+  }
+  return uuid;
+}
+
+var getSgin = function getSgin(statData) {
+  var arr = Object.keys(statData);
+  var sortArr = arr.sort();
+  var sgin = {};
+  var sginStr = '';
+  for (var i in sortArr) {
+    sgin[sortArr[i]] = statData[sortArr[i]];
+    sginStr += sortArr[i] + '=' + statData[sortArr[i]] + '&';
+  }
+  // const options = sginStr.substr(0, sginStr.length - 1)
+  // sginStr = sginStr.substr(0, sginStr.length - 1) + '&key=' + STAT_KEY;
+  // const si = crypto.createHash('md5').update(sginStr).digest('hex');
+  return {
+    sign: '',
+    options: sginStr.substr(0, sginStr.length - 1) };
+
+};
+
+var getSplicing = function getSplicing(data) {
+  var str = '';
+  for (var i in data) {
+    str += i + '=' + data[i] + '&';
+  }
+  return str.substr(0, str.length - 1);
+};
+
+var getTime = function getTime() {
+  return parseInt(new Date().getTime() / 1000);
+};
+
+var getPlatformName = function getPlatformName() {
+  var platformList = {
+    'app-plus': 'n',
+    'h5': 'h5',
+    'mp-weixin': 'wx',
+    'mp-alipay': 'ali',
+    'mp-baidu': 'bd',
+    'mp-toutiao': 'tt',
+    'mp-qq': 'qq' };
+
+  return platformList["mp-weixin"];
+};
+
+var getPackName = function getPackName() {
+  var packName = '';
+  if (getPlatformName() === 'wx' || getPlatformName() === 'qq') {
+    packName = uni.getAccountInfoSync().miniProgram.appId || '';
+  }
+  return packName;
+};
+
+var getVersion = function getVersion() {
+  return getPlatformName() === 'n' ? plus.runtime.version : '';
+};
+
+var getChannel = function getChannel() {
+  var platformName = getPlatformName();
+  var channel = '';
+  if (platformName === 'n') {
+    channel = plus.runtime.channel;
+  }
+  return channel;
+};
+
+var getScene = function getScene(options) {
+  var platformName = getPlatformName();
+  var scene = '';
+  if (options) {
+    return options;
+  }
+  if (platformName === 'wx') {
+    scene = uni.getLaunchOptionsSync().scene;
+  }
+  return scene;
+};
+var First__Visit__Time__KEY = 'First__Visit__Time';
+var Last__Visit__Time__KEY = 'Last__Visit__Time';
+
+var getFirstVisitTime = function getFirstVisitTime() {
+  var timeStorge = uni.getStorageSync(First__Visit__Time__KEY);
+  var time = 0;
+  if (timeStorge) {
+    time = timeStorge;
+  } else {
+    time = getTime();
+    uni.setStorageSync(First__Visit__Time__KEY, time);
+    uni.removeStorageSync(Last__Visit__Time__KEY);
+  }
+  return time;
+};
+
+var getLastVisitTime = function getLastVisitTime() {
+  var timeStorge = uni.getStorageSync(Last__Visit__Time__KEY);
+  var time = 0;
+  if (timeStorge) {
+    time = timeStorge;
+  } else {
+    time = '';
+  }
+  uni.setStorageSync(Last__Visit__Time__KEY, getTime());
+  return time;
+};
+
+
+var PAGE_RESIDENCE_TIME = '__page__residence__time';
+var First_Page_residence_time = 0;
+var Last_Page_residence_time = 0;
+
+
+var setPageResidenceTime = function setPageResidenceTime() {
+  First_Page_residence_time = getTime();
+  if (getPlatformName() === 'n') {
+    uni.setStorageSync(PAGE_RESIDENCE_TIME, getTime());
+  }
+  return First_Page_residence_time;
+};
+
+var getPageResidenceTime = function getPageResidenceTime() {
+  Last_Page_residence_time = getTime();
+  if (getPlatformName() === 'n') {
+    First_Page_residence_time = uni.getStorageSync(PAGE_RESIDENCE_TIME);
+  }
+  return Last_Page_residence_time - First_Page_residence_time;
+};
+var TOTAL__VISIT__COUNT = 'Total__Visit__Count';
+var getTotalVisitCount = function getTotalVisitCount() {
+  var timeStorge = uni.getStorageSync(TOTAL__VISIT__COUNT);
+  var count = 1;
+  if (timeStorge) {
+    count = timeStorge;
+    count++;
+  }
+  uni.setStorageSync(TOTAL__VISIT__COUNT, count);
+  return count;
+};
+
+var GetEncodeURIComponentOptions = function GetEncodeURIComponentOptions(statData) {
+  var data = {};
+  for (var prop in statData) {
+    data[prop] = encodeURIComponent(statData[prop]);
+  }
+  return data;
+};
+
+var Set__First__Time = 0;
+var Set__Last__Time = 0;
+
+var getFirstTime = function getFirstTime() {
+  var time = new Date().getTime();
+  Set__First__Time = time;
+  Set__Last__Time = 0;
+  return time;
+};
+
+
+var getLastTime = function getLastTime() {
+  var time = new Date().getTime();
+  Set__Last__Time = time;
+  return time;
+};
+
+
+var getResidenceTime = function getResidenceTime(type) {
+  var residenceTime = 0;
+  if (Set__First__Time !== 0) {
+    residenceTime = Set__Last__Time - Set__First__Time;
+  }
+
+  residenceTime = parseInt(residenceTime / 1000);
+  residenceTime = residenceTime < 1 ? 1 : residenceTime;
+  if (type === 'app') {
+    var overtime = residenceTime > APP_PVER_TIME ? true : false;
+    return {
+      residenceTime: residenceTime,
+      overtime: overtime };
+
+  }
+  if (type === 'page') {
+    var _overtime = residenceTime > PAGE_PVER_TIME ? true : false;
+    return {
+      residenceTime: residenceTime,
+      overtime: _overtime };
+
+  }
+
+  return {
+    residenceTime: residenceTime };
+
+
+};
+
+var getRoute = function getRoute() {
+  var pages = getCurrentPages();
+  var page = pages[pages.length - 1];
+  var _self = page.$vm;
+
+  if (getPlatformName() === 'bd') {
+    return _self.$mp && _self.$mp.page.is;
+  } else {
+    return _self.$scope && _self.$scope.route || _self.$mp && _self.$mp.page.route;
+  }
+};
+
+var getPageRoute = function getPageRoute(self) {
+  var pages = getCurrentPages();
+  var page = pages[pages.length - 1];
+  var _self = page.$vm;
+  var query = self._query;
+  var str = query && JSON.stringify(query) !== '{}' ? '?' + JSON.stringify(query) : '';
+  // clear
+  self._query = '';
+  if (getPlatformName() === 'bd') {
+    return _self.$mp && _self.$mp.page.is + str;
+  } else {
+    return _self.$scope && _self.$scope.route + str || _self.$mp && _self.$mp.page.route + str;
+  }
+};
+
+var getPageTypes = function getPageTypes(self) {
+  if (self.mpType === 'page' || self.$mp && self.$mp.mpType === 'page' || self.$options.mpType === 'page') {
+    return true;
+  }
+  return false;
+};
+
+var calibration = function calibration(eventName, options) {
+  //  login 、 share 、pay_success 、pay_fail 、register 、title
+  if (!eventName) {
+    console.error("uni.report \u7F3A\u5C11 [eventName] \u53C2\u6570");
+    return true;
+  }
+  if (typeof eventName !== 'string') {
+    console.error("uni.report [eventName] \u53C2\u6570\u7C7B\u578B\u9519\u8BEF,\u53EA\u80FD\u4E3A String \u7C7B\u578B");
+    return true;
+  }
+  if (eventName.length > 255) {
+    console.error("uni.report [eventName] \u53C2\u6570\u957F\u5EA6\u4E0D\u80FD\u5927\u4E8E 255");
+    return true;
+  }
+
+  if (typeof options !== 'string' && typeof options !== 'object') {
+    console.error("uni.report [options] \u53C2\u6570\u7C7B\u578B\u9519\u8BEF,\u53EA\u80FD\u4E3A String \u6216 Object \u7C7B\u578B");
+    return true;
+  }
+
+  if (typeof options === 'string' && options.length > 255) {
+    console.error("uni.report [options] \u53C2\u6570\u957F\u5EA6\u4E0D\u80FD\u5927\u4E8E 255");
+    return true;
+  }
+
+  if (eventName === 'title' && typeof options !== 'string') {
+    console.error('uni.report [eventName] 参数为 title 时，[options] 参数只能为 String 类型');
+    return true;
+  }
+};
+
+var PagesJson = __webpack_require__(/*! uni-pages?{"type":"style"} */ 7).default;
+var statConfig = __webpack_require__(/*! uni-stat-config */ 8).default || __webpack_require__(/*! uni-stat-config */ 8);
+
+var resultOptions = uni.getSystemInfoSync();var
+
+Util = /*#__PURE__*/function () {
+  function Util() {_classCallCheck(this, Util);
+    this.self = '';
+    this._retry = 0;
+    this._platform = '';
+    this._query = {};
+    this._navigationBarTitle = {
+      config: '',
+      page: '',
+      report: '',
+      lt: '' };
+
+    this._operatingTime = 0;
+    this._reportingRequestData = {
+      '1': [],
+      '11': [] };
+
+    this.__prevent_triggering = false;
+
+    this.__licationHide = false;
+    this.__licationShow = false;
+    this._lastPageRoute = '';
+    this.statData = {
+      uuid: getUuid(),
+      ut: getPlatformName(),
+      mpn: getPackName(),
+      ak: statConfig.appid,
+      usv: STAT_VERSION,
+      v: getVersion(),
+      ch: getChannel(),
+      cn: '',
+      pn: '',
+      ct: '',
+      t: getTime(),
+      tt: '',
+      p: resultOptions.platform === 'android' ? 'a' : 'i',
+      brand: resultOptions.brand || '',
+      md: resultOptions.model,
+      sv: resultOptions.system.replace(/(Android|iOS)\s/, ''),
+      mpsdk: resultOptions.SDKVersion || '',
+      mpv: resultOptions.version || '',
+      lang: resultOptions.language,
+      pr: resultOptions.pixelRatio,
+      ww: resultOptions.windowWidth,
+      wh: resultOptions.windowHeight,
+      sw: resultOptions.screenWidth,
+      sh: resultOptions.screenHeight };
+
+
+  }_createClass(Util, [{ key: "_applicationShow", value: function _applicationShow()
+
+    {
+      if (this.__licationHide) {
+        getLastTime();
+        var time = getResidenceTime('app');
+        if (time.overtime) {
+          var options = {
+            path: this._lastPageRoute,
+            scene: this.statData.sc };
+
+          this._sendReportRequest(options);
+        }
+        this.__licationHide = false;
+      }
+    } }, { key: "_applicationHide", value: function _applicationHide(
+
+    self, type) {
+
+      this.__licationHide = true;
+      getLastTime();
+      var time = getResidenceTime();
+      getFirstTime();
+      var route = getPageRoute(this);
+      this._sendHideRequest({
+        urlref: route,
+        urlref_ts: time.residenceTime },
+      type);
+    } }, { key: "_pageShow", value: function _pageShow()
+
+    {
+      var route = getPageRoute(this);
+      var routepath = getRoute();
+      this._navigationBarTitle.config = PagesJson &&
+      PagesJson.pages[routepath] &&
+      PagesJson.pages[routepath].titleNView &&
+      PagesJson.pages[routepath].titleNView.titleText ||
+      PagesJson &&
+      PagesJson.pages[routepath] &&
+      PagesJson.pages[routepath].navigationBarTitleText || '';
+
+      if (this.__licationShow) {
+        getFirstTime();
+        this.__licationShow = false;
+        // console.log('这是 onLauch 之后执行的第一次 pageShow ，为下次记录时间做准备');
+        this._lastPageRoute = route;
+        return;
+      }
+
+      getLastTime();
+      this._lastPageRoute = route;
+      var time = getResidenceTime('page');
+      if (time.overtime) {
+        var options = {
+          path: this._lastPageRoute,
+          scene: this.statData.sc };
+
+        this._sendReportRequest(options);
+      }
+      getFirstTime();
+    } }, { key: "_pageHide", value: function _pageHide()
+
+    {
+      if (!this.__licationHide) {
+        getLastTime();
+        var time = getResidenceTime('page');
+        this._sendPageRequest({
+          url: this._lastPageRoute,
+          urlref: this._lastPageRoute,
+          urlref_ts: time.residenceTime });
+
+        this._navigationBarTitle = {
+          config: '',
+          page: '',
+          report: '',
+          lt: '' };
+
+        return;
+      }
+    } }, { key: "_login", value: function _login()
+
+    {
+      this._sendEventRequest({
+        key: 'login' },
+      0);
+    } }, { key: "_share", value: function _share()
+
+    {
+      this._sendEventRequest({
+        key: 'share' },
+      0);
+    } }, { key: "_payment", value: function _payment(
+    key) {
+      this._sendEventRequest({
+        key: key },
+      0);
+    } }, { key: "_sendReportRequest", value: function _sendReportRequest(
+    options) {
+
+      this._navigationBarTitle.lt = '1';
+      var query = options.query && JSON.stringify(options.query) !== '{}' ? '?' + JSON.stringify(options.query) : '';
+      this.statData.lt = '1';
+      this.statData.url = options.path + query || '';
+      this.statData.t = getTime();
+      this.statData.sc = getScene(options.scene);
+      this.statData.fvts = getFirstVisitTime();
+      this.statData.lvts = getLastVisitTime();
+      this.statData.tvc = getTotalVisitCount();
+      if (getPlatformName() === 'n') {
+        this.getProperty();
+      } else {
+        this.getNetworkInfo();
+      }
+    } }, { key: "_sendPageRequest", value: function _sendPageRequest(
+
+    opt) {var _this = this;var
+
+      url =
+
+
+      opt.url,urlref = opt.urlref,urlref_ts = opt.urlref_ts;
+      this._navigationBarTitle.lt = '11';
+      var options = {
+        ak: this.statData.ak,
+        uuid: this.statData.uuid,
+        lt: '11',
+        ut: this.statData.ut,
+        url: url,
+        tt: this.statData.tt,
+        urlref: urlref,
+        urlref_ts: urlref_ts,
+        ch: this.statData.ch,
+        usv: this.statData.usv,
+        t: getTime(),
+        p: this.statData.p };
+
+      if (getPlatformName() === 'n' && this.statData.p === 'a') {
+        setTimeout(function () {
+          _this.request(options);
+        }, 200);
+        return;
+      }
+
+      this.request(options);
+    } }, { key: "_sendHideRequest", value: function _sendHideRequest(
+
+    opt, type) {var _this2 = this;var
+
+      urlref =
+
+      opt.urlref,urlref_ts = opt.urlref_ts;
+      var options = {
+        ak: this.statData.ak,
+        uuid: this.statData.uuid,
+        lt: '3',
+        ut: this.statData.ut,
+        urlref: urlref,
+        urlref_ts: urlref_ts,
+        ch: this.statData.ch,
+        usv: this.statData.usv,
+        t: getTime(),
+        p: this.statData.p };
+
+      if (getPlatformName() === 'n' && this.statData.p === 'a') {
+        setTimeout(function () {
+          _this2.request(options, type);
+        }, 200);
+        return;
+      }
+      this.request(options, type);
+    } }, { key: "_sendEventRequest", value: function _sendEventRequest()
+
+
+
+    {var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},_ref$key = _ref.key,key = _ref$key === void 0 ? '' : _ref$key,_ref$value = _ref.value,value = _ref$value === void 0 ? "" : _ref$value;
+      var route = this._lastPageRoute;
+      var options = {
+        ak: this.statData.ak,
+        uuid: this.statData.uuid,
+        lt: '21',
+        ut: this.statData.ut,
+        url: route,
+        ch: this.statData.ch,
+        e_n: key,
+        e_v: typeof value === 'object' ? JSON.stringify(value) : value.toString(),
+        usv: this.statData.usv,
+        t: getTime(),
+        p: this.statData.p };
+
+      this.request(options);
+    } }, { key: "getNetworkInfo", value: function getNetworkInfo()
+
+    {var _this3 = this;
+      uni.getNetworkType({
+        success: function success(result) {
+          _this3.statData.net = result.networkType;
+          _this3.getLocation();
+        } });
+
+    } }, { key: "getProperty", value: function getProperty()
+
+    {var _this4 = this;
+      plus.runtime.getProperty(plus.runtime.appid, function (wgtinfo) {
+        _this4.statData.v = wgtinfo.version || '';
+        _this4.getNetworkInfo();
+      });
+    } }, { key: "getLocation", value: function getLocation()
+
+    {var _this5 = this;
+      if (statConfig.getLocation) {
+        uni.getLocation({
+          type: 'wgs84',
+          geocode: true,
+          success: function success(result) {
+            if (result.address) {
+              _this5.statData.cn = result.address.country;
+              _this5.statData.pn = result.address.province;
+              _this5.statData.ct = result.address.city;
+            }
+
+            _this5.statData.lat = result.latitude;
+            _this5.statData.lng = result.longitude;
+            _this5.request(_this5.statData);
+          } });
+
+      } else {
+        this.statData.lat = 0;
+        this.statData.lng = 0;
+        this.request(this.statData);
+      }
+    } }, { key: "request", value: function request(
+
+    data, type) {var _this6 = this;
+      var time = getTime();
+      var title = this._navigationBarTitle;
+      data.ttn = title.page;
+      data.ttpj = title.config;
+      data.ttc = title.report;
+
+      var requestData = this._reportingRequestData;
+      if (getPlatformName() === 'n') {
+        requestData = uni.getStorageSync('__UNI__STAT__DATA') || {};
+      }
+      if (!requestData[data.lt]) {
+        requestData[data.lt] = [];
+      }
+      requestData[data.lt].push(data);
+
+      if (getPlatformName() === 'n') {
+        uni.setStorageSync('__UNI__STAT__DATA', requestData);
+      }
+      if (getPageResidenceTime() < OPERATING_TIME && !type) {
+        return;
+      }
+      var uniStatData = this._reportingRequestData;
+      if (getPlatformName() === 'n') {
+        uniStatData = uni.getStorageSync('__UNI__STAT__DATA');
+      }
+      // 时间超过，重新获取时间戳
+      setPageResidenceTime();
+      var firstArr = [];
+      var contentArr = [];
+      var lastArr = [];var _loop = function _loop(
+
+      i) {
+        var rd = uniStatData[i];
+        rd.forEach(function (elm) {
+          var newData = getSplicing(elm);
+          if (i === 0) {
+            firstArr.push(newData);
+          } else if (i === 3) {
+            lastArr.push(newData);
+          } else {
+            contentArr.push(newData);
+          }
+        });};for (var i in uniStatData) {_loop(i);
+      }
+
+      firstArr.push.apply(firstArr, contentArr.concat(lastArr));
+      var optionsData = {
+        usv: STAT_VERSION, //统计 SDK 版本号
+        t: time, //发送请求时的时间戮
+        requests: JSON.stringify(firstArr) };
+
+
+      this._reportingRequestData = {};
+      if (getPlatformName() === 'n') {
+        uni.removeStorageSync('__UNI__STAT__DATA');
+      }
+
+      if (data.ut === 'h5') {
+        this.imageRequest(optionsData);
+        return;
+      }
+
+      uni.request({
+        url: STAT_URL,
+        method: 'POST',
+        // header: {
+        //   'content-type': 'application/json' // 默认值
+        // },
+        data: optionsData,
+        success: function success() {
+          if (true) {
+            console.log('stat request success');
+          }
+        },
+        fail: function fail(e) {
+          if (true) {
+            console.log('stat request fail', e);
+          }
+          if (++_this6._retry < 3) {
+            setTimeout(function () {
+              _this6.request(data);
+            }, 1000);
+          }
+        } });
+
+
+    }
+    /**
+       * h5 请求
+       */ }, { key: "imageRequest", value: function imageRequest(
+    data) {
+      var image = new Image();
+      var options = getSgin(GetEncodeURIComponentOptions(data)).options;
+      image.src = STAT_H5_URL + '?' + options;
+    } }, { key: "sendEvent", value: function sendEvent(
+
+    key, value) {
+      // 校验 type 参数
+      if (calibration(key, value)) return;
+
+      if (key === 'title') {
+        this._navigationBarTitle.report = value;
+        return;
+      }
+      this._sendEventRequest({
+        key: key,
+        value: typeof value === 'object' ? JSON.stringify(value) : value },
+      1);
+    } }]);return Util;}();var
+
+
+
+Stat = /*#__PURE__*/function (_Util) {_inherits(Stat, _Util);_createClass(Stat, null, [{ key: "getInstance", value: function getInstance()
+    {
+      if (!this.instance) {
+        this.instance = new Stat();
+      }
+      return this.instance;
+    } }]);
+  function Stat() {var _this7;_classCallCheck(this, Stat);
+    _this7 = _possibleConstructorReturn(this, _getPrototypeOf(Stat).call(this));
+    _this7.instance = null;
+    // 注册拦截器
+    if (typeof uni.addInterceptor === 'function') {
+      _this7.addInterceptorInit();
+      _this7.interceptLogin();
+      _this7.interceptShare(true);
+      _this7.interceptRequestPayment();
+    }return _this7;
+  }_createClass(Stat, [{ key: "addInterceptorInit", value: function addInterceptorInit()
+
+    {
+      var self = this;
+      uni.addInterceptor('setNavigationBarTitle', {
+        invoke: function invoke(args) {
+          self._navigationBarTitle.page = args.title;
+        } });
+
+    } }, { key: "interceptLogin", value: function interceptLogin()
+
+    {
+      var self = this;
+      uni.addInterceptor('login', {
+        complete: function complete() {
+          self._login();
+        } });
+
+    } }, { key: "interceptShare", value: function interceptShare(
+
+    type) {
+      var self = this;
+      if (!type) {
+        self._share();
+        return;
+      }
+      uni.addInterceptor('share', {
+        success: function success() {
+          self._share();
+        },
+        fail: function fail() {
+          self._share();
+        } });
+
+    } }, { key: "interceptRequestPayment", value: function interceptRequestPayment()
+
+    {
+      var self = this;
+      uni.addInterceptor('requestPayment', {
+        success: function success() {
+          self._payment('pay_success');
+        },
+        fail: function fail() {
+          self._payment('pay_fail');
+        } });
+
+    } }, { key: "report", value: function report(
+
+    options, self) {
+      this.self = self;
+      if (true) {
+        console.log('report init');
+      }
+      setPageResidenceTime();
+      this.__licationShow = true;
+      this._sendReportRequest(options, true);
+    } }, { key: "load", value: function load(
+
+    options, self) {
+      if (!self.$scope && !self.$mp) {
+        var page = getCurrentPages();
+        self.$scope = page[page.length - 1];
+      }
+      this.self = self;
+      this._query = options;
+    } }, { key: "show", value: function show(
+
+    self) {
+      this.self = self;
+      if (!getPageTypes(self)) {
+        this._applicationShow(self);
+      }
+    } }, { key: "ready", value: function ready(
+
+    self) {
+      this.self = self;
+      if (getPageTypes(self)) {
+        this._pageShow(self);
+      }
+    } }, { key: "hide", value: function hide(
+    self) {
+      this.self = self;
+      if (getPageTypes(self)) {
+        this._pageHide(self);
+      } else {
+        this._applicationHide(self, true);
+      }
+    } }, { key: "error", value: function error(
+    em) {
+      if (this._platform === 'devtools') {
+        if (true) {
+          console.info('当前运行环境为开发者工具，不上报数据。');
+        }
+        // return;
+      }
+      var emVal = '';
+      if (!em.message) {
+        emVal = JSON.stringify(em);
+      } else {
+        emVal = em.stack;
+      }
+      var options = {
+        ak: this.statData.ak,
+        uuid: this.statData.uuid,
+        lt: '31',
+        ut: this.statData.ut,
+        ch: this.statData.ch,
+        mpsdk: this.statData.mpsdk,
+        mpv: this.statData.mpv,
+        v: this.statData.v,
+        em: emVal,
+        usv: this.statData.usv,
+        t: getTime(),
+        p: this.statData.p };
+
+      this.request(options);
+    } }]);return Stat;}(Util);
+
+
+var stat = Stat.getInstance();
+var isHide = false;
+var lifecycle = {
+  onLaunch: function onLaunch(options) {
+    stat.report(options, this);
+  },
+  onReady: function onReady() {
+    stat.ready(this);
+  },
+  onLoad: function onLoad(options) {
+    stat.load(options, this);
+  },
+  onShow: function onShow() {
+    isHide = false;
+    stat.show(this);
+  },
+  onHide: function onHide() {
+    isHide = true;
+    stat.hide(this);
+  },
+  onUnload: function onUnload() {
+    if (isHide) {
+      isHide = false;
+      return;
+    }
+    stat.hide(this);
+  },
+  onError: function onError(e) {
+    stat.error(e);
+  },
+  onShareAppMessage: function onShareAppMessage() {
+    stat.interceptShare(false);
+  } };
+
+
+function main() {
+  var Vue = __webpack_require__(/*! vue */ 2);
+  (Vue.default || Vue).mixin(lifecycle);
+  uni.report = function (type, options) {
+    stat.sendEvent(type, options);
+  };
+}
+
+main();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 51:
 /*!**************************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuserinfo%2Fuserinfo"} ***!
   \**************************************************************************************************/
@@ -10923,16 +12779,119 @@ createPage(_set.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _userinfo = _interopRequireDefault(__webpack_require__(/*! ./pages/userinfo/userinfo.vue */ 48));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _userinfo = _interopRequireDefault(__webpack_require__(/*! ./pages/userinfo/userinfo.vue */ 52));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_userinfo.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 5:
+/***/ 59:
+/*!******************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fcart%2Fcart"} ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _cart = _interopRequireDefault(__webpack_require__(/*! ./pages/cart/cart.vue */ 60));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_cart.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 6:
+/*!******************************************************!*\
+  !*** ./node_modules/@dcloudio/uni-stat/package.json ***!
+  \******************************************************/
+/*! exports provided: _args, _from, _id, _inBundle, _integrity, _location, _phantomChildren, _requested, _requiredBy, _resolved, _spec, _where, author, description, devDependencies, files, license, main, name, scripts, version, default */
+/***/ (function(module) {
+
+module.exports = {"_args":[["@dcloudio/uni-stat@0.0.113","/Users/fxy/Documents/DCloud/HBuilderX/uniapp-cli"]],"_from":"@dcloudio/uni-stat@0.0.113","_id":"@dcloudio/uni-stat@0.0.113","_inBundle":false,"_integrity":"sha512-H/fI46up/V0+IMhkghD4HVzHWiCxdlMuH22AZb5YIvSXs8cIzLpohtmD1tuVt3TD07uuehDeVP5+/3S7LhDijA==","_location":"/@dcloudio/uni-stat","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"@dcloudio/uni-stat@0.0.113","name":"@dcloudio/uni-stat","escapedName":"@dcloudio%2funi-stat","scope":"@dcloudio","rawSpec":"0.0.113","saveSpec":null,"fetchSpec":"0.0.113"},"_requiredBy":["/","/@dcloudio/vue-cli-plugin-uni"],"_resolved":"https://registry.npmjs.org/@dcloudio/uni-stat/-/uni-stat-0.0.113.tgz","_spec":"0.0.113","_where":"/Users/fxy/Documents/DCloud/HBuilderX/uniapp-cli","author":"","description":"","devDependencies":{"@babel/core":"^7.5.5","@babel/preset-env":"^7.5.5","eslint":"^6.1.0","rollup":"^1.19.3","rollup-plugin-babel":"^4.3.3","rollup-plugin-clear":"^2.0.7","rollup-plugin-commonjs":"^10.0.2","rollup-plugin-copy":"^3.1.0","rollup-plugin-eslint":"^7.0.0","rollup-plugin-json":"^4.0.0","rollup-plugin-node-resolve":"^5.2.0","rollup-plugin-replace":"^2.2.0","rollup-plugin-uglify":"^6.0.2"},"files":["dist","package.json","LICENSE"],"license":"Apache-2.0","main":"dist/index.js","name":"@dcloudio/uni-stat","scripts":{"build":"NODE_ENV=production rollup -c rollup.config.js","dev":"NODE_ENV=development rollup -w -c rollup.config.js"},"version":"0.0.113"};
+
+/***/ }),
+
+/***/ 67:
+/*!*********************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fpublic%2Flogin"} ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _login = _interopRequireDefault(__webpack_require__(/*! ./pages/public/login.vue */ 68));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_login.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 7:
+/*!*******************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/pages.json?{"type":"style"} ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "首页" }, "pages/goods/goods": { "navigationBarTitleText": "详情展示" }, "pages/set/set": { "navigationBarTitleText": "设置" }, "pages/userinfo/userinfo": { "navigationBarTitleText": "修改资料" }, "pages/cart/cart": { "navigationBarTitleText": "购物车" }, "pages/public/login": { "navigationBarTitleText": "", "navigationStyle": "custom" }, "pages/public/register": { "navigationBarTitleText": "", "navigationStyle": "custom" }, "pages/user/user": { "navigationBarTitleText": "我的", "navigationStyle": "custom" }, "pages/detail/detail": { "navigationBarTitleText": "" }, "pages/user/order": { "navigationBarTitleText": "订单奖励" }, "pages/user/income": { "navigationBarTitleText": "收入" }, "pages/user/points": { "navigationBarTitleText": "积分中心" }, "pages/money/money": {}, "pages/order/createOrder": { "navigationBarTitleText": "创建订单" }, "pages/address/address": { "navigationBarTitleText": "收货地址" }, "pages/address/addressManage": { "navigationBarTitleText": "" }, "pages/money/pay": { "navigationBarTitleText": "支付" }, "pages/money/paySuccess": { "navigationBarTitleText": "支付成功" }, "pages/notice/notice": { "navigationBarTitleText": "通知" }, "pages/category/category": { "navigationBarTitleText": "分类" }, "pages/goods/list": { "enablePullDownRefresh": true, "navigationBarTitleText": "商品列表" }, "pages/search/list": { "enablePullDownRefresh": true, "navigationBarTitleText": "商品列表" }, "pages/search/search": { "enablePullDownRefresh": true, "navigationBarTitleText": "商品列表" }, "pages/user/payment": { "navigationBarTitleText": "提现" }, "pages/set/cash": { "navigationBarTitleText": "设置" }, "pages/user/history": { "navigationBarTitleText": "浏览记录" }, "pages/user/favorite": { "navigationBarTitleText": "收藏夹" }, "pages/user/checkin": { "navigationBarTitleText": "签到" }, "pages/market/coupon": { "navigationBarTitleText": "大额优惠券" }, "pages/market/jiu": { "navigationBarTitleText": "九块九包邮" }, "pages/market/ju": { "navigationBarTitleText": "聚划算" }, "pages/market/top": { "navigationBarTitleText": "疯狂热销榜" }, "pages/market/tqg": { "navigationBarTitleText": "淘抢购" }, "pages/market/zhishu": { "navigationBarTitleText": "精选宝贝" }, "pages/demo/demo": { "navigationBarTitleText": "精选宝贝" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "", "navigationBarBackgroundColor": "#FFFFFF", "backgroundColor": "#f8f8f8" } };exports.default = _default;
+
+/***/ }),
+
+/***/ 75:
+/*!************************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fpublic%2Fregister"} ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _register = _interopRequireDefault(__webpack_require__(/*! ./pages/public/register.vue */ 76));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_register.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 8:
+/*!******************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/pages.json?{"type":"stat"} ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "appid": "__UNI__525AC46" };exports.default = _default;
+
+/***/ }),
+
+/***/ 83:
+/*!******************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuser%2Fuser"} ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _user = _interopRequireDefault(__webpack_require__(/*! ./pages/user/user.vue */ 84));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_user.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 9:
 /*!******************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/store/index.js ***!
   \******************************************************************/
@@ -10941,7 +12900,7 @@ createPage(_userinfo.default);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 6));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 10));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 _vue.default.use(_vuex.default);
 
@@ -10991,1026 +12950,7 @@ store;exports.default = _default;
 
 /***/ }),
 
-/***/ 55:
-/*!******************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fcart%2Fcart"} ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _cart = _interopRequireDefault(__webpack_require__(/*! ./pages/cart/cart.vue */ 56));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_cart.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 6:
-/*!********************************************!*\
-  !*** ./node_modules/vuex/dist/vuex.esm.js ***!
-  \********************************************/
-/*! exports provided: Store, install, mapState, mapMutations, mapGetters, mapActions, createNamespacedHelpers, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapState", function() { return mapState; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapMutations", function() { return mapMutations; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapGetters", function() { return mapGetters; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return mapActions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNamespacedHelpers", function() { return createNamespacedHelpers; });
-/**
- * vuex v3.0.1
- * (c) 2017 Evan You
- * @license MIT
- */
-var applyMixin = function (Vue) {
-  var version = Number(Vue.version.split('.')[0]);
-
-  if (version >= 2) {
-    Vue.mixin({ beforeCreate: vuexInit });
-  } else {
-    // override init and inject vuex init procedure
-    // for 1.x backwards compatibility.
-    var _init = Vue.prototype._init;
-    Vue.prototype._init = function (options) {
-      if ( options === void 0 ) options = {};
-
-      options.init = options.init
-        ? [vuexInit].concat(options.init)
-        : vuexInit;
-      _init.call(this, options);
-    };
-  }
-
-  /**
-   * Vuex init hook, injected into each instances init hooks list.
-   */
-
-  function vuexInit () {
-    var options = this.$options;
-    // store injection
-    if (options.store) {
-      this.$store = typeof options.store === 'function'
-        ? options.store()
-        : options.store;
-    } else if (options.parent && options.parent.$store) {
-      this.$store = options.parent.$store;
-    }
-  }
-};
-
-var devtoolHook =
-  typeof window !== 'undefined' &&
-  window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
-
-function devtoolPlugin (store) {
-  if (!devtoolHook) { return }
-
-  store._devtoolHook = devtoolHook;
-
-  devtoolHook.emit('vuex:init', store);
-
-  devtoolHook.on('vuex:travel-to-state', function (targetState) {
-    store.replaceState(targetState);
-  });
-
-  store.subscribe(function (mutation, state) {
-    devtoolHook.emit('vuex:mutation', mutation, state);
-  });
-}
-
-/**
- * Get the first item that pass the test
- * by second argument function
- *
- * @param {Array} list
- * @param {Function} f
- * @return {*}
- */
-/**
- * Deep copy the given object considering circular structure.
- * This function caches all nested objects and its copies.
- * If it detects circular structure, use cached copy to avoid infinite loop.
- *
- * @param {*} obj
- * @param {Array<Object>} cache
- * @return {*}
- */
-
-
-/**
- * forEach for object
- */
-function forEachValue (obj, fn) {
-  Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
-}
-
-function isObject (obj) {
-  return obj !== null && typeof obj === 'object'
-}
-
-function isPromise (val) {
-  return val && typeof val.then === 'function'
-}
-
-function assert (condition, msg) {
-  if (!condition) { throw new Error(("[vuex] " + msg)) }
-}
-
-var Module = function Module (rawModule, runtime) {
-  this.runtime = runtime;
-  this._children = Object.create(null);
-  this._rawModule = rawModule;
-  var rawState = rawModule.state;
-  this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
-};
-
-var prototypeAccessors$1 = { namespaced: { configurable: true } };
-
-prototypeAccessors$1.namespaced.get = function () {
-  return !!this._rawModule.namespaced
-};
-
-Module.prototype.addChild = function addChild (key, module) {
-  this._children[key] = module;
-};
-
-Module.prototype.removeChild = function removeChild (key) {
-  delete this._children[key];
-};
-
-Module.prototype.getChild = function getChild (key) {
-  return this._children[key]
-};
-
-Module.prototype.update = function update (rawModule) {
-  this._rawModule.namespaced = rawModule.namespaced;
-  if (rawModule.actions) {
-    this._rawModule.actions = rawModule.actions;
-  }
-  if (rawModule.mutations) {
-    this._rawModule.mutations = rawModule.mutations;
-  }
-  if (rawModule.getters) {
-    this._rawModule.getters = rawModule.getters;
-  }
-};
-
-Module.prototype.forEachChild = function forEachChild (fn) {
-  forEachValue(this._children, fn);
-};
-
-Module.prototype.forEachGetter = function forEachGetter (fn) {
-  if (this._rawModule.getters) {
-    forEachValue(this._rawModule.getters, fn);
-  }
-};
-
-Module.prototype.forEachAction = function forEachAction (fn) {
-  if (this._rawModule.actions) {
-    forEachValue(this._rawModule.actions, fn);
-  }
-};
-
-Module.prototype.forEachMutation = function forEachMutation (fn) {
-  if (this._rawModule.mutations) {
-    forEachValue(this._rawModule.mutations, fn);
-  }
-};
-
-Object.defineProperties( Module.prototype, prototypeAccessors$1 );
-
-var ModuleCollection = function ModuleCollection (rawRootModule) {
-  // register root module (Vuex.Store options)
-  this.register([], rawRootModule, false);
-};
-
-ModuleCollection.prototype.get = function get (path) {
-  return path.reduce(function (module, key) {
-    return module.getChild(key)
-  }, this.root)
-};
-
-ModuleCollection.prototype.getNamespace = function getNamespace (path) {
-  var module = this.root;
-  return path.reduce(function (namespace, key) {
-    module = module.getChild(key);
-    return namespace + (module.namespaced ? key + '/' : '')
-  }, '')
-};
-
-ModuleCollection.prototype.update = function update$1 (rawRootModule) {
-  update([], this.root, rawRootModule);
-};
-
-ModuleCollection.prototype.register = function register (path, rawModule, runtime) {
-    var this$1 = this;
-    if ( runtime === void 0 ) runtime = true;
-
-  if (true) {
-    assertRawModule(path, rawModule);
-  }
-
-  var newModule = new Module(rawModule, runtime);
-  if (path.length === 0) {
-    this.root = newModule;
-  } else {
-    var parent = this.get(path.slice(0, -1));
-    parent.addChild(path[path.length - 1], newModule);
-  }
-
-  // register nested modules
-  if (rawModule.modules) {
-    forEachValue(rawModule.modules, function (rawChildModule, key) {
-      this$1.register(path.concat(key), rawChildModule, runtime);
-    });
-  }
-};
-
-ModuleCollection.prototype.unregister = function unregister (path) {
-  var parent = this.get(path.slice(0, -1));
-  var key = path[path.length - 1];
-  if (!parent.getChild(key).runtime) { return }
-
-  parent.removeChild(key);
-};
-
-function update (path, targetModule, newModule) {
-  if (true) {
-    assertRawModule(path, newModule);
-  }
-
-  // update target module
-  targetModule.update(newModule);
-
-  // update nested modules
-  if (newModule.modules) {
-    for (var key in newModule.modules) {
-      if (!targetModule.getChild(key)) {
-        if (true) {
-          console.warn(
-            "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
-            'manual reload is needed'
-          );
-        }
-        return
-      }
-      update(
-        path.concat(key),
-        targetModule.getChild(key),
-        newModule.modules[key]
-      );
-    }
-  }
-}
-
-var functionAssert = {
-  assert: function (value) { return typeof value === 'function'; },
-  expected: 'function'
-};
-
-var objectAssert = {
-  assert: function (value) { return typeof value === 'function' ||
-    (typeof value === 'object' && typeof value.handler === 'function'); },
-  expected: 'function or object with "handler" function'
-};
-
-var assertTypes = {
-  getters: functionAssert,
-  mutations: functionAssert,
-  actions: objectAssert
-};
-
-function assertRawModule (path, rawModule) {
-  Object.keys(assertTypes).forEach(function (key) {
-    if (!rawModule[key]) { return }
-
-    var assertOptions = assertTypes[key];
-
-    forEachValue(rawModule[key], function (value, type) {
-      assert(
-        assertOptions.assert(value),
-        makeAssertionMessage(path, key, type, value, assertOptions.expected)
-      );
-    });
-  });
-}
-
-function makeAssertionMessage (path, key, type, value, expected) {
-  var buf = key + " should be " + expected + " but \"" + key + "." + type + "\"";
-  if (path.length > 0) {
-    buf += " in module \"" + (path.join('.')) + "\"";
-  }
-  buf += " is " + (JSON.stringify(value)) + ".";
-  return buf
-}
-
-var Vue; // bind on install
-
-var Store = function Store (options) {
-  var this$1 = this;
-  if ( options === void 0 ) options = {};
-
-  // Auto install if it is not done yet and `window` has `Vue`.
-  // To allow users to avoid auto-installation in some cases,
-  // this code should be placed here. See #731
-  if (!Vue && typeof window !== 'undefined' && window.Vue) {
-    install(window.Vue);
-  }
-
-  if (true) {
-    assert(Vue, "must call Vue.use(Vuex) before creating a store instance.");
-    assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.");
-    assert(this instanceof Store, "Store must be called with the new operator.");
-  }
-
-  var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
-  var strict = options.strict; if ( strict === void 0 ) strict = false;
-
-  var state = options.state; if ( state === void 0 ) state = {};
-  if (typeof state === 'function') {
-    state = state() || {};
-  }
-
-  // store internal state
-  this._committing = false;
-  this._actions = Object.create(null);
-  this._actionSubscribers = [];
-  this._mutations = Object.create(null);
-  this._wrappedGetters = Object.create(null);
-  this._modules = new ModuleCollection(options);
-  this._modulesNamespaceMap = Object.create(null);
-  this._subscribers = [];
-  this._watcherVM = new Vue();
-
-  // bind commit and dispatch to self
-  var store = this;
-  var ref = this;
-  var dispatch = ref.dispatch;
-  var commit = ref.commit;
-  this.dispatch = function boundDispatch (type, payload) {
-    return dispatch.call(store, type, payload)
-  };
-  this.commit = function boundCommit (type, payload, options) {
-    return commit.call(store, type, payload, options)
-  };
-
-  // strict mode
-  this.strict = strict;
-
-  // init root module.
-  // this also recursively registers all sub-modules
-  // and collects all module getters inside this._wrappedGetters
-  installModule(this, state, [], this._modules.root);
-
-  // initialize the store vm, which is responsible for the reactivity
-  // (also registers _wrappedGetters as computed properties)
-  resetStoreVM(this, state);
-
-  // apply plugins
-  plugins.forEach(function (plugin) { return plugin(this$1); });
-
-  if (Vue.config.devtools) {
-    devtoolPlugin(this);
-  }
-};
-
-var prototypeAccessors = { state: { configurable: true } };
-
-prototypeAccessors.state.get = function () {
-  return this._vm._data.$$state
-};
-
-prototypeAccessors.state.set = function (v) {
-  if (true) {
-    assert(false, "Use store.replaceState() to explicit replace store state.");
-  }
-};
-
-Store.prototype.commit = function commit (_type, _payload, _options) {
-    var this$1 = this;
-
-  // check object-style commit
-  var ref = unifyObjectStyle(_type, _payload, _options);
-    var type = ref.type;
-    var payload = ref.payload;
-    var options = ref.options;
-
-  var mutation = { type: type, payload: payload };
-  var entry = this._mutations[type];
-  if (!entry) {
-    if (true) {
-      console.error(("[vuex] unknown mutation type: " + type));
-    }
-    return
-  }
-  this._withCommit(function () {
-    entry.forEach(function commitIterator (handler) {
-      handler(payload);
-    });
-  });
-  this._subscribers.forEach(function (sub) { return sub(mutation, this$1.state); });
-
-  if (
-     true &&
-    options && options.silent
-  ) {
-    console.warn(
-      "[vuex] mutation type: " + type + ". Silent option has been removed. " +
-      'Use the filter functionality in the vue-devtools'
-    );
-  }
-};
-
-Store.prototype.dispatch = function dispatch (_type, _payload) {
-    var this$1 = this;
-
-  // check object-style dispatch
-  var ref = unifyObjectStyle(_type, _payload);
-    var type = ref.type;
-    var payload = ref.payload;
-
-  var action = { type: type, payload: payload };
-  var entry = this._actions[type];
-  if (!entry) {
-    if (true) {
-      console.error(("[vuex] unknown action type: " + type));
-    }
-    return
-  }
-
-  this._actionSubscribers.forEach(function (sub) { return sub(action, this$1.state); });
-
-  return entry.length > 1
-    ? Promise.all(entry.map(function (handler) { return handler(payload); }))
-    : entry[0](payload)
-};
-
-Store.prototype.subscribe = function subscribe (fn) {
-  return genericSubscribe(fn, this._subscribers)
-};
-
-Store.prototype.subscribeAction = function subscribeAction (fn) {
-  return genericSubscribe(fn, this._actionSubscribers)
-};
-
-Store.prototype.watch = function watch (getter, cb, options) {
-    var this$1 = this;
-
-  if (true) {
-    assert(typeof getter === 'function', "store.watch only accepts a function.");
-  }
-  return this._watcherVM.$watch(function () { return getter(this$1.state, this$1.getters); }, cb, options)
-};
-
-Store.prototype.replaceState = function replaceState (state) {
-    var this$1 = this;
-
-  this._withCommit(function () {
-    this$1._vm._data.$$state = state;
-  });
-};
-
-Store.prototype.registerModule = function registerModule (path, rawModule, options) {
-    if ( options === void 0 ) options = {};
-
-  if (typeof path === 'string') { path = [path]; }
-
-  if (true) {
-    assert(Array.isArray(path), "module path must be a string or an Array.");
-    assert(path.length > 0, 'cannot register the root module by using registerModule.');
-  }
-
-  this._modules.register(path, rawModule);
-  installModule(this, this.state, path, this._modules.get(path), options.preserveState);
-  // reset store to update getters...
-  resetStoreVM(this, this.state);
-};
-
-Store.prototype.unregisterModule = function unregisterModule (path) {
-    var this$1 = this;
-
-  if (typeof path === 'string') { path = [path]; }
-
-  if (true) {
-    assert(Array.isArray(path), "module path must be a string or an Array.");
-  }
-
-  this._modules.unregister(path);
-  this._withCommit(function () {
-    var parentState = getNestedState(this$1.state, path.slice(0, -1));
-    Vue.delete(parentState, path[path.length - 1]);
-  });
-  resetStore(this);
-};
-
-Store.prototype.hotUpdate = function hotUpdate (newOptions) {
-  this._modules.update(newOptions);
-  resetStore(this, true);
-};
-
-Store.prototype._withCommit = function _withCommit (fn) {
-  var committing = this._committing;
-  this._committing = true;
-  fn();
-  this._committing = committing;
-};
-
-Object.defineProperties( Store.prototype, prototypeAccessors );
-
-function genericSubscribe (fn, subs) {
-  if (subs.indexOf(fn) < 0) {
-    subs.push(fn);
-  }
-  return function () {
-    var i = subs.indexOf(fn);
-    if (i > -1) {
-      subs.splice(i, 1);
-    }
-  }
-}
-
-function resetStore (store, hot) {
-  store._actions = Object.create(null);
-  store._mutations = Object.create(null);
-  store._wrappedGetters = Object.create(null);
-  store._modulesNamespaceMap = Object.create(null);
-  var state = store.state;
-  // init all modules
-  installModule(store, state, [], store._modules.root, true);
-  // reset vm
-  resetStoreVM(store, state, hot);
-}
-
-function resetStoreVM (store, state, hot) {
-  var oldVm = store._vm;
-
-  // bind store public getters
-  store.getters = {};
-  var wrappedGetters = store._wrappedGetters;
-  var computed = {};
-  forEachValue(wrappedGetters, function (fn, key) {
-    // use computed to leverage its lazy-caching mechanism
-    computed[key] = function () { return fn(store); };
-    Object.defineProperty(store.getters, key, {
-      get: function () { return store._vm[key]; },
-      enumerable: true // for local getters
-    });
-  });
-
-  // use a Vue instance to store the state tree
-  // suppress warnings just in case the user has added
-  // some funky global mixins
-  var silent = Vue.config.silent;
-  Vue.config.silent = true;
-  store._vm = new Vue({
-    data: {
-      $$state: state
-    },
-    computed: computed
-  });
-  Vue.config.silent = silent;
-
-  // enable strict mode for new vm
-  if (store.strict) {
-    enableStrictMode(store);
-  }
-
-  if (oldVm) {
-    if (hot) {
-      // dispatch changes in all subscribed watchers
-      // to force getter re-evaluation for hot reloading.
-      store._withCommit(function () {
-        oldVm._data.$$state = null;
-      });
-    }
-    Vue.nextTick(function () { return oldVm.$destroy(); });
-  }
-}
-
-function installModule (store, rootState, path, module, hot) {
-  var isRoot = !path.length;
-  var namespace = store._modules.getNamespace(path);
-
-  // register in namespace map
-  if (module.namespaced) {
-    store._modulesNamespaceMap[namespace] = module;
-  }
-
-  // set state
-  if (!isRoot && !hot) {
-    var parentState = getNestedState(rootState, path.slice(0, -1));
-    var moduleName = path[path.length - 1];
-    store._withCommit(function () {
-      Vue.set(parentState, moduleName, module.state);
-    });
-  }
-
-  var local = module.context = makeLocalContext(store, namespace, path);
-
-  module.forEachMutation(function (mutation, key) {
-    var namespacedType = namespace + key;
-    registerMutation(store, namespacedType, mutation, local);
-  });
-
-  module.forEachAction(function (action, key) {
-    var type = action.root ? key : namespace + key;
-    var handler = action.handler || action;
-    registerAction(store, type, handler, local);
-  });
-
-  module.forEachGetter(function (getter, key) {
-    var namespacedType = namespace + key;
-    registerGetter(store, namespacedType, getter, local);
-  });
-
-  module.forEachChild(function (child, key) {
-    installModule(store, rootState, path.concat(key), child, hot);
-  });
-}
-
-/**
- * make localized dispatch, commit, getters and state
- * if there is no namespace, just use root ones
- */
-function makeLocalContext (store, namespace, path) {
-  var noNamespace = namespace === '';
-
-  var local = {
-    dispatch: noNamespace ? store.dispatch : function (_type, _payload, _options) {
-      var args = unifyObjectStyle(_type, _payload, _options);
-      var payload = args.payload;
-      var options = args.options;
-      var type = args.type;
-
-      if (!options || !options.root) {
-        type = namespace + type;
-        if ( true && !store._actions[type]) {
-          console.error(("[vuex] unknown local action type: " + (args.type) + ", global type: " + type));
-          return
-        }
-      }
-
-      return store.dispatch(type, payload)
-    },
-
-    commit: noNamespace ? store.commit : function (_type, _payload, _options) {
-      var args = unifyObjectStyle(_type, _payload, _options);
-      var payload = args.payload;
-      var options = args.options;
-      var type = args.type;
-
-      if (!options || !options.root) {
-        type = namespace + type;
-        if ( true && !store._mutations[type]) {
-          console.error(("[vuex] unknown local mutation type: " + (args.type) + ", global type: " + type));
-          return
-        }
-      }
-
-      store.commit(type, payload, options);
-    }
-  };
-
-  // getters and state object must be gotten lazily
-  // because they will be changed by vm update
-  Object.defineProperties(local, {
-    getters: {
-      get: noNamespace
-        ? function () { return store.getters; }
-        : function () { return makeLocalGetters(store, namespace); }
-    },
-    state: {
-      get: function () { return getNestedState(store.state, path); }
-    }
-  });
-
-  return local
-}
-
-function makeLocalGetters (store, namespace) {
-  var gettersProxy = {};
-
-  var splitPos = namespace.length;
-  Object.keys(store.getters).forEach(function (type) {
-    // skip if the target getter is not match this namespace
-    if (type.slice(0, splitPos) !== namespace) { return }
-
-    // extract local getter type
-    var localType = type.slice(splitPos);
-
-    // Add a port to the getters proxy.
-    // Define as getter property because
-    // we do not want to evaluate the getters in this time.
-    Object.defineProperty(gettersProxy, localType, {
-      get: function () { return store.getters[type]; },
-      enumerable: true
-    });
-  });
-
-  return gettersProxy
-}
-
-function registerMutation (store, type, handler, local) {
-  var entry = store._mutations[type] || (store._mutations[type] = []);
-  entry.push(function wrappedMutationHandler (payload) {
-    handler.call(store, local.state, payload);
-  });
-}
-
-function registerAction (store, type, handler, local) {
-  var entry = store._actions[type] || (store._actions[type] = []);
-  entry.push(function wrappedActionHandler (payload, cb) {
-    var res = handler.call(store, {
-      dispatch: local.dispatch,
-      commit: local.commit,
-      getters: local.getters,
-      state: local.state,
-      rootGetters: store.getters,
-      rootState: store.state
-    }, payload, cb);
-    if (!isPromise(res)) {
-      res = Promise.resolve(res);
-    }
-    if (store._devtoolHook) {
-      return res.catch(function (err) {
-        store._devtoolHook.emit('vuex:error', err);
-        throw err
-      })
-    } else {
-      return res
-    }
-  });
-}
-
-function registerGetter (store, type, rawGetter, local) {
-  if (store._wrappedGetters[type]) {
-    if (true) {
-      console.error(("[vuex] duplicate getter key: " + type));
-    }
-    return
-  }
-  store._wrappedGetters[type] = function wrappedGetter (store) {
-    return rawGetter(
-      local.state, // local state
-      local.getters, // local getters
-      store.state, // root state
-      store.getters // root getters
-    )
-  };
-}
-
-function enableStrictMode (store) {
-  store._vm.$watch(function () { return this._data.$$state }, function () {
-    if (true) {
-      assert(store._committing, "Do not mutate vuex store state outside mutation handlers.");
-    }
-  }, { deep: true, sync: true });
-}
-
-function getNestedState (state, path) {
-  return path.length
-    ? path.reduce(function (state, key) { return state[key]; }, state)
-    : state
-}
-
-function unifyObjectStyle (type, payload, options) {
-  if (isObject(type) && type.type) {
-    options = payload;
-    payload = type;
-    type = type.type;
-  }
-
-  if (true) {
-    assert(typeof type === 'string', ("Expects string as the type, but found " + (typeof type) + "."));
-  }
-
-  return { type: type, payload: payload, options: options }
-}
-
-function install (_Vue) {
-  if (Vue && _Vue === Vue) {
-    if (true) {
-      console.error(
-        '[vuex] already installed. Vue.use(Vuex) should be called only once.'
-      );
-    }
-    return
-  }
-  Vue = _Vue;
-  applyMixin(Vue);
-}
-
-var mapState = normalizeNamespace(function (namespace, states) {
-  var res = {};
-  normalizeMap(states).forEach(function (ref) {
-    var key = ref.key;
-    var val = ref.val;
-
-    res[key] = function mappedState () {
-      var state = this.$store.state;
-      var getters = this.$store.getters;
-      if (namespace) {
-        var module = getModuleByNamespace(this.$store, 'mapState', namespace);
-        if (!module) {
-          return
-        }
-        state = module.context.state;
-        getters = module.context.getters;
-      }
-      return typeof val === 'function'
-        ? val.call(this, state, getters)
-        : state[val]
-    };
-    // mark vuex getter for devtools
-    res[key].vuex = true;
-  });
-  return res
-});
-
-var mapMutations = normalizeNamespace(function (namespace, mutations) {
-  var res = {};
-  normalizeMap(mutations).forEach(function (ref) {
-    var key = ref.key;
-    var val = ref.val;
-
-    res[key] = function mappedMutation () {
-      var args = [], len = arguments.length;
-      while ( len-- ) args[ len ] = arguments[ len ];
-
-      var commit = this.$store.commit;
-      if (namespace) {
-        var module = getModuleByNamespace(this.$store, 'mapMutations', namespace);
-        if (!module) {
-          return
-        }
-        commit = module.context.commit;
-      }
-      return typeof val === 'function'
-        ? val.apply(this, [commit].concat(args))
-        : commit.apply(this.$store, [val].concat(args))
-    };
-  });
-  return res
-});
-
-var mapGetters = normalizeNamespace(function (namespace, getters) {
-  var res = {};
-  normalizeMap(getters).forEach(function (ref) {
-    var key = ref.key;
-    var val = ref.val;
-
-    val = namespace + val;
-    res[key] = function mappedGetter () {
-      if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
-        return
-      }
-      if ( true && !(val in this.$store.getters)) {
-        console.error(("[vuex] unknown getter: " + val));
-        return
-      }
-      return this.$store.getters[val]
-    };
-    // mark vuex getter for devtools
-    res[key].vuex = true;
-  });
-  return res
-});
-
-var mapActions = normalizeNamespace(function (namespace, actions) {
-  var res = {};
-  normalizeMap(actions).forEach(function (ref) {
-    var key = ref.key;
-    var val = ref.val;
-
-    res[key] = function mappedAction () {
-      var args = [], len = arguments.length;
-      while ( len-- ) args[ len ] = arguments[ len ];
-
-      var dispatch = this.$store.dispatch;
-      if (namespace) {
-        var module = getModuleByNamespace(this.$store, 'mapActions', namespace);
-        if (!module) {
-          return
-        }
-        dispatch = module.context.dispatch;
-      }
-      return typeof val === 'function'
-        ? val.apply(this, [dispatch].concat(args))
-        : dispatch.apply(this.$store, [val].concat(args))
-    };
-  });
-  return res
-});
-
-var createNamespacedHelpers = function (namespace) { return ({
-  mapState: mapState.bind(null, namespace),
-  mapGetters: mapGetters.bind(null, namespace),
-  mapMutations: mapMutations.bind(null, namespace),
-  mapActions: mapActions.bind(null, namespace)
-}); };
-
-function normalizeMap (map) {
-  return Array.isArray(map)
-    ? map.map(function (key) { return ({ key: key, val: key }); })
-    : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
-}
-
-function normalizeNamespace (fn) {
-  return function (namespace, map) {
-    if (typeof namespace !== 'string') {
-      map = namespace;
-      namespace = '';
-    } else if (namespace.charAt(namespace.length - 1) !== '/') {
-      namespace += '/';
-    }
-    return fn(namespace, map)
-  }
-}
-
-function getModuleByNamespace (store, helper, namespace) {
-  var module = store._modulesNamespaceMap[namespace];
-  if ( true && !module) {
-    console.error(("[vuex] module namespace not found in " + helper + "(): " + namespace));
-  }
-  return module
-}
-
-var index_esm = {
-  Store: Store,
-  install: install,
-  version: '3.0.1',
-  mapState: mapState,
-  mapMutations: mapMutations,
-  mapGetters: mapGetters,
-  mapActions: mapActions,
-  createNamespacedHelpers: createNamespacedHelpers
-};
-
-
-/* harmony default export */ __webpack_exports__["default"] = (index_esm);
-
-
-/***/ }),
-
-/***/ 63:
-/*!*********************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fpublic%2Flogin"} ***!
-  \*********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _login = _interopRequireDefault(__webpack_require__(/*! ./pages/public/login.vue */ 64));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_login.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 71:
-/*!************************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fpublic%2Fregister"} ***!
-  \************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _register = _interopRequireDefault(__webpack_require__(/*! ./pages/public/register.vue */ 72));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_register.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 79:
-/*!******************************************************************************************!*\
-  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuser%2Fuser"} ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _user = _interopRequireDefault(__webpack_require__(/*! ./pages/user/user.vue */ 80));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_user.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 87:
+/***/ 91:
 /*!**********************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fdetail%2Fdetail"} ***!
   \**********************************************************************************************/
@@ -12018,16 +12958,16 @@ createPage(_user.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/detail/detail.vue */ 88));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/detail/detail.vue */ 92));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_detail.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 95:
+/***/ 99:
 /*!*******************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuser%2Forder"} ***!
   \*******************************************************************************************/
@@ -12035,10 +12975,10 @@ createPage(_detail.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _order = _interopRequireDefault(__webpack_require__(/*! ./pages/user/order.vue */ 96));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _order = _interopRequireDefault(__webpack_require__(/*! ./pages/user/order.vue */ 100));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_order.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 

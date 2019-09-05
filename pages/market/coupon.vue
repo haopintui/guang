@@ -7,7 +7,7 @@
 			<goods 
 				v-for="(item,index) in items" :key="index" 
 				:top="index+1"
-				:itemData="item" goodsType="top" />
+				:itemData="item" goodsType="list" />
 			<uni-load-more :status="loadingType"></uni-load-more>
 		</view>
 	</view>

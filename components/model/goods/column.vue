@@ -83,6 +83,7 @@
 	font-size: 24upx;
 	color: #999;
 	padding: 5px 5px;
+	background-color: #fff;
 	.coupon-money{
 		font-size: $font-sm;
 		color: $uni-color-primary;
