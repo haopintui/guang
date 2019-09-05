@@ -103,8 +103,10 @@
 			<view class="tui-group-name">
 				<text>热门推荐</text>
 			</view>
-			<view class="tui-product-list guess-section">
-				<goods v-for="(item, index) in items" :key="index" :item-data="item" goods-type="column" ></goods>
+			<view class="tui-product-list">
+				<view class="tui-product-container guess-section">
+					<goods v-for="(item, index) in items" :key="index" :item-data="item" goods-type="column" ></goods>
+				</view>
 			</view>
 		</view>
 
@@ -838,83 +840,23 @@
 
 	.tui-product-list {
 		display: flex;
-		/* justify-content: space-between; */
-		/* flex-direction: row; */
+		justify-content: space-between;
+		flex-direction: row;
 		flex-wrap: wrap;
 		box-sizing: border-box;
-		/* padding-top: 20rpx; */
 	}
 
 	.tui-product-container {
 		flex: 1;
-		margin-right: 2%;
+		margin-right:10upx;
 	}
 
 	.tui-product-container:last-child {
 		margin-right: 0;
 	}
-
-	.tui-pro-item {
-		width: 100%;
-		margin-bottom: 4%;
-		background: #fff;
-		box-sizing: border-box;
-		border-radius: 12rpx;
-		overflow: hidden;
-	}
-
-	.tui-pro-img {
-		width: 100%;
-		display: block;
-	}
-
-	.tui-pro-content {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		box-sizing: border-box;
-		padding: 20rpx;
-	}
-
-	.tui-pro-tit {
-		color: #2e2e2e;
-		font-size: 26rpx;
-		word-break: break-all;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-	}
-
-	.tui-pro-price {
-		padding-top: 18rpx;
-	}
-
-	.tui-sale-price {
-		font-size: 34rpx;
-		font-weight: 500;
-		color: #e41f19;
-	}
-
-	.tui-factory-price {
-		font-size: 24rpx;
-		color: #a0a0a0;
-		text-decoration: line-through;
-		padding-left: 12rpx;
-	}
-
-	.tui-pro-pay {
-		padding-top: 10rpx;
-		font-size: 24rpx;
-		color: #656565;
-	}
-	
 	
 	.guess-section{
 		display:flex;
 		flex-wrap:wrap;
-		// padding: 0 1vw;
-		// background: #fff;
 	}
 </style>

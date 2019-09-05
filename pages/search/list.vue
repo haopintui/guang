@@ -1184,8 +1184,6 @@
 	.guess-section{
 		display:flex;
 		flex-wrap:wrap;
-		// padding: 0 1vw;
-		// background: #fff;
 	}
 
 	.tui-pro-item {
