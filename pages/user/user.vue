@@ -1,5 +1,6 @@
 <template>  
     <view class="container">  
+		<bottom-menus menus-index="3" />
 		<uheader v-for="(item, index) in components" v-if="item.type=='header'" :item-data="item.data" :key="index"></uheader>
 		<view 
 			class="cover-container"
@@ -19,6 +20,7 @@
 	import listCell from '@/components/mix-list-cell';
 	import componentItem from '@/common/model/components/index';
 	import uheader from '@/common/model/components/header';
+	import bottomMenus from '@/common/model/bottom-menus';
     import { mapState ,mapMutations } from 'vuex'; 
 	 
 	let startY = 0, moveY = 0, pageAtTop = true;
@@ -28,6 +30,7 @@
 			listCell,
 			componentItem,
 			uheader,
+			bottomMenus,
 		},
 		data(){
 			return {
@@ -159,6 +162,14 @@
     }  
 </script>  
 <style lang='scss'>
+page {
+	background: #f7f7f7;
+}
+
+.container {
+	padding-bottom: 100rpx;
+	color: #333;
+}
 %flex-center {
  display:flex;
  flex-direction: column;

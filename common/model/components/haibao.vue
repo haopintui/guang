@@ -29,7 +29,6 @@
 		},
 		data() {
 			return {
-				titleNViewBackground: '',
 				swiperCurrent: 0,
 				swiperLength: 0,
 			}
@@ -39,7 +38,6 @@
 			swiperChange(e) {
 				const index = e.detail.current;
 				this.swiperCurrent = index;
-				this.titleNViewBackground = this.carouselList[index].background;
 			},
 			//详情页
 			navToDetailPage(item) {

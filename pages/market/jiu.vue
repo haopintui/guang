@@ -1,5 +1,6 @@
 <template>
 	<view class="content">
+		<bottom-menus menus-index="2" />
 		<wuc-tab :tab-list="navList" @change="changeTab" :tabCur.sync="tabCurrentIndex" tab-class="text-center text-white bg-nav" select-class="text-white"></wuc-tab>
 		<view class="list">
 			<!-- 空白页 -->
@@ -18,13 +19,17 @@
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 	import empty from "@/components/empty";
 	import goods from '@/common/model/goods/index';
+	import bottomMenus from '@/common/model/bottom-menus';
+	import tuiScrollTop from "@/components/scroll-top/scroll-top"
 	
 	export default {
 		components: {
 			uniLoadMore,
 			empty,
 			WucTab,
-			goods
+			goods,
+			bottomMenus,
+			tuiScrollTop,
 		},
 		data() {
 			return {

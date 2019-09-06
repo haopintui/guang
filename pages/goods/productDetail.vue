@@ -325,6 +325,7 @@
 	import tuiTopDropdown from "@/components/top-dropdown/top-dropdown"
 	import tuiBottomPopup from "@/components/bottom-popup/bottom-popup"
 	import tuiNumberbox from "@/components/numberbox/numberbox"
+	
 	export default {
 		components: {
 			tuiIcon,
@@ -338,6 +339,11 @@
 		},
 		data() {
 			return {
+				id:'',
+				goods:{},
+				click:{},
+				favorite: false,
+				
 				height: 64, //header高度
 				top: 0, //标题图标距离顶部距离
 				scrollH: 0, //滚动总高度
@@ -416,6 +422,14 @@
 					this.scrollH = res.windowWidth
 				}
 			})
+			
+			//接收传值,id里面放的是标题，因为测试数据并没写id
+			let id = options.id;
+			if(id){
+				this.id = id;
+				this.query_detail(id);
+				this.pin(id);
+			}
 		},
 		methods: {
 			bannerChange: function(e) {
@@ -451,7 +465,59 @@
 			},
 			common: function() {
 				this.tui.toast("功能开发中~")
-			}
+			},
+			//收藏
+			toFavorite(){
+				this.$http.post('/cms/member/favorite/pin', {object_type:'goods',object_id:this.id}).then(res => {
+					if(res.info.status==0){
+						this.favorite = true;
+					}else{
+						this.favorite = false;
+					}
+				}).catch(err => {});
+			},
+			buy(){
+				if(!this.click.click_url){
+					this.query_click(this.id,true);
+				}else{
+					window.location.href = this.click.click_url;
+				}
+			},
+			query_detail(id){
+				uni.showLoading({
+					title: '请稍候...'
+				})
+				this.$http.post('/cms/goods/view', {num_iid:id}).then(res => {
+					if(res.data.item&&res.data.item){
+						this.goods = res.data.item;
+					}
+					uni.hideLoading();
+				}).catch(err => {
+					uni.hideLoading();
+				});
+				this.$http.post('/cms/member/favorite/index', {object_type:'goods',object_id:id}).then(res => {
+					if(res.data.item&&res.data.item.id){
+						this.favorite = true;
+					}else{
+						this.favorite = false;
+					}
+				}).catch(err => {});
+			},
+			query_click(id,auto){
+				this.$http.post('/cms/goods/click', {num_iid:id}).then(res => {
+					if(res.data.click&&res.data.click){
+						this.click = res.data.click;
+						if(auto){
+							this.buy();
+						}
+					}
+				}).catch(err => {});
+			},
+			pin(id){
+				this.$http.post('/cms/member/history/pin', {object_type:'goods',object_id:id}).then(res => {
+					
+				}).catch(err => {});
+			},
 		},
 		onPageScroll(e) {
 			let scroll = e.scrollTop <= 0 ? 0 : e.scrollTop;
@@ -467,7 +533,7 @@
 
 <style>
 	/* icon 也可以使用组件*/
-	@import "../../../static/style/icon.css";
+	@import "../../static/style/icon.css";
 
 	page {
 		background: #f7f7f7;

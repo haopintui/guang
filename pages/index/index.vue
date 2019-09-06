@@ -1,78 +1,253 @@
 <template>
 	<view class="container">
-		<!-- 小程序头部兼容 -->
-		<!-- #ifdef MP -->
-		<view class="mp-search-box">
-			<input class="ser-input" type="text" value="粘贴商品或宝贝标题,搜索隐藏优惠券" disabled />
+		<bottom-menus menus-index="0" />
+		<!--header-->
+		<view class="tui-header">
+			<view class="tui-category" hover-class="opcity" :hover-stay-time="150" @tap="classify">
+				<!-- <tui-icon name="manage-fill" color="#fff" :size="22"></tui-icon> -->
+				<image class="icon" src="https://img.youdanhui.cn/cms_img/2019-09-06/5d71bf8337cd3.png"></image>
+				<view class="tui-category-scale">分类</view>
+			</view>
+			<view class="tui-rolling-search">
+				<!-- #ifdef APP-PLUS || MP -->
+				<icon type="search" :size='13' color='#999'></icon>
+				<!-- #endif -->
+				<!-- #ifdef H5 -->
+				<view>
+					<tui-icon name="search" :size='16' color='#999'></tui-icon>
+				</view>
+				<!-- #endif -->
+				<swiper vertical autoplay circular interval="8000" class="tui-swiper">
+					<swiper-item v-for="(item,index) in hotSearch" :key="index" class="tui-swiper-item" @tap="search">
+						<view class="tui-hot-item">{{item}}</view>
+					</swiper-item>
+				</swiper>
+			</view>
 		</view>
-		<!-- #endif -->
-		<component-item v-for="(item, index) in components" :item-data="item" :key="index" ></component-item>
+		<!--header-->
 		
-		<view class="guess-section">
-			<goods v-for="(item, index) in items" :key="index" :item-data="item" goods-type="column" ></goods>
+		<component-item v-for="(item, index) in components" :item-data="item" :key="index" ></component-item>
+
+		<view class="tui-product-box tui-pb-20 tui-bg-white">
+			<view class="tui-group-name" @tap="more">
+				<text>新人专享</text>
+				<tui-icon name="arrowright" :size="20" color="#555"></tui-icon>
+			</view>
+			<view class="tui-activity-box" @tap="detail">
+				<image src="https://img.youdanhui.cn/cms_img/2019-09-06/5d71cd57c3c0e.jpg" class="tui-activity-img" mode="widthFix"></image>
+				<image src="https://img.youdanhui.cn/cms_img/2019-09-06/5d71cd2b3fc47.jpg" class="tui-activity-img" mode="widthFix"></image>
+			</view>
 		</view>
+
+		<view class="tui-product-box tui-pb-20 tui-bg-white">
+			<view class="tui-group-name" @tap="more">
+				<text>新品推荐</text>
+				<tui-icon name="arrowright" :size="20" color="#555"></tui-icon>
+			</view>
+			<view class="tui-new-box">
+				<view class="tui-new-item" :class="[index!=0 && index!=1 ?'tui-new-mtop':'']" v-for="(item,index) in newProduct"
+				 :key="index" @tap="detail">
+					<image :src="'../../../static/images/mall/new/'+(item.type==1?'new':'discount')+'.png'" class="tui-new-label" v-if="item.isLabel"></image>
+					<view class="tui-title-box">
+						<view class="tui-new-title">{{item.name}}</view>
+						<view class="tui-new-price">
+							<text class="tui-new-present">￥{{item.present}}</text>
+							<text class="tui-new-original">￥{{item.original}}</text>
+						</view>
+					</view>
+					<image :src="'https://img.youdanhui.cn/cms_img/2019-09-06/5d71cd6f2de42.jpg'" class="tui-new-img"></image>
+				</view>
+			</view>
+		</view>
+
+		<view class="tui-product-box">
+			<view class="tui-group-name">
+				<text>热门推荐</text>
+			</view>
+			<view class="tui-product-list">
+				<view class="tui-product-container guess-section">
+					<goods v-for="(item, index) in items" :key="index" :item-data="item" goods-type="column" ></goods>
+				</view>
+			</view>
+		</view>
+
+		<!--加载loadding-->
+		<tui-loadmore :visible="loadding" :index="3" type="red"></tui-loadmore>
+		<!-- <tui-nomore visible="{{!pullUpOn}}"></tui-nomore> -->
+		<!--加载loadding-->
+		<view class="tui-safearea-bottom"></view>
+		<tui-scroll-top :scrollTop="scrollTop"></tui-scroll-top>
 	</view>
 </template>
 
 <script>
+	import tuiIcon from "@/components/icon/icon"
+	import tuiTag from "@/components/tag/tag"
+	import tuiLoadmore from "@/components/loadmore/loadmore"
+	import tuiNomore from "@/components/nomore/nomore"
 	import componentItem from '@/common/model/components/index';
 	import goods from '@/common/model/goods/index';
+	import bottomMenus from '@/common/model/bottom-menus';
+	import tuiScrollTop from "@/components/scroll-top/scroll-top"
 	
 	export default {
 		components: {
+			tuiIcon,
+			tuiTag,
+			tuiLoadmore,
+			tuiNomore,
 			componentItem,
-			goods
+			goods,
+			bottomMenus,
+			tuiScrollTop,
 		},
 		data() {
 			return {
-				titleNViewBackground: '',
-				swiperCurrent: 0,
-				swiperLength: 0,
-				carouselList: [],
-				goodsList: [],
+				ipage:1,
+				current: 0,
+				scrollTop: 0,
+				tabbar: [
+					{icon: "home",text: "首页",size: 21}, 
+					{icon: "category",text: "分类",size: 24}, 
+					{icon: "cart",text: "购物车",size: 22}, 
+					{icon: "people",text: "我的",size: 24},
+				],
+				hotSearch: [
+					"休闲零食",
+					"自热火锅",
+					"小冰箱迷你"
+				],
 				components:[],
 				items:[],
 				query_goods_url:'',
 				page:{
 					ipage:0,
 					hasGoods:1,
-				}
-			};
+				},
+				banner: [
+					"1.jpg",
+					"2.jpg",
+					"3.jpg",
+					"4.jpg",
+					"5.jpg"
+				],
+				category: [{
+					img: "1.jpg",
+					name: "短袖T恤"
+				}, {
+					img: "2.jpg",
+					name: "足球"
+				}, {
+					img: "3.jpg",
+					name: "运动鞋"
+				}, {
+					img: "4.png",
+					name: "中老年"
+				}, {
+					img: "5.png",
+					name: "甜美风"
+				}, {
+					img: "6.jpg",
+					name: "鱼尾裙"
+				}, {
+					img: "7.jpg",
+					name: "相机配件"
+				}, {
+					img: "8.jpg",
+					name: "护肤套装"
+				}, {
+					img: "9.jpg",
+					name: "单肩包"
+				}, {
+					img: "10.jpg",
+					name: "卫衣"
+				}],
+				newProduct: [{
+					name: "时尚舒适公主裙高街修身长裙",
+					present: 198,
+					original: 298,
+					pic: "1.jpg",
+					type: 1,
+					isLabel: true
+				}, {
+					name: "高街修身雪纺衫",
+					present: 398,
+					original: 598,
+					pic: "2.jpg",
+					type: 2,
+					isLabel: true
+				}, {
+					name: "轻奢商务上衣",
+					present: 99,
+					original: 199,
+					pic: "3.jpg",
+					type: 1,
+					isLabel: true
+				}, {
+					name: "品质牛皮婚鞋牛皮婚鞋品质就是好",
+					present: 99,
+					original: 199,
+					pic: "5.jpg",
+					type: 1,
+					isLabel: true
+				}, {
+					name: "轻奢时尚大包限时新品推荐",
+					present: 99,
+					original: 199,
+					pic: "6.jpg",
+					type: 1,
+					isLabel: false
+				}, {
+					name: "高街修身长裙",
+					present: 999,
+					original: 1299,
+					pic: "4.jpg",
+					type: 2,
+					isLabel: true
+				}],
+				loadding: false,
+				pullUpOn: true
+			}
 		},
 		onLoad() {
-			this.loadData();
 			this.query();
-			// this.query_items();
 		},
 		onReachBottom(){
 			this.queryItems();
 		},
 		methods: {
-			/**
-			 * 请求静态数据只是为了代码不那么乱
-			 * 分次请求未作整合
-			 */
-			async loadData() {
-				let carouselList = await this.$api.json('carouselList');
-				this.titleNViewBackground = carouselList[0].background;
-				this.swiperLength = carouselList.length;
-				this.carouselList = carouselList;
-				
-				let goodsList = await this.$api.json('goodsList');
-				this.goodsList = goodsList || [];
+			tabbarSwitch: function(e) {
+				let index = e.currentTarget.dataset.index;
+				this.current = index;
+				if (index != 0) {
+					if (index == 1) {
+						this.classify();
+					} else {
+						this.tui.toast("功能开发中~")
+					}
+				}
 			},
-			//轮播图切换修改背景色
-			swiperChange(e) {
-				const index = e.detail.current;
-				this.swiperCurrent = index;
-				this.titleNViewBackground = this.carouselList[index].background;
-			},
-			//详情页
-			navToDetailPage(item) {
-				//测试数据没有写id，用title代替
-				let id = item.title;
+			detail: function() {
 				uni.navigateTo({
-					url: `/pages/product/product?id=${id}`
+					url: '../productDetail/productDetail'
+				})
+			},
+			classify: function() {
+				uni.navigateTo({
+					url: '/pages/category/category'
+				})
+
+			},
+			more: function(e) {
+				let key = e.currentTarget.dataset.key || "";
+				uni.navigateTo({
+					url: '/pages/search/search?q=' + key
+				})
+
+			},
+			search: function() {
+				uni.navigateTo({
+					url: '/pages/search/search'
 				})
 			},
 			queryItems() {
@@ -89,7 +264,7 @@
 					}else{
 						this.page.hasGoods = 0;
 					}
-					console.log(res)
+					this.loadding = false
 				}).catch(err => {});
 			},
 			query() {
@@ -103,142 +278,242 @@
 						this.query_goods_url = res.data.items.url;
 						this.queryItems();
 					}
+					uni.stopPullDownRefresh()
 				}).catch(err => {});
 			},
 		},
-		// #ifndef MP
-		// 标题栏input搜索框点击
-		onNavigationBarSearchInputClicked: async function(e) {
-			uni.navigateTo({
-				url: '/pages/search/search'
-			})
+		onPullDownRefresh: function() {
+			this.ipage = 1;
+			this.pullUpOn = true;
+			this.loadding = false
 		},
-		//点击导航栏 buttons 时触发
-		onNavigationBarButtonTap(e) {
-			const index = e.index;
-			if (index === 0) {
-				this.$api.msg('点击了扫描');
-			} else if (index === 1) {
-				// #ifdef APP-PLUS
-				const pages = getCurrentPages();
-				const page = pages[pages.length - 1];
-				const currentWebview = page.$getAppWebview();
-				currentWebview.hideTitleNViewButtonRedDot({
-					index
-				});
-				// #endif
-				uni.navigateTo({
-					url: '/pages/notice/notice'
-				})
-			}
+		onReachBottom: function() {
+			if (!this.pullUpOn) return;
+			this.loadding = true;
+			this.queryItems();
+		},
+		onPageScroll(e) {
+			this.scrollTop = e.scrollTop
 		}
-		// #endif
 	}
 </script>
 
 <style lang="scss">
-/* #ifdef MP */
-.mp-search-box{
-	position:absolute;
-	left: 0;
-	top: 30upx;
-	z-index: 9999;
-	width: 100%;
-	padding: 0 80upx;
-	.ser-input{
-		flex:1;
-		height: 56upx;
-		line-height: 56upx;
-		text-align: center;
-		font-size: 28upx;
-		color:$font-color-base;
-		border-radius: 20px;
-		background: rgba(255,255,255,.6);
+	page {
+		background: #f7f7f7;
 	}
-}
 
-page {
-	background: #F6F6F6;
-}
-.m-t{
-	margin-top: 16upx;
-}
-/* 分类推荐楼层 */
-.hot-floor{
-	width: 100%;
-	overflow: hidden;
-	margin-bottom: 20upx;
-	.floor-img-box{
+	.container {
+		padding-bottom: 100rpx;
+		color: #333;
+	}
+
+	/*tabbar*/
+	.tui-safearea-bottom {
 		width: 100%;
-		height:320upx;
-		position:relative;
-		&:after{
-			content: '';
-			position:absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(rgba(255,255,255,.06) 30%, #f8f8f8);
+		height: env(safe-area-inset-bottom);
+	}
+	/*tabbar*/
+
+	.tui-header {
+		width: 100%;
+		height: 100rpx;
+		padding: 0 30rpx 0 20rpx;
+		box-sizing: border-box;
+		background: #e41f19;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: fixed;
+		left: 0;
+		top: 0;
+		/* #ifdef H5 */
+		top: 44px;
+		/* #endif */
+		z-index: 999;
+		.icon{
+			width: 22rpx;
+			height: 22rpx;
 		}
 	}
-	.floor-img{
+
+	.tui-rolling-search {
 		width: 100%;
-		height: 100%;
-	}
-	.floor-list{
-		white-space: nowrap;
-		padding: 20upx;
-		padding-right: 50upx;
-		border-radius: 6upx;
-		margin-top:-140upx;
-		margin-left: 30upx;
+		height: 60rpx;
+		border-radius: 35rpx;
+		padding: 0 40rpx 0 30rpx;
+		box-sizing: border-box;
 		background: #fff;
-		box-shadow: 1px 1px 5px rgba(0,0,0,.2);
-		position: relative;
-		z-index: 1;
+		display: flex;
+		align-items: center;
+		flex-wrap: nowrap;
+		color: #999;
 	}
-	.scoll-wrapper{
-		display:flex;
-		align-items: flex-start;
-	}
-	.floor-item{
-		width: 180upx;
-		margin-right: 20upx;
-		font-size: $font-sm+2upx;
-		color: $font-color-dark;
-		line-height: 1.8;
-		image{
-			width: 180upx;
-			height: 180upx;
-			border-radius: 6upx;
-		}
-		.price{
-			color: $uni-color-primary;
-		}
-	}
-	.more{
-		display:flex;
+
+	.tui-category {
+		font-size: 24rpx;
+		color: #fff;
+		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
+		margin: 0;
+		margin-right: 22rpx;
 		flex-shrink: 0;
-		width: 180upx;
-		height: 180upx;
-		border-radius: 6upx;
-		background: #f3f3f3;
-		font-size: $font-base;
-		color: $font-color-light;
-		text:first-child{
-			margin-bottom: 4upx;
-		}
 	}
-}
-/* 猜你喜欢 */
-.guess-section{
-	display:flex;
-	flex-wrap:wrap;
-	// padding: 0 1vw;
-	// background: #fff;
-}
+
+	.tui-category-scale {
+		transform: scale(0.7);
+		line-height: 24rpx;
+	}
+
+	.tui-icon-category {
+		line-height: 20px !important;
+		margin-bottom: 0 !important;
+	}
+
+	.tui-swiper {
+		font-size: 26rpx;
+		height: 60rpx;
+		flex: 1;
+		padding-left: 12rpx;
+	}
+	
+	
+
+	.tui-swiper-item {
+		display: flex;
+		align-items: center;
+	}
+
+	.tui-hot-item {
+		line-height: 26rpx;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.tui-product-box {
+		margin-top: 20rpx;
+		box-sizing: border-box;
+	}
+
+	.tui-pb-20 {
+		padding-bottom: 20rpx;
+	}
+
+	.tui-bg-white {
+		background: #fff;
+	}
+
+	.tui-group-name {
+		font-size: 32rpx;
+		font-weight: bold;
+		text-align: center;
+		padding: 24rpx 0;
+	}
+
+	.tui-activity-box {
+		display: flex;
+		border-radius: 12rpx;
+		overflow: hidden;
+	}
+
+	.tui-activity-img {
+		width: 50%;
+		display: block;
+	}
+
+	.tui-new-box {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+
+	.tui-new-item {
+		width: 49%;
+		height: 200rpx;
+		padding: 0 20rpx;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		background: #f5f2f9;
+		position: relative;
+		border-radius: 12rpx;
+	}
+
+	.tui-new-mtop {
+		margin-top: 2%;
+	}
+
+	.tui-title-box {
+		font-size: 24rpx;
+	}
+
+	.tui-new-title {
+		line-height: 32rpx;
+		word-break: break-all;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+
+	.tui-new-price {
+		padding-top: 18rpx;
+	}
+
+	.tui-new-present {
+		color: #ff201f;
+		font-weight: bold;
+	}
+
+	.tui-new-original {
+		display: inline-block;
+		color: #a0a0a0;
+		text-decoration: line-through;
+		padding-left: 12rpx;
+		transform: scale(0.8);
+		transform-origin: center center;
+	}
+
+	.tui-new-img {
+		width: 160rpx;
+		height: 160rpx;
+		display: block;
+		flex-shrink: 0;
+	}
+
+	.tui-new-label {
+		width: 56rpx;
+		height: 56rpx;
+		border-top-left-radius: 12rpx;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+
+	.tui-product-list {
+		display: flex;
+		justify-content: space-between;
+		flex-direction: row;
+		flex-wrap: wrap;
+		box-sizing: border-box;
+	}
+
+	.tui-product-container {
+		flex: 1;
+		// margin-right:10upx;
+	}
+
+	.tui-product-container:last-child {
+		margin-right: 0;
+	}
+	
+	.guess-section{
+		display:flex;
+		flex-wrap:wrap;
+	}
 </style>

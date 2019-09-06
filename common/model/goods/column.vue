@@ -37,7 +37,8 @@
 				//测试数据没有写id，用title代替
 				let id = item.goods.num_iid;
 				uni.navigateTo({
-					url: `/pages/goods/goods?id=${id}`
+					// url: `/pages/goods/goods?id=${id}`
+					url: `/pages/goods/productDetail?id=${id}`
 				})
 			},
 		}
@@ -53,7 +54,7 @@
 	width: 48vw;
 	padding-bottom: 10upx;
 	border-radius:5px;
-	margin:10px 1vw;
+	margin:10px 0.5vw;
 	// &:nth-child(2n+1){
 	// 	margin-right: 1vw;
 	// }

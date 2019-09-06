@@ -201,11 +201,17 @@
 				}
 			},
 			query_detail(id){
+				uni.showLoading({
+					title: '请稍候...'
+				})
 				this.$http.post('/cms/goods/view', {num_iid:id}).then(res => {
 					if(res.data.item&&res.data.item){
 						this.goods = res.data.item;
 					}
-				}).catch(err => {});
+					uni.hideLoading();
+				}).catch(err => {
+					uni.hideLoading();
+				});
 				this.$http.post('/cms/member/favorite/index', {object_type:'goods',object_id:id}).then(res => {
 					if(res.data.item&&res.data.item.id){
 						this.favorite = true;

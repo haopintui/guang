@@ -1,43 +1,36 @@
 {
 	"pages": [
 		{
-			"path": "pages/mall/mall",
+			"path": "pages/index/index",
 			"style": {
+				"navigationBarTitleText": "首页",
 				"navigationBarBackgroundColor": "#fff",
 				"navigationBarTextStyle": "black",
 				"backgroundColorTop": "#F7F7F7",
 				"backgroundColorBottom": "#F7F7F7",
-				"navigationBarTitleText": "商城首页",
 				"enablePullDownRefresh": true,
-				"onReachBottomDistance": 50
-			}
-		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				// #ifdef MP 
-				"navigationBarTitleText": "首页",
-				//"navigationStyle": "custom",
-				// #endif 
+				"onReachBottomDistance": 50,
+				// #ifdef H5
+				// "navigationStyle": "custom",
+				// #endif
 				"app-plus": {
-					"titleNView": {
-						"type": "transparent",
-						"backgroundColor": "#fe3a33",
-						"searchInput": {
-							"backgroundColor": "#fff",
-							"borderRadius": "16px",
-							"placeholder": "粘贴商品或宝贝标题,搜索隐藏优惠券",
-							"disabled": true,
-							"placeholderColor": "#999",
-							"fontSize": "24"
-						},
-						"buttons": []
-					}
+					"bounce": "vertical"
 				}
 			}
 		},
 		{
 			"path": "pages/goods/goods",
+			"style": {
+				"navigationBarTitleText": "详情展示",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
+			}
+		}, 
+		{
+			"path": "pages/goods/productDetail",
 			"style": {
 				"navigationBarTitleText": "详情展示",
 				"app-plus": {
@@ -58,12 +51,6 @@
 			"path": "pages/userinfo/userinfo",
 			"style": {
 				"navigationBarTitleText": "修改资料"
-			}
-		}, 
-		{
-			"path": "pages/cart/cart",
-			"style": {
-				"navigationBarTitleText": "购物车"
 			}
 		}, 
 		{
@@ -99,23 +86,7 @@
 					"bounce": "none",
 					"titleNView": {
 						"type": "transparent",
-						"buttons": [{
-								"fontSrc": "/static/yticon.ttf",
-								"text": "\ue60f",
-								"fontSize": "24",
-								"color": "#303133",
-								"width": "46px",
-								"background": "rgba(0,0,0,0)"
-							},
-							{
-								"fontSrc": "/static/yticon.ttf",
-								"text": "\ue744",
-								"fontSize": "28",
-								"color": "#303133",
-								"background": "rgba(0,0,0,0)",
-								"redDot": true
-							}
-						]
+						"buttons": []
 					}
 				}
 			}
@@ -204,15 +175,6 @@
             "path" : "pages/category/category",
             "style" : {
 				"navigationBarTitleText": "分类",
-				"app-plus": {
-					"bounce": "none"
-				}
-			}
-        },
-		{
-			"path": "pages/navbar-2/navbar-2",
-			"style": {
-				"navigationBarTitleText": "商品分类",
 				"navigationBarBackgroundColor": "#fff",
 				"navigationBarTextStyle": "black",
 				"backgroundColorTop": "#fcfcfc",
@@ -222,7 +184,7 @@
 					"bounce": "none"
 				}
 			}
-		},
+        },
 		{
             "path" : "pages/goods/list",
             "style" : {
@@ -241,7 +203,6 @@
             "path" : "pages/search/search",
             "style" : {
 				// "enablePullDownRefresh": true,
-				// "navigationBarTitleText": "商品列表",
 				"navigationBarTitleText": "搜索",
 				"navigationBarBackgroundColor": "#fff",
 				"navigationBarTextStyle": "black",
@@ -348,21 +309,15 @@
 					"bounce": "none"
 				}
 			}
-		},
-		{
-			"path": "pages/demo/demo",
-			"style": {
-				"navigationBarTitleText": "精选宝贝",
-				"app-plus": {
-					"bounce": "none"
-				}
-			}
 		}
     ],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "",
+		"backgroundTextStyle": "dark",
 		"navigationBarBackgroundColor": "#FFFFFF",
-		"backgroundColor": "#f8f8f8"
+		"navigationBarTitleText": "",
+		"navigationBarTextStyle": "black",
+		"backgroundColor": "#fafafa",
+		"backgroundColorTop": "#fafafa",
+		"backgroundColorBottom": "#fafafa"
 	}
 }

@@ -1,44 +1,87 @@
 <template>
-	<view class="content">
-		<scroll-view scroll-y class="left-aside">
-			<view v-for="item in flist" :key="item.id" class="f-item b-b" :class="{active: item.id === currentId}" @click="tabtap(item)">
-				{{item.name}}
+	<view class="container">
+		<bottom-menus menus-index="1" />
+		<view class="tui-searchbox">
+			<view class="tui-search-input" @tap="search">
+				<!-- #ifdef APP-PLUS || MP -->
+				<icon type="search" size='13' color='#999'></icon>
+				<!-- #endif -->
+				<text class="tui-search-text">搜索宝贝</text>
+			</view>
+		</view>
+
+		<scroll-view scroll-y scroll-with-animation class="tab-view" :scroll-top="scrollTop" :style="{height:height+'px'}">
+			<view v-for="(item,index) in tabbar" :key="index" class="tab-bar-item" :class="[currentTab==index ? 'active' : '']"
+			 :data-current="index" @tap.stop="swichNav">
+				<text>{{item.short_name}}</text>
 			</view>
 		</scroll-view>
-		<scroll-view scroll-with-animation scroll-y class="right-aside" @scroll="asideScroll" :scroll-top="tabScrollTop">
-			<view v-for="item in slist" :key="item.id" class="s-list" :id="'main-'+item.id">
-				<text class="s-item">{{item.name}}</text>
-				<view class="t-list">
-					<view @click="navToList(item.id, titem.id)" v-if="titem.pid === item.id" class="t-item" v-for="titem in tlist" :key="titem.id">
-						<image :src="titem.picture"></image>
-						<text>{{titem.name}}</text>
+		<block v-for="(item,index) in tabbar" :key="index">
+			<scroll-view scroll-y class="right-box" :style="{height:height+'px'}" v-if="currentTab==index">
+				<!--内容部分 start 自定义可删除-->
+				<view class="page-view">
+					<!-- <swiper indicator-dots autoplay circular :interval="5000" :duration="150" class="swiper">
+						<swiper-item v-if="index%2===0" @tap.stop="detail">
+							<image src="../../static/images/mall/banner/2.jpg" class="slide-image" />
+						</swiper-item>
+						<swiper-item @tap.stop="detail">
+							<image src="../../static/images/mall/banner/4.jpg" class="slide-image" />
+						</swiper-item>
+						<swiper-item @tap.stop="detail">
+							<image src="../../static/images/mall/banner/5.jpg" class="slide-image" />
+						</swiper-item>
+					</swiper> -->
+					<view class="class-box">
+						<view class="class-item">
+							<view class="class-name">{{item.short_name}}</view>
+							<view class="g-container">
+								<view v-for="(itemItem,indexItem) in item.items" :key="indexItem" class="g-box" @tap.stop="navAction(itemItem)">
+									<image :src="itemItem.imageUrl" class="g-image" />
+									<view class="g-title">{{itemItem.title}}</view>
+								</view>
+							</view>
+						</view>
+
 					</view>
 				</view>
-			</view>
-		</scroll-view>
+				<!--内容部分 end 自定义可删除-->
+			</scroll-view>
+		</block>
 	</view>
 </template>
 
 <script>
+	import bottomMenus from '@/common/model/bottom-menus';
+	
 	export default {
+		components: {
+			bottomMenus,
+		},
 		data() {
 			return {
-				sizeCalcState: false,
-				tabScrollTop: 0,
-				currentId: 1,
-				flist: [],
-				slist: [],
-				tlist: [],
+				tabbar: [],
+				height: 0, //scroll-view高度
+				currentTab: 0, //预设当前项的值
+				scrollTop: 0 //tab标题的滚动条位置
 			}
 		},
-		onLoad(){
-			this.loadData();
+		onLoad: function(options) {
+			uni.getSystemInfo({
+				success: (res) => {
+					let header = 92;
+					// #ifdef H5
+					header = 0;
+					// #endif
+					this.height = res.windowHeight - uni.upx2px(header)
+				}
+			});
+			this.query();
 		},
 		methods: {
 			query() {
 				this.$http.post('/cms/cate/all', {}).then(res => {
 					if(res.data.items&&res.data.items){
-						this.items = res.data.items;
+						this.tabbar = res.data.items;
 					}
 					// if(res.data.items&&res.data.items.url){
 					// 	this.query_goods_url = res.data.items.url;
@@ -46,145 +89,303 @@
 					// }
 				}).catch(err => {});
 			},
-			async loadData(){
-				let list = await this.$api.json('cateList');
-				list.forEach(item=>{
-					if(!item.pid){
-						this.flist.push(item);  //pid为父级id, 没有pid或者pid=0是一级分类
-					}else if(!item.picture){
-						this.slist.push(item); //没有图的是2级分类
-					}else{
-						this.tlist.push(item); //3级分类
-					}
-				}) 
-			},
-			//一级分类点击
-			tabtap(item){
-				if(!this.sizeCalcState){
-					this.calcSize();
-				}
-				
-				this.currentId = item.id;
-				let index = this.slist.findIndex(sitem=>sitem.pid === item.id);
-				this.tabScrollTop = this.slist[index].top;
-			},
-			//右侧栏滚动
-			asideScroll(e){
-				if(!this.sizeCalcState){
-					this.calcSize();
-				}
-				let scrollTop = e.detail.scrollTop;
-				let tabs = this.slist.filter(item=>item.top <= scrollTop).reverse();
-				if(tabs.length > 0){
-					this.currentId = tabs[0].pid;
+			// 点击标题切换当前页时改变样式
+			swichNav: function(e) {
+				let cur = e.currentTarget.dataset.current;
+				if (this.currentTab == cur) {
+					return false;
+				} else {
+					this.currentTab = cur;
+					this.checkCor();
 				}
 			},
-			//计算右侧栏每个tab的高度等信息
-			calcSize(){
-				let h = 0;
-				this.slist.forEach(item=>{
-					let view = uni.createSelectorQuery().select("#main-" + item.id);
-					view.fields({
-						size: true
-					}, data => {
-						item.top = h;
-						h += data.height;
-						item.bottom = h;
-					}).exec();
-				})
-				this.sizeCalcState = true;
+			//判断当前滚动超过一屏时，设置tab标题滚动条。
+			checkCor: function() {
+				let that = this;
+				//这里计算按照实际情况进行修改，动态数据要进行动态分析
+				//思路：窗体高度/单个分类高度 200rpx 转px计算 =>得到一屏幕所显示的个数，结合后台传回分类总数进行计算
+				//数据很多可以多次if判断然后进行滚动距离计算即可
+				if (that.currentTab > 7) {
+					that.scrollTop = 500
+				} else {
+					that.scrollTop = 0
+				}
 			},
-			navToList(sid, tid){
+			detail(e) {
 				uni.navigateTo({
-					url: `/pages/product/list?fid=${this.currentId}&sid=${sid}&tid=${tid}`
+					url: '../extend-view/productDetail/productDetail'
 				})
+			},
+			productList(e) {
+				let key = e.currentTarget.dataset.key;
+				uni.navigateTo({
+					url: '../extend-view/productList/productList?searchKey=' + key
+				})
+			},
+			search: function() {
+				uni.navigateTo({
+					url: '../extend-view/news-search/news-search'
+				})
+			},
+			navAction(item){
+				if(item.pages){
+					this.navTo(item.pages);
+				}				
+				else if(item.jsaction=='search'){
+					this.navTo('/pages/search/list?q='+encodeURIComponent(item.text));
+				}
+				else if(item.action.action=='load_action'){
+					this.load_action(item.action);
+				}
+				else if(item.action.action=='open_web'){
+					this.open_web(item.action);
+				}
+			},
+			navTo(url) {
+				uni.navigateTo({
+					url:url
+				})
+			},
+			load_action(action){
+				let options = {};
+				// options.putAll(action.params);
+				console.log(action);
+				options = Object.assign(options,action.params);
+				this.$http.post('/cms/load/view', options).then(res => {
+					if(res.data.item.click
+						&&res.data.item.click.we_app_web_view_url){
+						window.location.href = res.data.item.click.we_app_web_view_url;
+					}
+					// this.$api.msg(res.info.status_err);
+				}).catch(err => {});
+			},
+			open_web(action){
+				window.location.href = action.params.url;
 			}
 		}
 	}
 </script>
 
-<style lang='scss'>
-	page,
-	.content {
-		height: 100%;
-		background-color: #f8f8f8;
+<style>
+	page {
+		background: #fcfcfc;
 	}
 
-	.content {
-		display: flex;
-	}
-	.left-aside {
-		flex-shrink: 0;
-		width: 200upx;
-		height: 100%;
-		background-color: #fff;
-	}
-	.f-item {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: 100upx;
-		font-size: 28upx;
-		color: $font-color-base;
-		position: relative;
-		&.active{
-			color: $base-color;
-			background: #f8f8f8;
-			&:before{
-				content: '';
-				position: absolute;
-				left: 0;
-				top: 50%;
-				transform: translateY(-50%);
-				height: 36upx;
-				width: 8upx;
-				background-color: $base-color;
-				border-radius: 0 4px 4px 0;
-				opacity: .8;
-			}
-		}
+	/* 左侧导航布局 start*/
+
+	/* 隐藏scroll-view滚动条*/
+
+	::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		color: transparent;
 	}
 
-	.right-aside{
-		flex: 1;
-		overflow: hidden;
-		padding-left: 20upx;
-	}
-	.s-item{
-		display: flex;
-		align-items: center;
-		height: 70upx;
-		padding-top: 8upx;
-		font-size: 28upx;
-		color: $font-color-dark;
-	}
-	.t-list{
-		display: flex;
-		flex-wrap: wrap;
+	.tui-searchbox {
 		width: 100%;
+		height: 92upx;
+		padding: 0 30upx;
+		box-sizing: border-box;
 		background: #fff;
-		padding-top: 12upx;
-		&:after{
-			content: '';
-			flex: 99;
-			height: 0;
-		}
-	}
-	.t-item{
-		flex-shrink: 0;
 		display: flex;
-		justify-content: center;
 		align-items: center;
-		flex-direction: column;
-		width: 176upx;
+		justify-content: center;
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 100;
+	}
+
+	.tui-searchbox::after {
+		content: '';
+		position: absolute;
+		border-bottom: 1upx solid #d2d2d2;
+		-webkit-transform: scaleY(0.5);
+		transform: scaleY(0.5);
+		bottom: 0;
+		right: 0;
+		left: 0;
+	}
+
+	.tui-search-input {
+		width: 100%;
+		height: 60upx;
+		background: #f1f1f1;
+		border-radius: 30upx;
 		font-size: 26upx;
-		color: #666;
-		padding-bottom: 20upx;
-		
-		image{
-			width: 140upx;
-			height: 140upx;
-		}
+		color: #999;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.tui-search-text {
+		padding-left: 16upx;
+	}
+
+	.tab-view {
+		/* height: 100%; */
+		width: 200upx;
+		position: fixed;
+		left: 0;
+		top: 92upx;
+		z-index: 10;
+	}
+
+	.tab-bar-item {
+		width: 200upx;
+		height: 110upx;
+		background: #f6f6f6;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 26upx;
+		color: #444;
+		font-weight: 400;
+	}
+
+	.active {
+		position: relative;
+		color: #000;
+		font-size: 30upx;
+		font-weight: 600;
+		background: #fcfcfc;
+	}
+
+	.active::before {
+		content: "";
+		position: absolute;
+		border-left: 8upx solid #E41F19;
+		height: 30upx;
+		left: 0;
+	}
+
+	/* 左侧导航布局 end*/
+
+	.right-box {
+		width: 100%;
+		position: fixed;
+		padding-left: 220upx;
+		box-sizing: border-box;
+		left: 0;
+		top: 92upx;
+	}
+
+	.page-view {
+		width: 100%;
+		overflow: hidden;
+		padding-top: 20upx;
+		padding-right: 20upx;
+		box-sizing: border-box;
+		padding-bottom: env(safe-area-inset-bottom);
+	}
+
+	.swiper {
+		width: 100%;
+		height: 220upx;
+		border-radius: 12upx;
+		overflow: hidden;
+		transform: translateZ(0);
+	}
+
+	/* #ifdef APP-PLUS || MP */
+	.swiper .wx-swiper-dot {
+		width: 8upx;
+		height: 8upx;
+		display: inline-flex;
+		background: none;
+		justify-content: space-between;
+	}
+
+	.swiper .wx-swiper-dot::before {
+		content: '';
+		flex-grow: 1;
+		background: rgba(255, 255, 255, 0.8);
+		border-radius: 16upx;
+		overflow: hidden;
+	}
+
+	.swiper .wx-swiper-dot-active::before {
+		background: #fff;
+	}
+
+	.swiper .wx-swiper-dot.wx-swiper-dot-active {
+		width: 16upx;
+	}
+
+	/* #endif */
+
+	/* #ifdef H5 */
+	>>>.swiper .uni-swiper-dot {
+		width: 8rpx;
+		height: 8rpx;
+		display: inline-flex;
+		background: none;
+		justify-content: space-between;
+	}
+
+	>>>.swiper .uni-swiper-dot::before {
+		content: '';
+		flex-grow: 1;
+		background: rgba(255, 255, 255, 0.8);
+		border-radius: 16rpx;
+		overflow: hidden;
+	}
+
+	>>>.swiper .uni-swiper-dot-active::before {
+		background: #fff;
+	}
+
+	>>>.swiper .uni-swiper-dot.uni-swiper-dot-active {
+		width: 16rpx;
+	}
+
+	/* #endif */
+
+	.slide-image {
+		width: 100%;
+		height: 220upx;
+	}
+
+	.class-box {
+		padding-top: 30upx;
+	}
+
+	.class-item {
+		background: #fff;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 20upx;
+		margin-bottom: 20upx;
+		border-radius: 12upx;
+	}
+
+	.class-name {
+		font-size: 22upx;
+	}
+
+	.g-container {
+		/* padding-top: 20upx; */
+		display: flex;
+		display: -webkit-flex;
+		justify-content: flex-start;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.g-box {
+		width: 33.3333%;
+		text-align: center;
+		padding-top: 40upx;
+	}
+
+	.g-image {
+		width: 120upx;
+		height: 120upx;
+	}
+
+	.g-title {
+		font-size: 22upx;
 	}
 </style>

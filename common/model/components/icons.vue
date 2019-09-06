@@ -1,6 +1,6 @@
 <template>
 	<!-- 分类 -->
-	<view class="cate-section">
+	<!-- <view class="cate-section">
 		<view v-for="(item, index) in itemData.items" :item-data="item" :key="index" 
 			class="cate-item" :style="iconWidth"
 			@click="navAction(item)"
@@ -8,7 +8,19 @@
 			<image :src="item.pic_url"></image>
 			<text>{{item.title}}</text>
 		</view>
+	</view> -->
+	
+	
+	<view class="tui-product-category">
+		<view class="tui-category-item" v-for="(item, index) in itemData.items" 
+		:key="index" @tap="navAction(item)" :style="iconWidth">
+			<image :src="item.pic_url" 
+				class="tui-category-img" 
+				mode="scaleToFill"></image>
+			<view class="tui-category-name">{{item.title}}</view>
+		</view>
 	</view>
+	
 </template>
 
 <script>
@@ -71,30 +83,67 @@
 <style lang="scss">
 
 /* 分类 */
-.cate-section {
-	display: flex;
-	// justify-content: space-around;
-	justify-content: flex-start;
-	align-items: center;
-	flex-wrap:wrap;
-	padding: 30upx 22upx; 
+// .cate-section {
+// 	display: flex;
+// 	// justify-content: space-around;
+// 	justify-content: flex-start;
+// 	align-items: center;
+// 	flex-wrap:wrap;
+// 	padding: 30upx 22upx; 
+// 	background: #fff;
+// 	.cate-item {
+// 		display: flex;
+// 		flex-direction: column;
+// 		align-items: center;
+// 		font-size: $font-sm + 2upx;
+// 		color: $font-color-dark;
+// 		margin: 20px 0px;
+// 		justify-content: center;
+// 	}
+// 	/* 原图标颜色太深,不想改图了,所以加了透明度 */
+// 	image {
+// 		width: 88upx;
+// 		height: 88upx;
+// 		margin-bottom: 14upx;
+// 		// border-radius: 50%;
+// 		// opacity: .7;
+// 		// box-shadow: 4upx 4upx 20upx rgba(250, 67, 106, 0.3);
+// 	}
+// }
+
+.tui-product-category {
 	background: #fff;
-	.cate-item {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		font-size: $font-sm + 2upx;
-		color: $font-color-dark;
-		margin: 20px 0px;
-	}
-	/* 原图标颜色太深,不想改图了,所以加了透明度 */
-	image {
-		width: 88upx;
-		height: 88upx;
-		margin-bottom: 14upx;
-		// border-radius: 50%;
-		// opacity: .7;
-		// box-shadow: 4upx 4upx 20upx rgba(250, 67, 106, 0.3);
-	}
+	padding: 80rpx 20rpx 30rpx 20rpx;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	// justify-content: space-between;
+	flex-wrap: wrap;
+	font-size: 24rpx;
+	color: #555;
+	margin-bottom: 20rpx;
+}
+
+.tui-category-item {
+	width: 20%;
+	// height: 118rpx;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: column;
+	padding-top: 30rpx;
+}
+
+.tui-category-img {
+	height: 80rpx;
+	width: 80rpx;
+	display: block;
+	margin: 0px 0px;
+	margin-bottom: 20rpx;
+}
+
+.tui-category-name {
+	line-height: 24rpx;
 }
 </style>
