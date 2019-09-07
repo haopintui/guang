@@ -213,12 +213,6 @@ __webpack_require__.r(__webpack_exports__);
       ipage: 1,
       current: 0,
       scrollTop: 0,
-      tabbar: [
-      { icon: "home", text: "首页", size: 21 },
-      { icon: "category", text: "分类", size: 24 },
-      { icon: "cart", text: "购物车", size: 22 },
-      { icon: "people", text: "我的", size: 24 }],
-
       hotSearch: [
       "休闲零食",
       "自热火锅",
@@ -230,87 +224,6 @@ __webpack_require__.r(__webpack_exports__);
       page: {
         ipage: 0,
         hasGoods: 1 },
-
-      banner: [
-      "1.jpg",
-      "2.jpg",
-      "3.jpg",
-      "4.jpg",
-      "5.jpg"],
-
-      category: [{
-        img: "1.jpg",
-        name: "短袖T恤" },
-      {
-        img: "2.jpg",
-        name: "足球" },
-      {
-        img: "3.jpg",
-        name: "运动鞋" },
-      {
-        img: "4.png",
-        name: "中老年" },
-      {
-        img: "5.png",
-        name: "甜美风" },
-      {
-        img: "6.jpg",
-        name: "鱼尾裙" },
-      {
-        img: "7.jpg",
-        name: "相机配件" },
-      {
-        img: "8.jpg",
-        name: "护肤套装" },
-      {
-        img: "9.jpg",
-        name: "单肩包" },
-      {
-        img: "10.jpg",
-        name: "卫衣" }],
-
-      newProduct: [{
-        name: "时尚舒适公主裙高街修身长裙",
-        present: 198,
-        original: 298,
-        pic: "1.jpg",
-        type: 1,
-        isLabel: true },
-      {
-        name: "高街修身雪纺衫",
-        present: 398,
-        original: 598,
-        pic: "2.jpg",
-        type: 2,
-        isLabel: true },
-      {
-        name: "轻奢商务上衣",
-        present: 99,
-        original: 199,
-        pic: "3.jpg",
-        type: 1,
-        isLabel: true },
-      {
-        name: "品质牛皮婚鞋牛皮婚鞋品质就是好",
-        present: 99,
-        original: 199,
-        pic: "5.jpg",
-        type: 1,
-        isLabel: true },
-      {
-        name: "轻奢时尚大包限时新品推荐",
-        present: 99,
-        original: 199,
-        pic: "6.jpg",
-        type: 1,
-        isLabel: false },
-      {
-        name: "高街修身长裙",
-        present: 999,
-        original: 1299,
-        pic: "4.jpg",
-        type: 2,
-        isLabel: true }],
 
       loadding: false,
       pullUpOn: true };

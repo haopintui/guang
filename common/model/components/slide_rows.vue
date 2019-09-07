@@ -1,17 +1,17 @@
 <template>
-	<view>
+	<view class="container" v-if="itemData.type=='video'">
 		<!-- 分类推荐楼层 -->
 		<view class="f-header m-t">
 			<image src="/static/temp/h1.png"></image>
 			<view class="tit-box">
-				<text class="tit">分类精选</text>
-				<text class="tit2">Competitive Products For You</text>
+				<text class="tit">抖券</text>
+				<text class="tit2">视频购物专区</text>
 			</view>
 			<text class="yticon icon-you"></text>
 		</view>
 		<view class="hot-floor">
 			<view class="floor-img-box">
-				<image class="floor-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553409398864&di=4a12763adccf229133fb85193b7cc08f&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201703%2F19%2F20170319150032_MNwmn.jpeg" mode="scaleToFill"></image>
+				<!-- <image class="floor-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553409398864&di=4a12763adccf229133fb85193b7cc08f&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201703%2F19%2F20170319150032_MNwmn.jpeg" mode="scaleToFill"></image> -->
 			</view>
 			<scroll-view class="floor-list" scroll-x>
 				<view class="scoll-wrapper">
@@ -59,6 +59,9 @@
 </script>
 
 <style lang="scss">
+.container{
+	background-color: #FFFFFF;
+	margin: 10px 0px;
 	.f-header{
 		display:flex;
 		align-items:center;
@@ -100,6 +103,7 @@
 			width: 100%;
 			height:320upx;
 			position:relative;
+			background-color: #fff;
 			&:after{
 				content: '';
 				position:absolute;
@@ -162,5 +166,6 @@
 			}
 		}
 	}
+}
 	
 </style>
