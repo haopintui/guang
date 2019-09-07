@@ -16,7 +16,7 @@
 		:key="index" @tap="navAction(item)" :style="iconWidth">
 			<image :src="item.pic_url" 
 				class="tui-category-img" 
-				mode="scaleToFill"></image>
+				mode="widthFix"></image>
 			<view class="tui-category-name">{{item.title}}</view>
 		</view>
 	</view>
@@ -75,7 +75,10 @@
 			},
 			iconSize(){
 				return 'width:'+this.itemData.icon_width+'px;height:'+this.itemData.icon_width+'px';
-			}
+			},
+			imageWidth(){
+				return 'width:'+80/this.itemData.count+'%';
+			},
 		}
 	}
 </script>
@@ -133,11 +136,12 @@
 	justify-content: space-between;
 	flex-direction: column;
 	padding-top: 30rpx;
+	margin: 5px 0px;
 }
 
 .tui-category-img {
-	height: 80rpx;
-	width: 80rpx;
+	// height: 80rpx;
+	width: 50%;
 	display: block;
 	margin: 0px 0px;
 	margin-bottom: 20rpx;

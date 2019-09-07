@@ -7,7 +7,7 @@
 			</view>
 			<view class="info-box" v-if="hasLogin">
 				<text class="username">{{userInfo.user_name || ''}}</text>
-				<text class="invite-code">邀请码: {{itemData.invite_code || ''}} (复制)</text>
+				<text class="invite-code" @tap="copyContent">邀请码:{{itemData.invite_code || ''}} (复制)</text>
 			</view>
 			<view class="info-box" v-else>
 				<text class="username">登陆</text>
@@ -54,7 +54,23 @@
 					url:url
 				})
 			},
-			
+			copyContent(){
+				uni.setClipboardData({ data:this.itemData.invite_code, 
+				success: (r=>{
+					uni.showToast({
+						title: '复制成功',
+						duration: 2000
+					});
+				}),
+				fail:(r=>{
+					uni.showToast({
+					    title: '复制失败',
+					    duration: 2000
+					});
+				}), complete:(r=>{
+					
+				})})
+			},
 		}
 	}
 </script>

@@ -2,10 +2,10 @@
 	<view class="tui-header-banner">
 		<view class="tui-hot-search">
 			<view>热搜</view>
-			<view class="tui-hot-tag" @tap="search">自热火锅</view>
-			<view class="tui-hot-tag" @tap="search">华为手机</view>
-			<view class="tui-hot-tag" @tap="search">有机酸奶</view>
-			<view class="tui-hot-tag" @tap="search">苹果手机</view>
+			<view class="tui-hot-tag" @tap="navTo('/pages/search/list?q=面膜')">面膜</view>
+			<view class="tui-hot-tag" @tap="navTo('/pages/search/list?q=沐浴露')">沐浴露</view>
+			<view class="tui-hot-tag" @tap="navTo('/pages/search/list?q=零食')">零食</view>
+			<view class="tui-hot-tag" @tap="navTo('/pages/search/list?q=抽纸')">抽纸</view>
 		</view>
 		<view class="tui-banner-bg">
 			<view class="tui-primary-bg tui-route-left"></view>
@@ -14,8 +14,8 @@
 			<view class="tui-banner-box">
 				<swiper :indicator-dots="true" :autoplay="true" :interval="5000" :duration="150" class="tui-banner-swiper"
 				 :circular="true" indicator-color="rgba(255, 255, 255, 0.8)" indicator-active-color="#fff">
-					<swiper-item v-for="(item, index) in itemData.items" :key="index" @tap.stop="detail">
-						<image :src="'https://img.youdanhui.cn/cms_img/2019-08-11/5d5012e926273.png'" class="tui-slide-image" mode="scaleToFill" />
+					<swiper-item v-for="(item, index) in itemData.items" :key="index" @tap.stop="navAction(item)">
+						<image :src="item.pic_url" class="tui-slide-image" mode="scaleToFill" />
 					</swiper-item>
 				</swiper>
 			</view>
@@ -42,15 +42,38 @@
 				const index = e.detail.current;
 				this.swiperCurrent = index;
 			},
-			//详情页
-			navToDetailPage(item) {
-				//测试数据没有写id，用title代替
-				let id = item.title;
+			navAction(item){
+				if(item.pages){
+					this.navTo(item.pages);
+				}
+				else if(item.action.action=='load_action'){
+					this.load_action(item.action);
+				}
+				else if(item.action.action=='open_web'){
+					this.open_web(item.action);
+				}
+			},
+			navTo(url) {
 				uni.navigateTo({
-					url: `/pages/goods/goods?id=${id}`
+					url:url
 				})
 			},
-			
+			load_action(action){
+				let options = {};
+				// options.putAll(action.params);
+				console.log(action);
+				options = Object.assign(options,action.params);
+				this.$http.post('/cms/load/view', options).then(res => {
+					if(res.data.item.click
+						&&res.data.item.click.we_app_web_view_url){
+						window.location.href = res.data.item.click.we_app_web_view_url;
+					}
+					// this.$api.msg(res.info.status_err);
+				}).catch(err => {});
+			},
+			open_web(action){
+				window.location.href = action.params.url;
+			}
 		}
 	}
 </script>

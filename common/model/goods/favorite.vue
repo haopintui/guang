@@ -61,16 +61,22 @@
 		}
 	}
 	.content{
+		flex: 1;
 		padding: 10upx 10upx;
 		display:flex;
 		flex-direction: column;
 		font-size: $font-sm;
+		background-color: #fff;
+		
 		.item-box{
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
 			margin: 5upx 0px;
 			color: #999;
+			.title{
+				// font-size: 13px;
+			}
 			.coupon-money{
 				font-size: $font-sm;
 				color: $uni-color-primary;

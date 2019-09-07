@@ -1,68 +1,45 @@
 <template>
 	<view class="container">
-	    	<view>
-	    		<view>如何授权淘宝账户</view>
-	    		<view>多逛逛优选购物需要登录淘宝账户，登录后就可以领券了。如果没有淘宝账户，请点击此处进行注册。
-	只要有手机号，就可以免费注册一个淘宝账户了，后续就可以用这个淘宝账号进行购买了，但请保留好自己的会员名和登录密码哦~
-	请在【我的】－【设置】中授权淘宝账户，若淘宝账号未授权，点击【授权淘宝账号】登录淘宝账号；已授权淘宝登录的帐号点击授权账号就可以解除淘宝授权。</view>
-	    	</view>
-	    	<view>
-	    		<view>为什么优惠券用不了</view>
-	    		<view>有以下几种情况呢~
-	情况1，优惠券已经过期了呢。请在优惠期间尽快下单买买买哦~。</view>
-	<view>情况2，可能已经用过券了呢。
-	亲请先确认有没有用券购买过商品哦。
-	如果亲确定没有购买过这件商品，请在“手机淘宝”APP通过【我的淘宝】→【待付款】查看你的待付款订单中是否有这个商品哦~若有，就表示已经用过券了呢。
-	这种情况下，如果想用券购买，亲可以先取消现有订单，再重新下单，就可以用券购买了哦~
-	如果以上都不符合你的情况，猛戳下方【询问人将截图发给多逛逛小姐姐，小姐姐会来帮你解决问题的~</view>
-	    	</view>
-	    	<view>
-	    		<view>收货地址错误怎么办</view>
-	    		<view>请及时联系商家客服，点击【我的订单】找到订单以后点击商品可以联系商家客服。</view>
-	    	</view>
-	    	<view>
-	    		<view>一件商品的优惠券只能领一张吗？</view>
-	    		<view>是的，一件商品的优惠券短期内只能领一张哦。
-	另外，悄悄告诉你，商家随时可能推出新活动，记得收藏商品，过几天再来看看哦~
-	还有，你也可以借用你的小伙伴的淘宝帐号来登录，就可以领取更多优惠券了哦~</view>
-	    	</view>
-	    	<view>
-	    		<view>什么时候更新优惠券？</view>
-	    		<view>更新优惠券的时间是由商家们决定的哦~
-	不过多逛逛小姐姐向你保证，在商家更新优惠后，多逛逛也会立即更新的呢~
-	另外，妈妈说把喜欢的商品收藏后，就能更快捷地查看是否有最新优惠咯~</view>
-	    	</view>
-	    	<view>
-	    		<view>为什么有的商品没有优惠券？</view>
-	    		<view>有的商品已经是最优惠价格了呢，多逛逛也会努力寻找更多优惠商品的哟~</view>
-	    	</view>
-	    	<view>
-	    		<view>怎么找优惠券？</view>
-	    		<view>在商品card的右下，显示有“XX元券”字样的商品就是有优惠券的商品了呢~</view>
-	    	</view>
-	    	<view>
-	    		<view>为什么下单时候的价格与多逛逛的标价不同？</view>
-	    		<view>可能性1，已经领了优惠券。
-	在淘宝商品详情页看到的价格，是原价。要到下单时才能看到券后价哦。
-	可能性2，唔，淘宝卖家偷偷改价了，多逛逛还没来得及更新...
-	遇到这种情况，可以点击下部的【APP报错、提建议】，给多逛逛反馈“商品价格异常”哦~</view>
-	    	</view>
-	    </view>
+		<image mode="widthFix" src="https://cmsstatic.dataoke.com//wap_new/activity/voucher_help/ant_01.jpg?v=201909061754" />
+		<image mode="widthFix" src="https://cmsstatic.dataoke.com//wap_new/activity/voucher_help/ant_02.jpg?v=201909061754" />
+		<image mode="widthFix" src="https://cmsstatic.dataoke.com//wap_new/activity/voucher_help/ant_03.jpg?v=201909061754" />
+		<image mode="widthFix" src="https://cmsstatic.dataoke.com//wap_new/activity/voucher_help/ant_04.jpg?v=201909061754" />
+		<image mode="widthFix" src="https://cmsstatic.dataoke.com//wap_new/activity/voucher_help/ant_05.jpg?v=201909061754" />
+		<image mode="widthFix" src="https://cmsstatic.dataoke.com//wap_new/activity/voucher_help/ant_06.jpg?v=201909061754" />
+		<image mode="widthFix" src="https://cmsstatic.dataoke.com//wap_new/activity/voucher_help/ant_07.jpg?v=201909061754" />
+	</view>
 </template>
 
 <script>
+export default {
+	data() {
+		return {
+			
+		}
+	},
+	methods: {
+		
+	}
+}
 </script>
 
-<style lang="scss">
+<style lang='scss'>
+	
 page{
 	background: $page-color-base;
 	padding-bottom: 160upx;
 }
 .container{
+	width: 100vw;
 	padding: 10upx;
 	color: #303133;
 	background-color: #fff;
 	font-size: $font-sm;
 	line-height: 46upx;
+	display: flex;
+	flex-direction: column;
+	image{
+		width: 100%;
+	}
 }
 </style>

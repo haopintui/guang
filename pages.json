@@ -21,25 +21,23 @@
 		{
 			"path": "pages/goods/goods",
 			"style": {
-				"navigationBarTitleText": "详情展示",
+				// "navigationBarTitleText": "详情展示",
+				// "app-plus": {
+				// 	"titleNView": {
+				// 		"type": "transparent"
+				// 	}
+				// },
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTextStyle": "black",
+				"backgroundColorTop": "#F7F7F7",
+				"backgroundColorBottom": "#F7F7F7",
+				"navigationBarTitleText": "商品详情 ",
+				"navigationStyle": "custom",
 				"app-plus": {
-					"titleNView": {
-						"type": "transparent"
-					}
+					"titleNView": false
 				}
 			}
-		}, 
-		{
-			"path": "pages/goods/productDetail",
-			"style": {
-				"navigationBarTitleText": "详情展示",
-				"app-plus": {
-					"titleNView": {
-						"type": "transparent"
-					}
-				}
-			}
-		}, 
+		},
 		{
 			"path": "pages/set/set",
 			"style": {
@@ -186,17 +184,14 @@
 			}
         },
 		{
-            "path" : "pages/goods/list",
-            "style" : {
-				"enablePullDownRefresh": true,
-				"navigationBarTitleText": "商品列表"
-			}
-        },
-		{
             "path" : "pages/search/list",
             "style" : {
 				"enablePullDownRefresh": true,
-				"navigationBarTitleText": "商品列表"
+				"navigationBarTitleText": "商品列表",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
 			}
         },
 		{
@@ -309,7 +304,22 @@
 					"bounce": "none"
 				}
 			}
-		}
+		},
+		{
+            "path" : "pages/user/order_input",
+			"style": {
+				"navigationBarTitleText": "订单找回"
+			}
+        },
+		{
+            "path" : "pages/common/question",
+			"style": {
+				"navigationBarTitleText": "常见问题",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"backgroundTextStyle": "dark",

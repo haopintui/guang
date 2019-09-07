@@ -4,6 +4,8 @@
     "uni-load-more": "/components/uni-load-more/uni-load-more",
     "empty": "/components/empty",
     "wuc-tab": "/components/wuc-tab/wuc-tab",
-    "goods": "/components/model/goods/index"
+    "goods": "/common/model/goods/index",
+    "bottom-menus": "/common/model/bottom-menus",
+    "tui-scroll-top": "/components/scroll-top/scroll-top"
   }
 }

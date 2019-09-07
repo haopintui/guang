@@ -61,6 +61,7 @@
 		}
 	}
 	.content{
+		flex: 1;
 		padding: 10upx 10upx;
 		display:flex;
 		flex-direction: column;
@@ -75,13 +76,13 @@
 			font-size: 14px;
 			color: #333;
 			.title{
-				
+				font-size: 14px;
 			}
 			.coupon-money{
 				font-size: $font-sm;
 				color: $uni-color-primary;
 				line-height: 1;
-				padding: 5px 10px;
+				padding: 5rpx 10rpx;
 				background: linear-gradient(90deg,#ff8873 0,#ff4f4f 100%);
 				color: #FFF;
 				border-radius: 3px;

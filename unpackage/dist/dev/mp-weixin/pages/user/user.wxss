@@ -5,6 +5,13 @@
 /* 边框颜色 */
 /* 图片加载中颜色 */
 /* 行为相关颜色 */
+page {
+  background: #f7f7f7;
+}
+.container {
+  padding-bottom: 100rpx;
+  color: #333;
+}
 .cover-container {
   background: #f8f8f8;
   margin-top: -150rpx;

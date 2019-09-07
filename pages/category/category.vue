@@ -124,7 +124,7 @@
 			},
 			search: function() {
 				uni.navigateTo({
-					url: '../extend-view/news-search/news-search'
+					url: '/pages/search/search'
 				})
 			},
 			navAction(item){

@@ -4,8 +4,7 @@
 		<block v-for="(item,index) in items" :key="index">
 			<view class="tui-tabbar-item" :class="[menusIndex==index?'tui-item-active':'']" :data-index="index" @tap="tabbarSwitch(item)">
 				<view :class="[index==0?'tui-ptop-4':'']">
-<!-- 					<tui-icon :name="current==index?item.icon+'-fill':item.icon" :color="current==index?'#E41F19':'#666'" :size="item.size"></tui-icon>
- -->					<image class="icon" :src="menusIndex==index?item.images_active:item.images"></image>
+					<image class="icon" :src="menusIndex==index?item.images_active:item.images"></image>
 				</view>
 				<view class="tui-scale">{{item.text}}</view>
 			</view>
@@ -57,10 +56,9 @@ export default {
 			// }
 		},
 		navTo: function(url) {
-			uni.navigateTo({
-				url: url
+			uni.redirectTo({
+				url:url
 			})
-		
 		},
 	}
 	

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import store from './store'
 import App from './App'
+import '@/js_sdk/ican-H5Api/ican-H5Api'
 
 import { http } from '@/js_sdk/luch-request/index.js' // 全局挂载引入，配置相关在该index.js文件里修改
 

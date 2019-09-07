@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "column": "/common/model/goods/column",
+    "ju": "/common/model/goods/ju",
+    "list": "/common/model/goods/list",
+    "qiang": "/common/model/goods/qiang",
+    "history": "/common/model/goods/history",
+    "favorite": "/common/model/goods/favorite",
+    "top": "/common/model/goods/top",
+    "zhishu": "/common/model/goods/zhishu"
+  },
+  "component": true
+}

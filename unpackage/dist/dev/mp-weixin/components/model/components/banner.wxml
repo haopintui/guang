@@ -1,1 +1,0 @@
-<view class="ad-1"><image src="{{itemData.pic_url}}" mode="scaleToFill"></image></view>

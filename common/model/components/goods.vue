@@ -3,12 +3,12 @@
 		<!-- 秒杀楼层 -->
 		<view v-if="itemData.type=='qiang'" class="seckill-section m-t">
 			<view class="s-header">
-				<image class="s-img" src="/static/temp/secskill-img.jpg" mode="widthFix"></image>
-				<text class="tip">8点场</text>
+				<image class="s-img" src="https://img.youdanhui.cn/cms_img/2019-09-07/5d73427486f29.jpg" mode="widthFix"></image>
+				<!-- <text class="tip">8点场</text>
 				<text class="hour timer">07</text>
 				<text class="minute timer">13</text>
-				<text class="second timer">55</text>
-				<text class="yticon icon-you"></text>
+				<text class="second timer">55</text> -->
+				<text class="yticon icon-you"></text> 
 			</view>
 			<scroll-view class="floor-list" scroll-x>
 				<view class="scoll-wrapper">

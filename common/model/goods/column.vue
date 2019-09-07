@@ -37,8 +37,7 @@
 				//测试数据没有写id，用title代替
 				let id = item.goods.num_iid;
 				uni.navigateTo({
-					// url: `/pages/goods/goods?id=${id}`
-					url: `/pages/goods/productDetail?id=${id}`
+					url: `/pages/goods/goods?id=${id}`
 				})
 			},
 		}
@@ -85,6 +84,9 @@
 	color: #999;
 	padding: 5px 5px;
 	background-color: #fff;
+	.title{
+		font-size: 14px;
+	}
 	.coupon-money{
 		font-size: $font-sm;
 		color: $uni-color-primary;

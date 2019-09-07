@@ -26,6 +26,15 @@ http.interceptor.request((config, cancel) => { /* 请求之前拦截器 */
 	let params = config.data;
 	
 	let hpt_token = uni.getStorageSync('token');
+	let page_platform = 'cms';
+	
+	//#ifdef MP-ALIPAY || MP-BAIDU || MP-TOUTIAO
+	page_platform = 'cms';
+    //#endif
+	
+	// #ifdef MP
+	page_platform = 'cms';
+	// #endif
 	
 	params['version'] = 9;
 	params['times'] = timeStamp;
@@ -34,7 +43,7 @@ http.interceptor.request((config, cancel) => { /* 请求之前拦截器 */
 	params['hpt_token'] = hpt_token;
 	params['app_id'] = app_id;
 	
-	params['page_platform'] = 'cms';
+	params['page_platform'] = page_platform;
 	
 	config.data = params;
 	/*

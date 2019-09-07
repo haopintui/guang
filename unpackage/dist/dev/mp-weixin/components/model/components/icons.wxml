@@ -1,1 +1,0 @@
-<view class="cate-section"><block wx:for="{{itemData.items}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view class="cate-item" style="{{(iconWidth)}}" item-data="{{item}}" data-event-opts="{{[['tap',[['navAction',['$0'],[[['itemData.items','',index]]]]]]]}}" bindtap="__e"><image src="{{item.pic_url}}"></image><text>{{item.title}}</text></view></block></view>

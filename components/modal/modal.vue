@@ -111,7 +111,7 @@
 		top: 50%;
 		margin: auto;
 		background: #fff;
-		z-index: 99998;
+		z-index: 100;
 		transition: all 0.3s ease-in-out;
 		transform: translate(-50%, -50%) scale(0);
 		opacity: 0;
@@ -132,7 +132,7 @@
 		right: 0;
 		bottom: 0;
 		background: rgba(0, 0, 0, 0.6);
-		z-index: 99996;
+		z-index: 99;
 		transition: all 0.3s ease-in-out;
 		opacity: 0;
 		visibility: hidden;

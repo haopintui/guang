@@ -42,13 +42,12 @@
 						<text class="tui-ml tui-middle">{{item.name}}</text>
 						<tui-icon name="check" :size="16" color="#e41f19" :bold="true" v-if="item.selected" tui-icon-class="tui-middle"></tui-icon>
 					</view>
-
 				</view>
 				<view class="tui-dropdownlist-mask" :class="[selectH>0?'tui-mask-show':'']" @tap.stop="hideDropdownList"></view>
 				<!--下拉选择列表--综合-->
 
 			</view>
-			<view class="tui-screen-bottom">
+			<!-- <view class="tui-screen-bottom">
 				<block v-for="(item,index) in attrArr" :key="index">
 					<view class="tui-bottom-item tui-icon-ml" :class="[item.isActive?'tui-btmItem-active':'',attrIndex==index?'tui-btmItem-tap':'']"
 					 :data-index="index" @tap="btnDropChange">
@@ -57,7 +56,7 @@
 						 tui-icon-class="tui-ml" v-if="item.list.length>0"></tui-icon>
 					</view>
 				</block>
-			</view>
+			</view> -->
 		</view>
 		<!--screen-->
 
@@ -98,52 +97,34 @@
 				<scroll-view class="tui-drawer-scroll" scroll-y :style="{height:drawerH+'px'}">
 					<view class="tui-drawer-title">
 						<text class="tui-title-bold">价格区间</text>
-						<view class="tui-attr-right">
+						<!-- <view class="tui-attr-right">
 							<tui-icon name="position-fill" color="#e41f19" :size="14" class="tui-location"></tui-icon>
 							<text>北京朝阳区三环到四环之间</text>
-						</view>
+						</view> -->
 					</view>
 					<view class="tui-drawer-content">
-						<input placeholder-class="tui-phcolor" class="tui-input" placeholder="最低价" maxlength="11" type='number' />
+						<input v-model.trim="page.price1" placeholder-class="tui-phcolor" class="tui-input" placeholder="最低价" maxlength="11" type='number' />
 						<tui-icon name="reduce" color="#333" :size="14"></tui-icon>
-						<input placeholder-class="tui-phcolor" class="tui-input" placeholder="最高价" maxlength="11" type='number' />
+						<input v-model.trim="page.price2" placeholder-class="tui-phcolor" class="tui-input" placeholder="最高价" maxlength="11" type='number' />
 					</view>
 
-					<view class="tui-drawer-title">
+					<!-- <view class="tui-drawer-title">
 						<text class="tui-title-bold">全部分类</text>
 						<view class="tui-all-box tui-icon-ml">
 							<view class="tui-attr-right">全部</view>
 							<tui-icon name="arrowdown" :size="14" color="#444" tui-icon-class="tui-ml"></tui-icon>
 						</view>
-					</view>
-					<view class="tui-drawer-content tui-flex-attr">
+					</view> -->
+					<!-- <view class="tui-drawer-content tui-flex-attr">
 						<view class="tui-attr-item">
 							<view class="tui-attr-ellipsis">男装</view>
 						</view>
 						<view class="tui-attr-item">
 							<view class="tui-attr-ellipsis">女装</view>
 						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">运动服饰</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">户外鞋服</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">文化</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">服饰配件</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">流行男鞋</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">艺术</view>
-						</view>
-					</view>
+					</view> -->
 
-					<view class="tui-drawer-title">
+					<!-- <view class="tui-drawer-title">
 						<text class="tui-title-bold">品牌</text>
 						<view class="tui-all-box tui-icon-ml">
 							<view class="tui-attr-right tui-active ">花花公子，七匹狼（SEPTWOLVES）</view>
@@ -160,9 +141,9 @@
 						<view class="tui-attr-item">
 							<view class="tui-attr-ellipsis">吉普</view>
 						</view>
-					</view>
+					</view> -->
 
-					<view class="tui-drawer-title">
+					<!-- <view class="tui-drawer-title">
 						<text class="tui-title-bold">尺码</text>
 						<view class="tui-all-box tui-icon-ml">
 							<view class="tui-attr-right">全部</view>
@@ -224,13 +205,13 @@
 						<view class="tui-attr-item">
 							<view class="tui-attr-ellipsis">44</view>
 						</view>
-					</view>
+					</view> -->
 					<view class="tui-safearea-bottom"></view>
 				</scroll-view>
 				<view class="tui-attr-btnbox">
 					<view class="tui-attr-safearea">
-						<view class="tui-drawer-btn tui-drawerbtn-black" hover-class="tui-white-hover" :hover-stay-time="150">重置</view>
-						<view class="tui-drawer-btn tui-drawerbtn-primary" hover-class="tui-red-hover" :hover-stay-time="150" @tap="closeDrawer">确定(80万+件商品)</view>
+						<view class="tui-drawer-btn tui-drawerbtn-black" hover-class="tui-white-hover" :hover-stay-time="150" @tap="clearDrawer">重置</view>
+						<view class="tui-drawer-btn tui-drawerbtn-primary" hover-class="tui-red-hover" :hover-stay-time="150" @tap="closeDrawer">确定</view>
 					</view>
 				</view>
 			</view>
@@ -263,8 +244,12 @@
 		},
 		data() {
 			return {
-				ipage:0,
 				searchKey: "", //搜索关键词
+				page:{
+					ipage:0,
+					price1:'',
+					price2:'',
+				},
 				width: 200, //header宽度
 				height: 64, //header高度
 				inputTop: 0, //搜索框距离顶部距离
@@ -285,9 +270,6 @@
 					selected: true
 				}, {
 					name: "价格升序",
-					selected: false,
-				}, {
-					name: "价格降序",
 					selected: false,
 				}],
 				attrArr: [{
@@ -456,7 +438,6 @@
 					}]
 				}],
 				items: [],
-				pageIndex: 1,
 				loadding: false,
 				pullUpOn: true
 			}
@@ -481,11 +462,11 @@
 					this.inputTop = obj.top ? (obj.top + (obj.height - 30) / 2) : (res.statusBarHeight + 7);
 					this.arrowTop = obj.top ? (obj.top + (obj.height - 32) / 2) : (res.statusBarHeight + 6);
 					//略小，避免误差带来的影响
-					this.dropScreenH = this.height * 750 / res.windowWidth + 186;
+					// this.dropScreenH = this.height * 750 / res.windowWidth + 186;
+					this.dropScreenH = this.height * 750 / res.windowWidth + 76;
 					this.drawerH = res.windowHeight - uni.upx2px(100) - this.height
 				}
 			})
-			console.log('=======1==========')
 			this.queryItems();
 		},
 		onReachBottom(){
@@ -514,6 +495,7 @@
 			btnSelected: function(e) {
 				let index = e.currentTarget.dataset.index;
 				this.$set(this.attrData[index], "selected", !this.attrData[index].selected)
+				this.queryItems('tabChange');
 			},
 			reset() {
 				let arr = this.attrData;
@@ -567,6 +549,8 @@
 				this.dropdownList = arr;
 				this.selectedName = index == 0 ? '综合' : '价格';
 				this.selectH = 0
+				
+				this.queryItems('tabChange');
 			},
 			screen: function(e) {
 				let index = e.currentTarget.dataset.index;
@@ -574,6 +558,7 @@
 					this.showDropdownList();
 				} else if (index == 1) {
 					this.tabIndex = 1
+					this.queryItems('tabChange');
 				} else if (index == 2) {
 					this.isList = !this.isList
 				} else if (index == 3) {
@@ -581,13 +566,22 @@
 				}
 			},
 			closeDrawer: function() {
-				this.drawer = false
+				this.drawer = false;
+				this.queryItems('tabChange');
+			},
+			clearDrawer: function(){
+				this.page.price1 = '',
+				this.page.price2 = '',
+				this.drawer = false;
 			},
 			back: function() {
 				if (this.drawer) {
 					this.closeDrawer()
 				} else {
-					uni.navigateBack()
+					// uni.navigateBack()
+					uni.redirectTo({
+						url:'/pages/search/search'
+					})
 				}
 			},
 			search: function() {
@@ -603,12 +597,26 @@
 			queryItems(source){
 				if(source=='tabChange'){
 					this.items = [];
-					this.ipage  = 0;
+					this.page.ipage  = 0;
 				}
 				
-				this.loadingType = 'loading';
+				this.loadding = true;
 				
-				this.$http.post('/cms/goods/search', {ipage:this.ipage,q:this.searchKey,sort:'day_sales'}).then(res => {
+				let sort = '';
+				if(this.tabIndex==1){
+					sort = 'volume';
+				}
+				else {
+					console.log(this.dropdownList);
+					if(this.selectedName=='价格'){
+						sort = 'coupon_price';
+					}
+					else if(this.selectedName=='综合'){
+						sort = '';
+					}
+				}
+				
+				this.$http.post('/cms/goods/search', {ipage:this.page.ipage,q:this.searchKey,sort:sort,start_price:this.page.price1,end_price:this.page.price2}).then(res => {
 					this.loadingType = 'noMore';
 					if(res.data.items&&res.data.items){
 						if(source=='tabChange'){
@@ -619,40 +627,28 @@
 							);
 						}
 						if(res.data.pager&&res.data.pager.ipage){
-							this.ipage = parseInt(res.data.pager.ipage)+1;
+							this.page.ipage = parseInt(res.data.pager.ipage)+1;
 						}
 						if(res.data.items.length>=20){							
 							this.loadingType = 'more';
 						}
 					}
+					this.loadding = false;
+					uni.stopPullDownRefresh()
 				}).catch(err => {});
 			},
 		},
 		onPullDownRefresh: function() {
-			let loadData = JSON.parse(JSON.stringify(this.productList));
-			loadData = loadData.splice(0, 10);
-			this.productList = loadData;
-			this.pageIndex = 1;
+			this.page.ipage = 1;
 			this.pullUpOn = true;
-			this.loadding = false;
-			uni.stopPullDownRefresh()
+			this.loadding = false
+			this.queryItems('tabChange');
+			
 		},
 		onReachBottom: function() {
 			if (!this.pullUpOn) return;
 			this.loadding = true;
-			if (this.pageIndex == 4) {
-				this.loadding = false;
-				this.pullUpOn = false
-			} else {
-				let loadData = JSON.parse(JSON.stringify(this.productList));
-				loadData = loadData.splice(0, 10);
-				if (this.pageIndex == 1) {
-					loadData = loadData.reverse();
-				}
-				this.productList = this.productList.concat(loadData);
-				this.pageIndex = this.pageIndex + 1;
-				this.loadding = false
-			}
+			this.queryItems();
 		},
 	}
 </script>
