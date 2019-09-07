@@ -4,7 +4,6 @@
 		<!--header-->
 		<view class="tui-header">
 			<view class="tui-category" hover-class="opcity" :hover-stay-time="150" @tap="classify">
-				<!-- <tui-icon name="manage-fill" color="#fff" :size="22"></tui-icon> -->
 				<image class="icon" src="https://img.youdanhui.cn/cms_img/2019-09-06/5d71bf8337cd3.png"></image>
 				<view class="tui-category-scale">分类</view>
 			</view>

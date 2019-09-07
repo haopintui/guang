@@ -39,6 +39,27 @@
 				backgroundColor: 'rgba(0,0,0,0)',
 				show: false,
 				config: {},
+				shareList:[{
+						type: 1,
+						icon: 'https://img.youdanhui.cn/cms_img/2019-09-07/5d73611dc284c.png',
+						text: '微信好友'
+					},
+					{
+						type: 2,
+						icon: 'https://img.youdanhui.cn/cms_img/2019-09-07/5d7360e6c1059.png',
+						text: '朋友圈'
+					},
+					{
+						type: 3,
+						icon: 'https://img.youdanhui.cn/cms_img/2019-09-07/5d736111d84f1.png',
+						text: 'QQ好友'
+					},
+					{
+						type: 4,
+						icon: 'https://img.youdanhui.cn/cms_img/2019-09-07/5d736108698ed.png',
+						text: 'QQ空间'
+					}
+				]
 			};
 		},
 		props:{
@@ -51,12 +72,6 @@
 				type: Boolean,
 				default: false
 			},
-			shareList:{
-				type: Array,
-				default: function(){
-					return [];
-				}
-			}
 		},
 		created() {
 			const height = uni.upx2px(this.contentHeight) + 'px';

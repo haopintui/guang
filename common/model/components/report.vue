@@ -1,7 +1,6 @@
 <template>
 	<!-- 猜你喜欢 -->
 	<view class="f-header m-t">
-		<image src="/static/temp/h1.png"></image>
 		<view class="tit-box">
 			<text class="tit">猜你喜欢</text>
 			<text class="tit2">Guess You Like It</text>

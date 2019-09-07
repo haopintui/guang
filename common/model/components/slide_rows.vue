@@ -2,7 +2,7 @@
 	<view class="container" v-if="itemData.type=='video'">
 		<!-- 分类推荐楼层 -->
 		<view class="f-header m-t">
-			<image src="/static/temp/h1.png"></image>
+			<image src="https://img.youdanhui.cn/cms_img/2019-09-07/5d735fc2ea326.png"></image>
 			<view class="tit-box">
 				<text class="tit">抖券</text>
 				<text class="tit2">视频购物专区</text>

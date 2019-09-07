@@ -27,7 +27,7 @@
 		<view v-if="itemData.type=='tuan'">
 			<!-- 团购楼层 -->
 			<view class="f-header m-t">
-				<image src="/static/temp/h1.png"></image>
+				<image src="https://img.youdanhui.cn/cms_img/2019-09-07/5d735fc2ea326.png"></image>
 				<view class="tit-box">
 					<text class="tit">精品团购</text>
 					<text class="tit2">Boutique Group Buying</text>
