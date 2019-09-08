@@ -22,12 +22,16 @@
       width: 180rpx;
       height: 180rpx;
       border-radius: 6rpx;
-      top: 0;
-      left: 0;
+      top: 0rpx;
+      left: 0rpx;
+      position: absolute;
 }
-.floor-item .img .paly {
+.floor-item .img .play {
       width: 36rpx;
       height: 36rpx;
+      position: absolute;
+      top: 90rpx;
+      left: 90rpx;
 }
 .floor-item .price {
     color: #fa436a;

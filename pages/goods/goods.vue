@@ -16,7 +16,7 @@
 		<!--header-->
 
 		<!--banner-->
-		<view class="tui-banner-swiper">
+		<view class="tui-banner-swiper" v-if="!video">
 			<swiper :autoplay="true" :interval="5000" :duration="150" :circular="true" :style="{height:scrollH + 'px'}" @change="bannerChange">
 				<block v-for="(item,index) in goods.goods.pic_list" :key="index">
 					<swiper-item :data-index="index" @tap.stop="previewImage">
@@ -25,6 +25,11 @@
 				</block>
 			</swiper>
 			<tui-tag type="translucent" shape="circleLeft" size="small">{{bannerIndex+1}}/{{goods.goods.pic_list.length}}</tui-tag>
+		</view>
+		
+		<view v-if="video">
+			<video id="tui-video" :src="goods.videos.url" :danmu-list="danmuList" enable-danmu danmu-btn controls
+			 autoplay objectFit="fill" :custom-cache="false"></video>
 		</view>
 
 		<!--banner-->
@@ -231,6 +236,17 @@
 				<view class="tui-modal-custom-btn" @click="copyContent()">{{modelBtnText}}</view>
 			</view>
 		</tui-modal>
+		
+		<tui-modal :show="modalAuthorize" @cancel="hideAuthorize" :custom="true">
+			<view class="tui-modal-custom">
+				<image class="tui-modal-custom-img" src="http://cmsstatic.dataoke.com//wap_new/user/images/dialog/taobao.png"></image>
+				<view class="tui-tips-content">请先完成淘宝授权</view>
+				<view class="tui-tips-content">淘宝授权后购买商品可以获得返利</view>
+				<view class="tui-modal-custom-authorize" @click="toAuthorize()">去授权</view>
+				<view class="tui-modal-custom-buy" @click="tobuy()">暂不授权</view>
+			</view>
+		</tui-modal>
+		
 	</view>
 </template>
 
@@ -265,6 +281,10 @@
 				favorite: false,
 				modalToken: false,
 				modelBtnText:'一键复制',
+				
+				modalAuthorize: false,
+				video:false,
+				
 				height: 64, //header高度
 				top: 0, //标题图标距离顶部距离
 				scrollH: 0, //滚动总高度
@@ -310,6 +330,12 @@
 				menuShow: false,
 				popupShow: false,
 				value: 1,
+				danmuList: [{
+						text: '',
+						color: '#ff0000',
+						time: 3
+					}
+				],
 			}
 		},
 		onLoad: function(options) {
@@ -334,7 +360,10 @@
 			})
 			//接收传值,id里面放的是标题，因为测试数据并没写id
 			let id = options.id;
-			console.log('detail:'+id)
+			// console.log('detail:'+id)
+			if(options.video){
+				this.video = true;
+			}
 			if(id){
 				this.id = id;
 				this.query_detail(id);
@@ -392,7 +421,11 @@
 				if(!this.click.click_url){
 					this.query_click(this.id,1);
 				}else{
-					window.location.href = this.click.click_url;
+					if(this.click.authorize_url){
+						this.modalAuthorize = true;
+					}else{						
+						window.location.href = this.click.click_url;
+					}
 				}
 			},
 			showToken(){
@@ -443,6 +476,9 @@
 			hideToken() {
 				this.modalToken= false;
 			},
+			hideAuthorize(){
+				this.modalAuthorize= false;
+			},
 			copyContent(){
 				uni.setClipboardData({ 
 				data:'复制框内整段文字，打开【手-机-淘-宝】即可领券购买。'+this.click.tao_token, 
@@ -463,6 +499,13 @@
 					this.modelBtnText = '复制完成';
 				})})
 			},
+			toAuthorize(){
+				window.location.href = this.click.authorize_url;
+			},
+			tobuy(){
+				this.modalAuthorize = false;
+				window.location.href = this.click.click_url;
+			}
 		},
 		onPageScroll(e) {
 			let scroll = e.scrollTop <= 0 ? 0 : e.scrollTop;
@@ -1204,6 +1247,13 @@
 		text-align: center;
 		display: flex;
 		flex-direction: column;
+		// align-items: center;
+	}
+	
+	.tui-modal-custom-img {
+		width: 60upx;
+		height: 60upx;
+		margin:0 auto;
 	}
 	
 	.tui-tips-content {
@@ -1240,5 +1290,39 @@
 		text-align: center;
 		color: #fff;
 		font-size: 16px;
+	}
+	.tui-modal-custom-authorize{
+		width: 100upx;
+		height: 36px;
+		line-height: 36px;
+		font-size: 14px;
+		font-family: PingFangSC-Regular;
+		font-weight: 400;
+		color: #333;
+		margin: 10px auto 0px;
+		display: block;
+		border-radius: 4px;
+		border: 1px solid #ccc;
+		background: 0 0;
+	}
+	.tui-modal-custom-buy{
+		width: 100upx;
+		height: 36px;
+		line-height: 36px;
+		font-size: 14px;
+		font-family: PingFangSC-Regular;
+		font-weight: 400;
+		color: #333;
+		margin: 10px auto 0px;
+		display: block;
+		border-radius: 4px;
+		border: 1px solid #ccc;
+		background: 0 0;
+	}
+	
+	#tui-video {
+		width: 100%;
+		height: 440upx;
+		object-fit: fill;
 	}
 </style>

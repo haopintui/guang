@@ -2,13 +2,10 @@
 	<view class="content">
 		<wuc-tab :tab-list="navList" @change="changeTab" :tabCur.sync="tabCurrentIndex" tab-class="text-center text-white bg-nav" select-class="text-white"></wuc-tab>
 		<view class="list">
-			<!-- 空白页 -->
-			<empty v-if="loadingType === 'noMore' && items.length === 0"></empty>
 			<goods 
 				v-for="(item,index) in items" :key="index" 
-				:top="index+1"
-				:itemData="item" goodsType="list" />
-			<uni-load-more :status="loadingType"></uni-load-more>
+				:itemData="item" goodsType="video-list" />
+			<tui-loadmore :visible="loadding" :index="3" type="red"></tui-loadmore>
 		</view>
 	</view>
 </template> 
@@ -18,10 +15,12 @@
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 	import empty from "@/components/empty";
 	import goods from '@/common/model/goods/index';
+	import tuiLoadmore from "@/components/loadmore/loadmore"
 	
 	export default {
 		components: {
 			uniLoadMore,
+			tuiLoadmore,
 			empty,
 			WucTab,
 			goods
@@ -31,7 +30,7 @@
 				tabCurrentIndex: 0,
 				navList: [],
 				items:[],
-				loadingType:'',
+				loadding: false,
 				ipage:0,
 			};
 		},
@@ -82,10 +81,9 @@
 					this.ipage  = 0;
 				}
 				
-				this.loadingType = 'loading';
+				this.loadding = true;
 				
-				this.$http.post('/cms/goods/list', {ipage:this.ipage,cid:cid,sort:'day_sales'}).then(res => {
-					this.loadingType = 'noMore';
+				this.$http.post('/cms/goods/list_video', {ipage:this.ipage,cid:cid,sort:'day_sales'}).then(res => {
 					if(res.data.items&&res.data.items){
 						if(source=='tabChange'){
 							this.items = res.data.items;
@@ -97,11 +95,8 @@
 						if(res.data.pager&&res.data.pager.ipage){
 							this.ipage = parseInt(res.data.pager.ipage)+1;
 						}
-						if(res.data.items.length>=20){							
-							this.loadingType = 'more';
-						}
 					}
-					// this.loaded = true;
+					this.loadding = false;
 				}).catch(err => {});
 			}, 
 			//swiper 切换

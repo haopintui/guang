@@ -12,8 +12,7 @@ page, .content {
   padding-top: 6rpx;
 }
 .user_signin_header {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   width: 100%;
   margin: auto;
   background: url(https://img.youdanhui.cn/cms_img/2019-08-29/5d6786109d287.png) center no-repeat;
@@ -40,23 +39,14 @@ page, .content {
       bottom: 0;
       width: 100px;
       height: 100px;
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff0d2), to(#f9dba0));
-      background: -o-linear-gradient(top, #fff0d2 0, #f9dba0 100%);
       background: linear-gradient(180deg, #fff0d2 0, #f9dba0 100%);
       border-radius: 50%;
       margin: auto;
-      display: -webkit-box;
       display: -webkit-flex;
-      display: -ms-flexbox;
       display: flex;
-      -webkit-box-pack: center;
       -webkit-justify-content: center;
-          -ms-flex-pack: center;
               justify-content: center;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
       -webkit-flex-direction: column;
-          -ms-flex-direction: column;
               flex-direction: column;
 }
 .user_signin_header .sign_box .sign_in_btn .btn_tip .sign_in {
@@ -70,23 +60,15 @@ page, .content {
 }
 /* 商品列表 */
 .goods-list {
-  display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
   -webkit-flex-direction: column;
-      -ms-flex-direction: column;
           flex-direction: column;
 }
 .guess-section {
-  display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
           flex-wrap: wrap;
   padding: 0 30rpx;
 }
@@ -99,12 +81,9 @@ page, .content {
   font-weight: 500;
   color: #333;
   line-height: 22px;
-  display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
           justify-content: space-around;
 }
 

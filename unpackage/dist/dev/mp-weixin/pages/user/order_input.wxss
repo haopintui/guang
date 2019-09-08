@@ -16,36 +16,26 @@ page {
   background-color: #fff;
   font-size: 24rpx;
   line-height: 46rpx;
-  display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
   -webkit-flex-direction: column;
-      -ms-flex-direction: column;
           flex-direction: column;
 }
 .container .order_search_group .search_group {
     background: #fff;
     padding: 20px 15px 15px;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
+    box-sizing: border-box;
 }
 .container .order_search_group .search_group .search {
       height: 36px;
       background: #fff;
       border-radius: 4px;
-      display: -webkit-box;
       display: -webkit-flex;
-      display: -ms-flexbox;
       display: flex;
       position: relative;
 }
 .container .order_search_group .search_group .search .search-input {
-        -webkit-box-flex: 1;
         -webkit-flex: 1;
-            -ms-flex: 1;
                 flex: 1;
         height: 34px;
         border: 1px solid #ccc;
@@ -61,7 +51,6 @@ page {
 .container .order_search_group .search_group .search .btn {
         width: 60px;
         height: 34px;
-        background: -o-linear-gradient(317deg, #f9642b 0, rgba(255, 52, 52, 0.99) 100%);
         background: linear-gradient(133deg, #f9642b 0, rgba(255, 52, 52, 0.99) 100%);
         border-radius: 0 4px 4px 0;
         font-size: 14px;
@@ -82,8 +71,7 @@ page {
 .container .order_search_result .order_null .logo {
         width: 150px;
         height: 139px;
-        -webkit-box-sizing: border-box;
-                box-sizing: border-box;
+        box-sizing: border-box;
         margin: 21px auto 10px;
 }
 .container .order_search_result .order_null .logo image {
@@ -108,8 +96,6 @@ page {
 .container .order_search_result .order_null .order_search_btn {
         width: 320px;
         height: 48px;
-        background: -webkit-gradient(linear, right top, left top, color-stop(0, #ff4950), to(#fb8d2c));
-        background: -o-linear-gradient(right, #ff4950 0, #fb8d2c 100%);
         background: linear-gradient(270deg, #ff4950 0, #fb8d2c 100%);
         border-radius: 4px;
         display: block;

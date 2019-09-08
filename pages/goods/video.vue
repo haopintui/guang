@@ -27,7 +27,7 @@
 			<tui-tag type="translucent" shape="circleLeft" size="small">{{bannerIndex+1}}/{{goods.goods.pic_list.length}}</tui-tag>
 		</view> -->
 		<view>
-			<video id="tui-video" :src="goods.video.url" :danmu-list="danmuList" enable-danmu danmu-btn controls
+			<video id="tui-video" :src="goods.videos.url" :danmu-list="danmuList" enable-danmu danmu-btn controls
 			 autoplay objectFit="fill" :custom-cache="false"></video>
 		</view>
 
@@ -315,69 +315,9 @@
 				popupShow: false,
 				value: 1,
 				danmuList: [{
-						text: '非常棒！！！',
+						text: '',
 						color: '#ff0000',
 						time: 3
-					},
-					{
-						text: '不错哦~~~~',
-						color: '#ff00ff',
-						time: 3
-					},
-					{
-						text: '超级厉害！',
-						color: '#ff00ff',
-						time: 5
-					},
-					{
-						text: '无敌~',
-						color: '#ff00ff',
-						time: 5
-					},
-					{
-						text: '很棒',
-						color: '#ff00ff',
-						time: 5
-					},
-					{
-						text: '超赞！',
-						color: '#ff00ff',
-						time: 8
-					},
-					{
-						text: '给力',
-						color: '#ff00ff',
-						time: 8
-					},
-					{
-						text: 'thorui~~~~~',
-						color: '#ff00ff',
-						time: 10
-					},
-					{
-						text: '给力~~~',
-						color: '#ff00ff',
-						time: 16
-					},
-					{
-						text: '给力~~~',
-						color: '#ff00ff',
-						time: 20
-					},
-					{
-						text: 'thorui~~~~~',
-						color: '#ff00ff',
-						time: 30
-					},
-					{
-						text: 'thorui~~~~~',
-						color: '#ff00ff',
-						time: 50
-					},
-					{
-						text: 'thorui~~~~~',
-						color: '#ff00ff',
-						time: 50
 					}
 				],
 			}

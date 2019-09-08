@@ -15,7 +15,7 @@
 					<goods class="floor-item"
 						v-for="(item,index) in items" :key="index" 
 						:itemData="item" goodsType="video" />
-					<view class="more">
+					<view class="more" @tap="navTo('/pages/market/video')">
 						<text>查看全部</text>
 						<text>More+</text>
 					</view>
@@ -43,8 +43,38 @@
 			}
 		},
 		methods: {
-			
-			
+			navAction(item){
+				if(item.pages){
+					this.navTo(item.pages);
+				}
+				else if(item.action.action=='load_action'){
+					this.load_action(item.action);
+				}
+				else if(item.action.action=='open_web'){
+					this.open_web(item.action);
+				}
+			},
+			navTo(url) {
+				uni.navigateTo({
+					url:url
+				})
+			},
+			load_action(action){
+				let options = {};
+				// options.putAll(action.params);
+				console.log(action);
+				options = Object.assign(options,action.params);
+				this.$http.post('/cms/load/view', options).then(res => {
+					if(res.data.item.click
+						&&res.data.item.click.we_app_web_view_url){
+						window.location.href = res.data.item.click.we_app_web_view_url;
+					}
+					// this.$api.msg(res.info.status_err);
+				}).catch(err => {});
+			},
+			open_web(action){
+				window.location.href = action.params.url;
+			}
 		},
 		computed: {
 			items() {

@@ -8,7 +8,8 @@
     "favorite": "/common/model/goods/favorite",
     "top": "/common/model/goods/top",
     "zhishu": "/common/model/goods/zhishu",
-    "video": "/common/model/goods/video"
+    "goods-video": "/common/model/goods/video",
+    "video-list": "/common/model/goods/video-list"
   },
   "component": true
 }

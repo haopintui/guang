@@ -2,6 +2,7 @@
   "navigationBarTitleText": "抖券购物",
   "usingComponents": {
     "uni-load-more": "/components/uni-load-more/uni-load-more",
+    "tui-loadmore": "/components/loadmore/loadmore",
     "empty": "/components/empty",
     "wuc-tab": "/components/wuc-tab/wuc-tab",
     "goods": "/common/model/goods/index"

@@ -29,7 +29,7 @@
 				//测试数据没有写id，用title代替
 				let id = item.goods.num_iid;
 				uni.navigateTo({
-					url: `/pages/goods/video?id=${id}`
+					url: `/pages/goods/goods?video=1&id=${id}`
 				})
 			},
 			

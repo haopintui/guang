@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/goods/goods",
+    "pages/goods/video",
     "pages/set/set",
     "pages/userinfo/userinfo",
     "pages/public/login",
@@ -46,6 +47,9 @@
     "backgroundColorTop": "#fafafa",
     "backgroundColorBottom": "#fafafa"
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap88.json"
+  "navigateToMiniProgramAppIdList": [
+    "wx32540bd863b27570",
+    "wx1edf489cb248852c"
+  ],
+  "usingComponents": {}
 }

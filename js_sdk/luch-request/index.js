@@ -73,7 +73,7 @@ http.interceptor.request((config, cancel) => { /* 请求之前拦截器 */
 	
 	params['page_platform'] = page_platform;
 	params['hpt_from'] = hpt_from;
-	
+	console.log(config.header)
 	config.data = params;
 	/*
 	  if (!token) { // 如果token不存在，调用cancel 会取消本次请求，但是该函数的catch() 仍会执行

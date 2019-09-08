@@ -1,0 +1,78 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+.item {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  margin: 5rpx 0px;
+  padding: 10rpx 10rpx;
+  background: #fff;
+}
+.item .pic {
+    height: 300rpx;
+    width: 300rpx;
+    position: relative;
+}
+.item .pic .img {
+      height: 300rpx;
+      width: 300rpx;
+      top: 0rpx;
+      left: 0rpx;
+      position: absolute;
+}
+.item .pic .play {
+      width: 36rpx;
+      height: 36rpx;
+      position: absolute;
+      top: 150rpx;
+      left: 150rpx;
+}
+.item .content {
+    -webkit-flex: 1;
+            flex: 1;
+    padding: 10rpx 10rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+            flex-direction: column;
+    font-size: 24rpx;
+    background-color: #fff;
+}
+.item .content .item-box {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-direction: row;
+              flex-direction: row;
+      -webkit-justify-content: space-between;
+              justify-content: space-between;
+      margin: 5rpx 0px;
+      color: #999;
+      font-size: 14px;
+      color: #333;
+}
+.item .content .item-box .title {
+        font-size: 14px;
+}
+.item .content .item-box .coupon-money {
+        font-size: 24rpx;
+        color: #fa436a;
+        line-height: 1;
+        padding: 5rpx 10rpx;
+        background: linear-gradient(90deg, #ff8873 0, #ff4f4f 100%);
+        color: #FFF;
+        border-radius: 3px;
+}
+.item .content .item-box .coupon-price {
+        color: #fa436a;
+}
+.item .content .item-box .coupon-price .em {
+          font-weight: 500;
+          font-size: 32rpx;
+}
+
