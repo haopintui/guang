@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "goods": "/common/model/goods/index"
+  },
   "component": true
 }

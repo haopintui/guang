@@ -1,0 +1,35 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+.floor-item {
+  width: 180rpx;
+  margin-right: 20rpx;
+  font-size: 26rpx;
+  color: #303133;
+  line-height: 1.8;
+}
+.floor-item .img {
+    width: 180rpx;
+    height: 180rpx;
+    border-radius: 6rpx;
+    position: relative;
+}
+.floor-item .img .pic {
+      width: 180rpx;
+      height: 180rpx;
+      border-radius: 6rpx;
+      top: 0;
+      left: 0;
+}
+.floor-item .img .paly {
+      width: 36rpx;
+      height: 36rpx;
+}
+.floor-item .price {
+    color: #fa436a;
+}
+

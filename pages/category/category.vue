@@ -132,7 +132,7 @@
 					this.navTo(item.pages);
 				}				
 				else if(item.jsaction=='search'){
-					this.navTo('/pages/search/list?q='+encodeURIComponent(item.text));
+					this.navTo('/pages/search/list?q='+item.text);
 				}
 				else if(item.action.action=='load_action'){
 					this.load_action(item.action);

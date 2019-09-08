@@ -7,6 +7,7 @@
 	<favorite v-else-if="goodsType=='favorite'" :item-data="itemData"></favorite>
 	<top v-else-if="goodsType=='top'" :item-data="itemData" :top="top"></top>
 	<zhishu v-else-if="goodsType=='zhishu'" :item-data="itemData"></zhishu>
+	<goods-video v-else-if="goodsType=='video'" :item-data="itemData"></goods-video>
 	<column v-else :item-data="itemData"></column>
 </template>
 
@@ -19,6 +20,7 @@
 	import favorite from '@/common/model/goods/favorite';
 	import top from '@/common/model/goods/top';
 	import zhishu from '@/common/model/goods/zhishu';
+	import goodsVideo from '@/common/model/goods/video';
 	
 	export default {
 		components: {
@@ -30,6 +32,7 @@
 			favorite,
 			top,
 			zhishu,
+			goodsVideo,
 		},
 		props:{
 			goodsType:{

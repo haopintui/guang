@@ -7,7 +7,8 @@
     "history": "/common/model/goods/history",
     "favorite": "/common/model/goods/favorite",
     "top": "/common/model/goods/top",
-    "zhishu": "/common/model/goods/zhishu"
+    "zhishu": "/common/model/goods/zhishu",
+    "video": "/common/model/goods/video"
   },
   "component": true
 }

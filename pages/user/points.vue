@@ -100,7 +100,6 @@
 				this.loadData()
 			}
 			// #endif
-			
 		},
 		 
 		methods: {

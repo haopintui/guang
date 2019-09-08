@@ -1,16 +1,4 @@
 <template>
-	<!-- 分类 -->
-	<!-- <view class="cate-section">
-		<view v-for="(item, index) in itemData.items" :item-data="item" :key="index" 
-			class="cate-item" :style="iconWidth"
-			@click="navAction(item)"
-			>
-			<image :src="item.pic_url"></image>
-			<text>{{item.title}}</text>
-		</view>
-	</view> -->
-	
-	
 	<view class="tui-product-category">
 		<view class="tui-category-item" v-for="(item, index) in itemData.items" 
 		:key="index" @tap="navAction(item)" :style="iconWidth">
@@ -20,7 +8,6 @@
 			<view class="tui-category-name">{{item.title}}</view>
 		</view>
 	</view>
-	
 </template>
 
 <script>
@@ -125,7 +112,7 @@
 	flex-wrap: wrap;
 	font-size: 24rpx;
 	color: #555;
-	margin-bottom: 20rpx;
+	margin: 10px 0px 20px;
 }
 
 .tui-category-item {

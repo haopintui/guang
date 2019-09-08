@@ -21,9 +21,37 @@ http.interceptor.request((config, cancel) => { /* 请求之前拦截器 */
 	}
 	// uni.get
 	let app_id = '23562';
+	let hpt_from = '';
+	//#ifdef H5
+	hpt_from = 'web';
+	//#endif
+	//#ifdef MP-ALIPAY
+	hpt_from = 'alipay';
+	//#endif
+	//#ifdef MP-BAIDU
+	hpt_from = 'baidu';
+	//#endif
+	//#ifdef MP-TOUTIAO
+	hpt_from = 'toutiao';
+	//#endif
+	
+	//#ifdef MP
+	const extConfig = uni.getExtConfigSync ? uni.getExtConfigSync() : {};
+	if(extConfig.auth&&extConfig.auth.app_id){
+	  app_id = extConfig.auth.app_id;
+	}
+	//#endif
+	//#ifdef H5
+	app_id = uni.getStorageSync('app_id');
+	//#endif
+	
 	let timeStamp = new Date().getTime();
 	let url_sign = md5(app_id+''+timeStamp);
 	let params = config.data;
+	
+	if(hpt_from=='web'){
+		url_sign = md5(''+timeStamp);
+	}
 	
 	let hpt_token = uni.getStorageSync('token');
 	let page_platform = 'cms';
@@ -44,13 +72,14 @@ http.interceptor.request((config, cancel) => { /* 请求之前拦截器 */
 	params['app_id'] = app_id;
 	
 	params['page_platform'] = page_platform;
+	params['hpt_from'] = hpt_from;
 	
 	config.data = params;
 	/*
-  if (!token) { // 如果token不存在，调用cancel 会取消本次请求，但是该函数的catch() 仍会执行
-    cancel('token 不存在') // 接收一个参数，会传给catch((err) => {}) err.errMsg === 'token 不存在'
-  }
-  */
+	  if (!token) { // 如果token不存在，调用cancel 会取消本次请求，但是该函数的catch() 仍会执行
+		cancel('token 不存在') // 接收一个参数，会传给catch((err) => {}) err.errMsg === 'token 不存在'
+	  }
+	*/
 	return config
 })
 

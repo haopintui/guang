@@ -59,7 +59,11 @@
         "appid" : "wx65c4661dfba7dfd4",
         "setting" : {
             "urlCheck" : true
-        }
+        },
+		"navigateToMiniProgramAppIdList": [
+		  "wx32540bd863b27570",
+		  "wx1edf489cb248852c"
+		]
     },
     "h5" : {
         "title" : "优惠券",

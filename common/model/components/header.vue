@@ -148,7 +148,9 @@
 		font-size: 22upx;
 		color: #36343c;
 		border-radius: 20px;
-		background: linear-gradient(left, #f9e6af, #ffd465);
+		background: linear-gradient(to left, #f9e6af, #ffd465);
+		background: -webkit-linear-gradient(left, #f9e6af, #ffd465);
+		background: linear-gradient(to right, #f9e6af, #ffd465); 
 		z-index: 1;
 	}
 	.vip-card-content{

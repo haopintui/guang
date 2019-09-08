@@ -32,6 +32,7 @@
     "pages/market/top",
     "pages/market/tqg",
     "pages/market/zhishu",
+    "pages/market/video",
     "pages/user/order_input",
     "pages/common/question"
   ],
@@ -45,5 +46,6 @@
     "backgroundColorTop": "#fafafa",
     "backgroundColorBottom": "#fafafa"
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap88.json"
 }

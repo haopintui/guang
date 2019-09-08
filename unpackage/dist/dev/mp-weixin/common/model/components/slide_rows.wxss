@@ -8,6 +8,7 @@
 .container {
   background-color: #FFFFFF;
   margin: 10px 0px;
+  padding: 0px 0px 5px 0px;
   /* 分类推荐楼层 */
 }
 .container .f-header {
@@ -19,7 +20,7 @@
     -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
-    height: 140rpx;
+    height: 92rpx;
     padding: 6rpx 30rpx 8rpx;
     background: #fff;
 }
@@ -64,23 +65,6 @@
     overflow: hidden;
     margin-bottom: 20rpx;
 }
-.container .hot-floor .floor-img-box {
-      width: 100%;
-      height: 320rpx;
-      position: relative;
-      background-color: #fff;
-}
-.container .hot-floor .floor-img-box:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(30%, rgba(255, 255, 255, 0.06)), to(#f8f8f8));
-        background: -o-linear-gradient(rgba(255, 255, 255, 0.06) 30%, #f8f8f8);
-        background: linear-gradient(rgba(255, 255, 255, 0.06) 30%, #f8f8f8);
-}
 .container .hot-floor .floor-img {
       width: 100%;
       height: 100%;
@@ -90,11 +74,8 @@
       padding: 20rpx;
       padding-right: 50rpx;
       border-radius: 6rpx;
-      margin-top: -140rpx;
       margin-left: 30rpx;
       background: #fff;
-      -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-              box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
       position: relative;
       z-index: 1;
 }
@@ -110,18 +91,11 @@
 }
 .container .hot-floor .floor-item {
       width: 180rpx;
+      height: 280rpx;
       margin-right: 20rpx;
       font-size: 26rpx;
       color: #303133;
       line-height: 1.8;
-}
-.container .hot-floor .floor-item image {
-        width: 180rpx;
-        height: 180rpx;
-        border-radius: 6rpx;
-}
-.container .hot-floor .floor-item .price {
-        color: #fa436a;
 }
 .container .hot-floor .more {
       display: -webkit-box;

@@ -28,7 +28,7 @@
           flex-wrap: wrap;
   font-size: 24rpx;
   color: #555;
-  margin-bottom: 20rpx;
+  margin: 10px 0px 20px;
 }
 .tui-category-item {
   width: 20%;

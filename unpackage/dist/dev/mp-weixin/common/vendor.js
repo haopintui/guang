@@ -10293,6 +10293,23 @@ createPage(_zhishu.default);
 /***/ }),
 
 /***/ 281:
+/*!*********************************************************************************************!*\
+  !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fmarket%2Fvideo"} ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _video = _interopRequireDefault(__webpack_require__(/*! ./pages/market/video.vue */ 282));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_video.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 289:
 /*!*************************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fuser%2Forder_input"} ***!
   \*************************************************************************************************/
@@ -10303,13 +10320,13 @@ createPage(_zhishu.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _order_input = _interopRequireDefault(__webpack_require__(/*! ./pages/user/order_input.vue */ 282));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _order_input = _interopRequireDefault(__webpack_require__(/*! ./pages/user/order_input.vue */ 290));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_order_input.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 289:
+/***/ 297:
 /*!************************************************************************************************!*\
   !*** /Users/wuyongjin/Documents/os/web/web/guang/main.js?{"page":"pages%2Fcommon%2Fquestion"} ***!
   \************************************************************************************************/
@@ -10320,7 +10337,7 @@ createPage(_order_input.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _question = _interopRequireDefault(__webpack_require__(/*! ./pages/common/question.vue */ 290));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _question = _interopRequireDefault(__webpack_require__(/*! ./pages/common/question.vue */ 298));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_question.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
@@ -12152,7 +12169,7 @@ createPage(_register.default);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "首页", "navigationBarBackgroundColor": "#fff", "navigationBarTextStyle": "black", "backgroundColorTop": "#F7F7F7", "backgroundColorBottom": "#F7F7F7", "enablePullDownRefresh": true, "onReachBottomDistance": 50 }, "pages/goods/goods": { "navigationBarBackgroundColor": "#fff", "navigationBarTextStyle": "black", "backgroundColorTop": "#F7F7F7", "backgroundColorBottom": "#F7F7F7", "navigationBarTitleText": "商品详情 ", "navigationStyle": "custom" }, "pages/set/set": { "navigationBarTitleText": "设置" }, "pages/userinfo/userinfo": { "navigationBarTitleText": "修改资料" }, "pages/public/login": { "navigationBarTitleText": "", "navigationStyle": "custom" }, "pages/public/register": { "navigationBarTitleText": "", "navigationStyle": "custom" }, "pages/user/user": { "navigationBarTitleText": "我的", "navigationStyle": "custom" }, "pages/detail/detail": { "navigationBarTitleText": "" }, "pages/user/order": { "navigationBarTitleText": "订单奖励" }, "pages/user/income": { "navigationBarTitleText": "收入" }, "pages/user/points": { "navigationBarTitleText": "积分中心" }, "pages/money/money": {}, "pages/order/createOrder": { "navigationBarTitleText": "创建订单" }, "pages/address/address": { "navigationBarTitleText": "收货地址" }, "pages/address/addressManage": { "navigationBarTitleText": "" }, "pages/money/pay": { "navigationBarTitleText": "支付" }, "pages/money/paySuccess": { "navigationBarTitleText": "支付成功" }, "pages/notice/notice": { "navigationBarTitleText": "通知" }, "pages/category/category": { "navigationBarTitleText": "分类", "navigationBarBackgroundColor": "#fff", "navigationBarTextStyle": "black", "backgroundColorTop": "#fcfcfc", "backgroundColorBottom": "#fcfcfc", "disableScroll": true }, "pages/search/list": { "enablePullDownRefresh": true, "navigationBarTitleText": "商品列表", "navigationStyle": "custom" }, "pages/search/search": { "navigationBarTitleText": "搜索", "navigationBarBackgroundColor": "#fff", "navigationBarTextStyle": "black", "backgroundColorTop": "#fff", "backgroundColorBottom": "#fff" }, "pages/user/payment": { "navigationBarTitleText": "提现" }, "pages/set/cash": { "navigationBarTitleText": "设置" }, "pages/user/history": { "navigationBarTitleText": "浏览记录" }, "pages/user/favorite": { "navigationBarTitleText": "收藏夹" }, "pages/user/checkin": { "navigationBarTitleText": "签到" }, "pages/market/coupon": { "navigationBarTitleText": "大额优惠券" }, "pages/market/jiu": { "navigationBarTitleText": "九块九包邮" }, "pages/market/ju": { "navigationBarTitleText": "聚划算" }, "pages/market/top": { "navigationBarTitleText": "疯狂热销榜" }, "pages/market/tqg": { "navigationBarTitleText": "淘抢购" }, "pages/market/zhishu": { "navigationBarTitleText": "精选宝贝" }, "pages/user/order_input": { "navigationBarTitleText": "订单找回" }, "pages/common/question": { "navigationBarTitleText": "常见问题" } }, "globalStyle": { "backgroundTextStyle": "dark", "navigationBarBackgroundColor": "#FFFFFF", "navigationBarTitleText": "", "navigationBarTextStyle": "black", "backgroundColor": "#fafafa", "backgroundColorTop": "#fafafa", "backgroundColorBottom": "#fafafa" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "首页", "navigationBarBackgroundColor": "#fff", "navigationBarTextStyle": "black", "backgroundColorTop": "#F7F7F7", "backgroundColorBottom": "#F7F7F7", "enablePullDownRefresh": true, "onReachBottomDistance": 50 }, "pages/goods/goods": { "navigationBarBackgroundColor": "#fff", "navigationBarTextStyle": "black", "backgroundColorTop": "#F7F7F7", "backgroundColorBottom": "#F7F7F7", "navigationBarTitleText": "商品详情 ", "navigationStyle": "custom" }, "pages/set/set": { "navigationBarTitleText": "设置" }, "pages/userinfo/userinfo": { "navigationBarTitleText": "修改资料" }, "pages/public/login": { "navigationBarTitleText": "", "navigationStyle": "custom" }, "pages/public/register": { "navigationBarTitleText": "", "navigationStyle": "custom" }, "pages/user/user": { "navigationBarTitleText": "我的", "navigationStyle": "custom" }, "pages/detail/detail": { "navigationBarTitleText": "" }, "pages/user/order": { "navigationBarTitleText": "订单奖励" }, "pages/user/income": { "navigationBarTitleText": "收入" }, "pages/user/points": { "navigationBarTitleText": "积分中心" }, "pages/money/money": {}, "pages/order/createOrder": { "navigationBarTitleText": "创建订单" }, "pages/address/address": { "navigationBarTitleText": "收货地址" }, "pages/address/addressManage": { "navigationBarTitleText": "" }, "pages/money/pay": { "navigationBarTitleText": "支付" }, "pages/money/paySuccess": { "navigationBarTitleText": "支付成功" }, "pages/notice/notice": { "navigationBarTitleText": "通知" }, "pages/category/category": { "navigationBarTitleText": "分类", "navigationBarBackgroundColor": "#fff", "navigationBarTextStyle": "black", "backgroundColorTop": "#fcfcfc", "backgroundColorBottom": "#fcfcfc", "disableScroll": true }, "pages/search/list": { "enablePullDownRefresh": true, "navigationBarTitleText": "商品列表", "navigationStyle": "custom" }, "pages/search/search": { "navigationBarTitleText": "搜索", "navigationBarBackgroundColor": "#fff", "navigationBarTextStyle": "black", "backgroundColorTop": "#fff", "backgroundColorBottom": "#fff" }, "pages/user/payment": { "navigationBarTitleText": "提现" }, "pages/set/cash": { "navigationBarTitleText": "设置" }, "pages/user/history": { "navigationBarTitleText": "浏览记录" }, "pages/user/favorite": { "navigationBarTitleText": "收藏夹" }, "pages/user/checkin": { "navigationBarTitleText": "签到" }, "pages/market/coupon": { "navigationBarTitleText": "大额优惠券" }, "pages/market/jiu": { "navigationBarTitleText": "九块九包邮" }, "pages/market/ju": { "navigationBarTitleText": "聚划算" }, "pages/market/top": { "navigationBarTitleText": "疯狂热销榜" }, "pages/market/tqg": { "navigationBarTitleText": "淘抢购" }, "pages/market/zhishu": { "navigationBarTitleText": "精选宝贝" }, "pages/market/video": { "navigationBarTitleText": "抖券购物" }, "pages/user/order_input": { "navigationBarTitleText": "订单找回" }, "pages/common/question": { "navigationBarTitleText": "常见问题" } }, "globalStyle": { "backgroundTextStyle": "dark", "navigationBarBackgroundColor": "#FFFFFF", "navigationBarTitleText": "", "navigationBarTextStyle": "black", "backgroundColor": "#fafafa", "backgroundColorTop": "#fafafa", "backgroundColorBottom": "#fafafa" } };exports.default = _default;
 
 /***/ }),
 
