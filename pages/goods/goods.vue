@@ -1251,8 +1251,8 @@
 	}
 	
 	.tui-modal-custom-img {
-		width: 60upx;
-		height: 60upx;
+		width: 100upx;
+		height: 100upx;
 		margin:0 auto;
 	}
 	
@@ -1292,7 +1292,7 @@
 		font-size: 16px;
 	}
 	.tui-modal-custom-authorize{
-		width: 100upx;
+		// width: 100upx;
 		height: 36px;
 		line-height: 36px;
 		font-size: 14px;
@@ -1306,7 +1306,7 @@
 		background: 0 0;
 	}
 	.tui-modal-custom-buy{
-		width: 100upx;
+		// width: 100upx;
 		height: 36px;
 		line-height: 36px;
 		font-size: 14px;
