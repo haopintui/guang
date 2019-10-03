@@ -1,0 +1,1 @@
+<view data-event-opts="{{[['tap',[['navAction',['$0'],['itemData']]]]]}}" class="ad" bindtap="__e"><image src="{{itemData.pic_url}}" mode="widthFix"></image></view>

@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "精选宝贝",
+  "usingComponents": {
+    "uni-load-more": "/components/uni-load-more/uni-load-more",
+    "empty": "/components/empty",
+    "wuc-tab": "/components/wuc-tab/wuc-tab",
+    "goods": "/common/model/goods/index"
+  }
+}

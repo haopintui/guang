@@ -1,0 +1,18 @@
+{
+  "usingComponents": {
+    "agent": "/common/model/components/agent",
+    "banner": "/common/model/components/banner",
+    "haibao": "/common/model/components/haibao",
+    "uheader": "/common/model/components/header_detail",
+    "icons": "/common/model/components/icons",
+    "menus": "/common/model/components/menus",
+    "slide-rows": "/common/model/components/slide_rows",
+    "blocks": "/common/model/components/blocks",
+    "column": "/common/model/components/column",
+    "float": "/common/model/components/float",
+    "goods": "/common/model/components/goods",
+    "report": "/common/model/components/report",
+    "header-haibao": "/common/model/components/header_haibao"
+  },
+  "component": true
+}

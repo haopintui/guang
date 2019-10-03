@@ -1,0 +1,1 @@
+<view class="menus"><block tt:for="{{itemData.items}}" tt:for-item="item" tt:for-index="index" tt:key="index"><view class="item"><text>{{item.name}}</text><text>></text></view></block></view>

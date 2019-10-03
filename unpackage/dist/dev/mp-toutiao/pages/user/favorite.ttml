@@ -1,0 +1,1 @@
+<view class="content"><view class="goods-list"><block tt:for="{{items}}" tt:for-item="item" tt:for-index="index" tt:key="index"><goods vue-id="{{'1-'+index}}" itemData="{{item.obj}}" goodsType="favorite" bind:__l="__l"></goods></block></view><uni-load-more vue-id="2" status="{{loadingType}}" bind:__l="__l"></uni-load-more></view>

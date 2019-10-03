@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "分类",
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTextStyle": "black",
+  "backgroundColorTop": "#fcfcfc",
+  "backgroundColorBottom": "#fcfcfc",
+  "disableScroll": true,
+  "usingComponents": {
+    "bottom-menus": "/common/model/bottom-menus"
+  }
+}
