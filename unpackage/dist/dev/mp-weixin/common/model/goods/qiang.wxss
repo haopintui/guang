@@ -6,9 +6,14 @@
 /* 图片加载中颜色 */
 /* 行为相关颜色 */
 .item {
+  display: -webkit-box;
   display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
   -webkit-flex-direction: row;
+      -ms-flex-direction: row;
           flex-direction: row;
   margin: 5rpx 0px;
   padding: 10rpx 10rpx;
@@ -23,22 +28,36 @@
       width: 300rpx;
 }
 .item .content {
+    -webkit-box-flex: 1;
     -webkit-flex: 1;
+        -ms-flex: 1;
             flex: 1;
     padding: 10rpx 10rpx;
+    display: -webkit-box;
     display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
     -webkit-flex-direction: column;
+        -ms-flex-direction: column;
             flex-direction: column;
     font-size: 24rpx;
     background-color: #fff;
 }
 .item .content .item-box {
+      display: -webkit-box;
       display: -webkit-flex;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
       -webkit-flex-direction: row;
+          -ms-flex-direction: row;
               flex-direction: row;
+      -webkit-box-pack: justify;
       -webkit-justify-content: space-between;
+          -ms-flex-pack: justify;
               justify-content: space-between;
       margin: 5rpx 0px;
       color: #999;
@@ -76,6 +95,8 @@
         font-size: 12px;
         color: #fa436a;
         padding: 0px 5px;
+        background: -webkit-gradient(linear, left top, right top, from(#FF008C), to(#FF6A00));
+        background: -o-linear-gradient(left, #FF008C, #FF6A00);
         background: linear-gradient(to right, #FF008C, #FF6A00);
         color: #FFF;
 }

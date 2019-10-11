@@ -2,7 +2,6 @@
   "pages": [
     "pages/index/index",
     "pages/goods/goods",
-    "pages/goods/video",
     "pages/set/set",
     "pages/userinfo/userinfo",
     "pages/public/login",
@@ -51,6 +50,5 @@
     "wx32540bd863b27570",
     "wx1edf489cb248852c"
   ],
-  "usingComponents": {},
-  "sitemapLocation": "sitemap94.json"
+  "usingComponents": {}
 }

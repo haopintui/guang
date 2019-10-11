@@ -26,6 +26,8 @@
 	bottom: 0;
 	z-index: 8888;
 	background: rgba(0, 0, 0, 0.6);
+	-webkit-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
 	transition: all 0.3s ease-in-out;
 }
 .tui-drawer-container {
@@ -36,7 +38,10 @@
 	-webkit-transform: translate3d(-50%, -50%, 0);
 	        transform: translate3d(-50%, -50%, 0);
 	-webkit-transform-origin: center;
+	    -ms-transform-origin: center;
 	        transform-origin: center;
+	-webkit-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
 	transition: all 0.3s ease-in-out;
 	z-index: 99999;
 	opacity: 0;
