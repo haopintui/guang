@@ -18,13 +18,13 @@
 		<!--banner-->
 		<view class="tui-banner-swiper" v-if="!video">
 			<swiper :autoplay="true" :interval="5000" :duration="150" :circular="true" :style="{height:scrollH + 'px'}" @change="bannerChange">
-				<block v-for="(item,index) in goods.goods.pic_list" :key="index">
+				<block v-for="(item,index) in goods.goods.picList" :key="index">
 					<swiper-item :data-index="index" @tap.stop="previewImage">
 						<image :src="item" class="tui-slide-image" :style="{height:scrollH+'px'}" />
 					</swiper-item>
 				</block>
 			</swiper>
-			<tui-tag type="translucent" shape="circleLeft" size="small">{{bannerIndex+1}}/{{goods.goods.pic_list.length}}</tui-tag>
+			<tui-tag type="translucent" shape="circleLeft" size="small">{{bannerIndex+1}}/{{goods.goods.picList.length}}</tui-tag>
 		</view>
 		
 		<view v-if="video">
