@@ -8,12 +8,10 @@
 .item {
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   -webkit-flex-direction: row;
-      -ms-flex-direction: row;
           flex-direction: row;
   margin: 5rpx 0px;
   padding: 10rpx 10rpx;
@@ -31,28 +29,23 @@
     padding: 10rpx 10rpx;
     display: -webkit-box;
     display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -webkit-flex-direction: column;
-        -ms-flex-direction: column;
             flex-direction: column;
     font-size: 24rpx;
 }
 .item .content .item-box {
       display: -webkit-box;
       display: -webkit-flex;
-      display: -ms-flexbox;
       display: flex;
       -webkit-box-orient: horizontal;
       -webkit-box-direction: normal;
       -webkit-flex-direction: row;
-          -ms-flex-direction: row;
               flex-direction: row;
       -webkit-box-pack: justify;
       -webkit-justify-content: space-between;
-          -ms-flex-pack: justify;
               justify-content: space-between;
       margin: 5rpx 0px;
       color: #999;
@@ -64,8 +57,7 @@
         color: #fa436a;
         line-height: 1;
         padding: 5px 10px;
-        background: -webkit-gradient(linear, left top, right top, color-stop(0, #ff8873), to(#ff4f4f));
-        background: -o-linear-gradient(left, #ff8873 0, #ff4f4f 100%);
+        background: -webkit-linear-gradient(left, #ff8873 0, #ff4f4f 100%);
         background: linear-gradient(90deg, #ff8873 0, #ff4f4f 100%);
         color: #FFF;
         border-radius: 3px;
@@ -86,8 +78,7 @@
         font-size: 12px;
         color: #fa436a;
         padding: 0px 5px;
-        background: -webkit-gradient(linear, left top, right top, from(#FF008C), to(#FF6A00));
-        background: -o-linear-gradient(left, #FF008C, #FF6A00);
+        background: -webkit-linear-gradient(left, #FF008C, #FF6A00);
         background: linear-gradient(to right, #FF008C, #FF6A00);
         color: #FFF;
 }

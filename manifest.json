@@ -60,7 +60,8 @@
         "setting" : {
             "urlCheck" : true
         },
-        "navigateToMiniProgramAppIdList" : [ "wx32540bd863b27570", "wx1edf489cb248852c" ]
+        "navigateToMiniProgramAppIdList" : [ "wx32540bd863b27570", "wx1edf489cb248852c" ],
+		"usingComponents" : true
     },
     "h5" : {
         "title" : "优惠券",
@@ -72,6 +73,7 @@
         "publicPath" : "https://static.cdn.youdanhui.com/h5"
     },
     "mp-toutiao" : {
-        "appid" : "tt66fd1040f9d7f554"
+        "appid" : "tt66fd1040f9d7f554",
+		"usingComponents" : true
     }
 }

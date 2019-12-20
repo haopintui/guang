@@ -21,23 +21,19 @@ page, .content {
   padding-right: 50rpx;
   border-radius: 6rpx;
   background: #fff;
-  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-          box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 .scoll-wrapper {
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-align: start;
   -webkit-align-items: flex-start;
-      -ms-flex-align: start;
           align-items: flex-start;
 }
 .bg-nav {
-  background: -webkit-gradient(linear, right top, left top, color-stop(0, #FA4DBE), to(#FBAA58));
-  background: -o-linear-gradient(right, #FA4DBE 0, #FBAA58 100%);
+  background: -webkit-linear-gradient(right, #FA4DBE 0, #FBAA58 100%);
   background: linear-gradient(to left, #FA4DBE 0, #FBAA58 100%);
   border-bottom-color: transparent;
   font-size: 15px;

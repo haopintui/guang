@@ -13,8 +13,7 @@
 .carousel-section .titleNview-placing {
     height: 25px;
     padding-top: 44px;
-    -webkit-box-sizing: content-box;
-            box-sizing: content-box;
+    box-sizing: content-box;
 }
 .carousel-section .titleNview-background {
     position: absolute;
@@ -23,7 +22,6 @@
     width: 100%;
     height: 426rpx;
     -webkit-transition: .4s;
-    -o-transition: .4s;
     transition: .4s;
 }
 .carousel {
@@ -42,7 +40,6 @@
 .swiper-dots {
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   position: absolute;
   left: 60rpx;
@@ -69,7 +66,6 @@
     font-size: 12rpx;
     color: #fff;
     -webkit-transform: translateX(-50%);
-        -ms-transform: translateX(-50%);
             transform: translateX(-50%);
 }
 
